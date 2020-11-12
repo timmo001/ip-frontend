@@ -5,9 +5,13 @@ import { useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Tooltip from "@material-ui/core/Tooltip";
 import Icon from "@mdi/react";
-import { mdiInformation } from "@mdi/js";
+import {
+  mdiCogOutline,
+  mdiScriptTextOutline,
+  mdiTextBoxOutline,
+  mdiViewDashboardOutline,
+} from "@mdi/js";
 
 import useStyles from "../assets/jss/components/headerLinks";
 
@@ -19,27 +23,53 @@ function HeaderLinks(_props: HeaderLinksProps): ReactElement {
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
-        <Link href="/about">
+        <Link href="/">
           <Button variant="text" className={classes.navLink}>
-            <span className={classes.listItemText}>About</span>
+            <Icon
+              path={mdiViewDashboardOutline}
+              color={theme.palette.text.primary}
+              size={1}
+            />
+            <span className={classes.listItemText}>Dashboard</span>
+          </Button>
+        </Link>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Link href="/services">
+          <Button variant="text" className={classes.navLink}>
+            <Icon
+              path={mdiScriptTextOutline}
+              color={theme.palette.text.primary}
+              size={1}
+            />
+            <span className={classes.listItemText}>Services</span>
           </Button>
         </Link>
       </ListItem>
       <ListItem className={clsx(classes.listItem, classes.divider)} />
       <ListItem className={classes.listItem}>
-        <Tooltip title="GitHub" classes={{ tooltip: classes.tooltip }}>
-          <Button
-            variant="text"
-            className={classes.navLink}
-            href="https://github.com/timmo001/upaas"
-            target="_blank">
+        <Link href="/logs">
+          <Button variant="text" className={classes.navLink}>
             <Icon
-              path={mdiInformation}
+              path={mdiTextBoxOutline}
               color={theme.palette.text.primary}
               size={1}
             />
+            <span className={classes.listItemText}>Logs</span>
           </Button>
-        </Tooltip>
+        </Link>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Link href="/config">
+          <Button variant="text" className={classes.navLink}>
+            <Icon
+              path={mdiCogOutline}
+              color={theme.palette.text.primary}
+              size={1}
+            />
+            <span className={classes.listItemText}>Configuration</span>
+          </Button>
+        </Link>
       </ListItem>
     </List>
   );

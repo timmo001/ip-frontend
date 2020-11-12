@@ -16,6 +16,11 @@ const layoutStyle = makeStyles((theme: Theme) => ({
     display: "flex",
     justifyContent: "flex-end",
   },
+  fab: {
+    position: "absolute",
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
 
   alert: {
     marginTop: theme.spacing(2),

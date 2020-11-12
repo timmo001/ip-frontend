@@ -4,12 +4,11 @@ import { Container, Grid } from "@material-ui/core";
 
 import ApiAuthorization from "../types/ApiAuthorization";
 import Layout from "../components/Layout";
-import StatLastEvent from "../components/Stats/StatLastEvent";
 import useStyles from "../assets/jss/components/layout";
 
-interface DashboardProps {}
+interface LogsProps {}
 
-function Dashboard(props: DashboardProps): ReactElement {
+function Logs(props: LogsProps): ReactElement {
   const [auth, setAuth] = useState<ApiAuthorization>();
 
   const apiUrl: string = useMemo(
@@ -34,13 +33,11 @@ function Dashboard(props: DashboardProps): ReactElement {
       auth={auth}
       classes={classes}
       handleAuthorized={handleAuthorized}
-      title="Home"
+      title="Logs"
       url="https://upaas.timmo.dev"
       description="TODO">
       <Container className={classes.main} component="article" maxWidth="xl">
-        <Grid container direction="row">
-          <StatLastEvent />
-        </Grid>
+        <Grid container direction="row"></Grid>
       </Container>
     </Layout>
   );
@@ -53,4 +50,4 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-export default Dashboard;
+export default Logs;

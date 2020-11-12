@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import Head from "next/head";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { teal, indigo } from "@material-ui/core/colors";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {
@@ -66,9 +66,12 @@ let theme = createMuiTheme({
 theme = responsiveFontSizes(theme);
 
 interface LayoutProps {
+  apiUrl: string;
+  auth: ApiAuthorization;
   children?: ReactElement | ReactElement[];
   classes: ClassNameMap;
   description?: string;
+  handleAuthorized: (auth: ApiAuthorization) => void;
   keywords?: string;
   title?: string;
   url?: string;
@@ -78,31 +81,24 @@ function Layout(props: LayoutProps): ReactElement {
   const [message, setMessage] = useState<Message>();
   const [user, setUser] = useState<User>();
 
-  const apiUrl: string = useMemo(
-    () =>
-      `${window.location.protocol}//${window.location.hostname}:${
-        process.env.NODE_ENV === "production" ? window.location.port : 5684
-      }`,
-    []
-  );
-
   const handleAuthorized = useCallback(async (auth: ApiAuthorization): Promise<
     void
   > => {
     if (process.env.NODE_ENV === "development") console.log("Auth:", auth);
     if (moment(auth.expiry) > moment()) {
       try {
-        const response: User = await axios.get("/backend/auth/user", {
-          baseURL: apiUrl,
+        const response: AxiosResponse = await axios.get("/backend/auth/user", {
+          baseURL: props.apiUrl,
           headers: { Authorization: `Bearer ${auth.accessToken}` },
         });
-        if (response) {
+        if (response.data) {
+          const user: User = response.data;
           if (process.env.NODE_ENV === "development")
-            console.log("User:", response);
-          setUser(response);
+            console.log("User:", user);
+          setUser(user);
           setMessage({
             severity: "success",
-            text: `Hi ${response.firstName}!`,
+            text: `Hi ${user.firstName}!`,
           });
           setTimeout(
             () => handleAuthorized(auth),
@@ -186,7 +182,7 @@ function Layout(props: LayoutProps): ReactElement {
 
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {user ? (
+        {props.auth && user ? (
           <Fragment>
             <Header
               {...props}
@@ -215,7 +211,7 @@ function Layout(props: LayoutProps): ReactElement {
           </Fragment>
         ) : (
           <Auth
-            apiUrl={apiUrl}
+            apiUrl={props.apiUrl}
             setMessage={setMessage}
             handleAuthorized={handleAuthorized}
           />
