@@ -67,7 +67,7 @@ export default function Auth(props: AuthProps): ReactElement {
     const authStr = localStorage.getItem("auth");
     const auth: ApiAuthorization | null = authStr ? JSON.parse(authStr) : null;
     if (auth) props.handleAuthorized(auth);
-  }, [props]);
+  }, [props.handleAuthorized]);
 
   const handleChange = (prop: keyof User) => (
     event: React.ChangeEvent<HTMLInputElement>

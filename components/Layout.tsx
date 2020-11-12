@@ -1,6 +1,8 @@
 import React, {
+  Dispatch,
   Fragment,
   ReactElement,
+  SetStateAction,
   useCallback,
   useMemo,
   useState,
@@ -71,71 +73,68 @@ interface LayoutProps {
   children?: ReactElement | ReactElement[];
   classes: ClassNameMap;
   description?: string;
-  handleAuthorized: (auth: ApiAuthorization) => void;
   keywords?: string;
+  setAuth: Dispatch<SetStateAction<ApiAuthorization | undefined>>;
+  setMessage: Dispatch<SetStateAction<Message | undefined>>;
+  setUser: Dispatch<SetStateAction<User | undefined>>;
   title?: string;
   url?: string;
 }
 
 function Layout(props: LayoutProps): ReactElement {
-  const [message, setMessage] = useState<Message>();
-  const [user, setUser] = useState<User>();
-
-  const handleAuthorized = useCallback(async (auth: ApiAuthorization): Promise<
-    void
-  > => {
-    if (process.env.NODE_ENV === "development") console.log("Auth:", auth);
-    if (moment(auth.expiry) > moment()) {
-      try {
-        const response: AxiosResponse = await axios.get("/backend/auth/user", {
-          baseURL: props.apiUrl,
-          headers: { Authorization: `Bearer ${auth.accessToken}` },
-        });
-        if (response.data) {
-          const user: User = response.data;
-          if (process.env.NODE_ENV === "development")
-            console.log("User:", user);
-          setUser(user);
-          setMessage({
-            severity: "success",
-            text: `Hi ${user.firstName}!`,
-          });
-          setTimeout(
-            () => handleAuthorized(auth),
-            moment(auth.expiry).valueOf() - moment().valueOf() + 10000
+  const handleAuthorized = useCallback(
+    async (auth: ApiAuthorization): Promise<void> => {
+      if (process.env.NODE_ENV === "development")
+        console.log("handleAuthorized - Auth:", auth);
+      if (moment(auth.expiry) > moment()) {
+        try {
+          const response: AxiosResponse = await axios.get(
+            "/backend/auth/user",
+            {
+              baseURL: props.apiUrl,
+              headers: { Authorization: `Bearer ${auth.accessToken}` },
+            }
           );
-        } else {
+          if (response.data) {
+            const user: User = response.data;
+            if (process.env.NODE_ENV === "development")
+              console.log("handleAuthorized - User:", user);
+            props.setAuth(auth);
+            props.setUser(user);
+            props.setMessage({
+              severity: "success",
+              text: `Hi ${user.firstName}!`,
+            });
+            setTimeout(
+              () => handleAuthorized(auth),
+              moment(auth.expiry).valueOf() - moment().valueOf() + 10000
+            );
+          } else {
+            localStorage.removeItem("auth");
+          }
+        } catch (e) {
+          console.error(e);
           localStorage.removeItem("auth");
         }
-      } catch (e) {
-        console.error(e);
+      } else {
         localStorage.removeItem("auth");
+        console.log("Auth token expired");
+        props.setMessage({
+          severity: "info",
+          text: "Token expired. Please re-login",
+        });
+        props.setUser(undefined);
       }
-    } else {
-      localStorage.removeItem("auth");
-      console.log("Auth token expired");
-      setMessage({
-        severity: "info",
-        text: "Token expired. Please re-login",
-      });
-      setUser(undefined);
-    }
-  }, []);
-
-  function handleResetMessage(): void {
-    setMessage(undefined);
-  }
+    },
+    [props.apiUrl, props.auth, props.setUser, props.setMessage]
+  );
 
   const classes = props.classes;
 
   return (
     <>
       <Head>
-        <title>
-          {props.title
-            ? `${props.title} - Material Frontend Template`
-            : `Material Frontend Template`}
-        </title>
+        <title>{props.title ? `${props.title} - UPAAS` : `UPAAS`}</title>
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -164,7 +163,7 @@ function Layout(props: LayoutProps): ReactElement {
               ? `${props.description}`
               : props.title
               ? `${props.title} - Frontend`
-              : `Material Frontend Template`
+              : `UPAAS`
           }
         />
         <meta
@@ -182,7 +181,7 @@ function Layout(props: LayoutProps): ReactElement {
 
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {props.auth && user ? (
+        {props.auth ? (
           <Fragment>
             <Header
               {...props}
@@ -212,8 +211,8 @@ function Layout(props: LayoutProps): ReactElement {
         ) : (
           <Auth
             apiUrl={props.apiUrl}
-            setMessage={setMessage}
             handleAuthorized={handleAuthorized}
+            setMessage={props.setMessage}
           />
         )}
       </ThemeProvider>

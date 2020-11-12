@@ -4,13 +4,17 @@ import { Container, Grid } from "@material-ui/core";
 
 import ApiAuthorization from "../types/ApiAuthorization";
 import Layout from "../components/Layout";
+import Message from "../types/Message";
 import StatLastEvent from "../components/Stats/StatLastEvent";
+import User from "../types/User";
 import useStyles from "../assets/jss/components/layout";
 
 interface DashboardProps {}
 
 function Dashboard(props: DashboardProps): ReactElement {
   const [auth, setAuth] = useState<ApiAuthorization>();
+  const [message, setMessage] = useState<Message>();
+  const [user, setUser] = useState<User>();
 
   const apiUrl: string = useMemo(
     () =>
@@ -20,10 +24,9 @@ function Dashboard(props: DashboardProps): ReactElement {
     []
   );
 
-  const handleAuthorized = useCallback(
-    (auth: ApiAuthorization): void => setAuth(auth),
-    []
-  );
+  function handleResetMessage(): void {
+    setMessage(undefined);
+  }
 
   const classes = useStyles();
 
@@ -33,10 +36,12 @@ function Dashboard(props: DashboardProps): ReactElement {
       apiUrl={apiUrl}
       auth={auth}
       classes={classes}
-      handleAuthorized={handleAuthorized}
+      description="TODO"
+      setAuth={setAuth}
+      setMessage={setMessage}
+      setUser={setUser}
       title="Home"
-      url="https://upaas.timmo.dev"
-      description="TODO">
+      url="https://upaas.timmo.dev">
       <Container className={classes.main} component="article" maxWidth="xl">
         <Grid container direction="row">
           <StatLastEvent />
