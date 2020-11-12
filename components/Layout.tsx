@@ -124,6 +124,7 @@ function Layout(props: LayoutProps): ReactElement {
           severity: "info",
           text: "Token expired. Please re-login",
         });
+        props.setAuth(undefined);
         props.setUser(undefined);
       }
     },

@@ -79,6 +79,7 @@ function HeaderLinks(props: HeaderLinksProps): ReactElement {
           </Button>
         </Link>
       </ListItem>
+      <ListItem className={clsx(classes.listItem, classes.divider)} />
       <ListItem className={classes.listItem}>
         <IconButton>
           <Avatar className={classes.avatar} variant="circle">
