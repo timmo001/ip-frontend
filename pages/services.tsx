@@ -245,7 +245,8 @@ function Dashboard(props: ServicesProps): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Services"
-      url="https://upaas.timmo.dev">
+      url="https://upaas.timmo.dev"
+      user={user}>
       <Container className={classes.main} component="article" maxWidth="xl">
         <Grid container direction="row">
           {services

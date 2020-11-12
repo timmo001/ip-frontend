@@ -8,7 +8,6 @@ import Message from "../types/Message";
 import User from "../types/User";
 import useStyles from "../assets/jss/components/layout";
 
-
 function ServerConfig(): ReactElement {
   const [auth, setAuth] = useState<ApiAuthorization>();
   const [message, setMessage] = useState<Message>();
@@ -38,7 +37,8 @@ function ServerConfig(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Configutation"
-      url="https://upaas.timmo.dev">
+      url="https://upaas.timmo.dev"
+      user={user}>
       <Container className={classes.main} component="article" maxWidth="xl">
         <Grid container direction="row"></Grid>
       </Container>

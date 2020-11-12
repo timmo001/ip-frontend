@@ -4,6 +4,8 @@ import tooltipsStyle from "../tooltips";
 
 const headerLinksStyle = makeStyles((theme: Theme) => ({
   list: {
+    display: "flex",
+    alignItems: "center",
     fontSize: 14,
     margin: 0,
     paddingLeft: "0",
@@ -114,6 +116,13 @@ const headerLinksStyle = makeStyles((theme: Theme) => ({
   },
   icon: {
     color: "inherit",
+    marginRight: theme.spacing(0.5),
+  },
+  avatar: {
+    width: theme.spacing(6),
+    height: theme.spacing(6),
+    margin: theme.spacing(-1),
+    backgroundColor: theme.palette.primary.main,
   },
 }));
 

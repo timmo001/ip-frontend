@@ -79,6 +79,7 @@ interface LayoutProps {
   setUser: Dispatch<SetStateAction<User | undefined>>;
   title?: string;
   url?: string;
+  user?: User;
 }
 
 function Layout(props: LayoutProps): ReactElement {
@@ -192,7 +193,7 @@ function Layout(props: LayoutProps): ReactElement {
               }}
               color="transparent"
               fixed
-              rightLinks={<HeaderLinks {...props} />}
+              rightLinks={<HeaderLinks user={props.user} />}
             />
             {props.children}
             <Container

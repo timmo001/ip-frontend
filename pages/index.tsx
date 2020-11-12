@@ -38,7 +38,8 @@ function Dashboard(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Home"
-      url="https://upaas.timmo.dev">
+      url="https://upaas.timmo.dev"
+      user={user}>
       <Container className={classes.main} component="article" maxWidth="xl">
         <Grid container direction="row">
           <StatLastEvent />

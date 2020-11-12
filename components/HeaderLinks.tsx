@@ -13,11 +13,15 @@ import {
   mdiViewDashboardOutline,
 } from "@mdi/js";
 
+import { Avatar, IconButton } from "@material-ui/core";
+import User from "../types/User";
 import useStyles from "../assets/jss/components/headerLinks";
 
-interface HeaderLinksProps {}
+interface HeaderLinksProps {
+  user: User;
+}
 
-function HeaderLinks(_props: HeaderLinksProps): ReactElement {
+function HeaderLinks(props: HeaderLinksProps): ReactElement {
   const classes = useStyles();
   const theme = useTheme();
   return (
@@ -26,6 +30,7 @@ function HeaderLinks(_props: HeaderLinksProps): ReactElement {
         <Link href="/">
           <Button variant="text" className={classes.navLink}>
             <Icon
+              className={classes.icon}
               path={mdiViewDashboardOutline}
               color={theme.palette.text.primary}
               size={1}
@@ -38,6 +43,7 @@ function HeaderLinks(_props: HeaderLinksProps): ReactElement {
         <Link href="/services">
           <Button variant="text" className={classes.navLink}>
             <Icon
+              className={classes.icon}
               path={mdiScriptTextOutline}
               color={theme.palette.text.primary}
               size={1}
@@ -51,6 +57,7 @@ function HeaderLinks(_props: HeaderLinksProps): ReactElement {
         <Link href="/logs">
           <Button variant="text" className={classes.navLink}>
             <Icon
+              className={classes.icon}
               path={mdiTextBoxOutline}
               color={theme.palette.text.primary}
               size={1}
@@ -63,6 +70,7 @@ function HeaderLinks(_props: HeaderLinksProps): ReactElement {
         <Link href="/config">
           <Button variant="text" className={classes.navLink}>
             <Icon
+              className={classes.icon}
               path={mdiCogOutline}
               color={theme.palette.text.primary}
               size={1}
@@ -70,6 +78,16 @@ function HeaderLinks(_props: HeaderLinksProps): ReactElement {
             <span className={classes.listItemText}>Configuration</span>
           </Button>
         </Link>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <IconButton>
+          <Avatar className={classes.avatar} variant="circle">
+            {props.user
+              ? props.user.firstName.charAt(0).toUpperCase() +
+                props.user.lastName?.charAt(0).toUpperCase()
+              : ""}
+          </Avatar>
+        </IconButton>
       </ListItem>
     </List>
   );
