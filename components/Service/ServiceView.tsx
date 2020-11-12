@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: "100%",
-      background: "rgba(56, 60, 69, 0.50)",
+      margin: `${theme.spacing(1)}px !important`,
     },
     button: {
       margin: theme.spacing(1),
@@ -37,8 +37,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Accordion = withStyles({
   root: {
-    border: "1px solid rgba(0, 0, 0, .125)",
-    boxShadow: "none",
     "&:not(:last-child)": {
       borderBottom: 0,
     },
@@ -48,13 +46,13 @@ const Accordion = withStyles({
     "&$expanded": {
       margin: "auto",
     },
+    borderRadius: 4,
   },
   expanded: {},
 })(MuiAccordion);
 
 const AccordionSummary = withStyles({
   root: {
-    marginBottom: -1,
     minHeight: 56,
     "&$expanded": {
       minHeight: 56,
@@ -62,7 +60,7 @@ const AccordionSummary = withStyles({
   },
   content: {
     "&$expanded": {
-      margin: "12px 0",
+      margin: "12px 8px",
     },
   },
   expanded: {},
@@ -115,7 +113,6 @@ export default function ServiceView(props: ServiceViewProps): ReactElement {
     <Fragment>
       <Accordion
         className={classes.root}
-        square
         TransitionProps={{ unmountOnExit: true }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
