@@ -25,7 +25,7 @@ export async function getServerSideProps({
 
   const sitemap = generateSitemap(
     data,
-    "https://material-frontend-template.timmo.dev"
+    "https://upaas.timmo.dev"
   );
 
   res.setHeader("Content-Type", "text/xml");

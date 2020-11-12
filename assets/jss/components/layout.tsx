@@ -1,6 +1,22 @@
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
 const layoutStyle = makeStyles((theme: Theme) => ({
+  root: {
+    display: "flex",
+    height: "100%",
+  },
+  item: {
+    width: "100%",
+    padding: theme.spacing(0.5),
+  },
+  textField: {
+    maxWidth: 280,
+  },
+  actions: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+
   alert: {
     marginTop: theme.spacing(2),
   },

@@ -1,5 +1,12 @@
-import React, { ReactElement } from "react";
+import React, {
+  Fragment,
+  ReactElement,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import Head from "next/head";
+import axios from "axios";
 import { teal, indigo } from "@material-ui/core/colors";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {
@@ -8,15 +15,19 @@ import {
   ThemeProvider,
 } from "@material-ui/core/styles";
 import { ClassNameMap } from "@material-ui/styles";
-import { NoSsr } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Container from "@material-ui/core/Container";
+import moment from "moment";
 import Typography from "@material-ui/core/Typography";
 
+import ApiAuthorization from "../types/ApiAuthorization";
+import Auth from "./Auth";
 import Header from "./Header";
 import HeaderLinks from "./HeaderLinks";
 import Markdown from "./Markdown";
+import Message from "../types/Message";
+import User from "../types/User";
 
 let theme = createMuiTheme({
   palette: {
@@ -64,6 +75,61 @@ interface LayoutProps {
 }
 
 function Layout(props: LayoutProps): ReactElement {
+  const [message, setMessage] = useState<Message>();
+  const [user, setUser] = useState<User>();
+
+  const apiUrl: string = useMemo(
+    () =>
+      `${window.location.protocol}//${window.location.hostname}:${
+        process.env.NODE_ENV === "production" ? window.location.port : 5684
+      }`,
+    []
+  );
+
+  const handleAuthorized = useCallback(async (auth: ApiAuthorization): Promise<
+    void
+  > => {
+    if (process.env.NODE_ENV === "development") console.log("Auth:", auth);
+    if (moment(auth.expiry) > moment()) {
+      try {
+        const response: User = await axios.get("/backend/auth/user", {
+          baseURL: apiUrl,
+          headers: { Authorization: `Bearer ${auth.accessToken}` },
+        });
+        if (response) {
+          if (process.env.NODE_ENV === "development")
+            console.log("User:", response);
+          setUser(response);
+          setMessage({
+            severity: "success",
+            text: `Hi ${response.firstName}!`,
+          });
+          setTimeout(
+            () => handleAuthorized(auth),
+            moment(auth.expiry).valueOf() - moment().valueOf() + 10000
+          );
+        } else {
+          localStorage.removeItem("auth");
+        }
+      } catch (e) {
+        console.error(e);
+        localStorage.removeItem("auth");
+      }
+    } else {
+      localStorage.removeItem("auth");
+      console.log("Auth token expired");
+      setMessage({
+        severity: "info",
+        text: "Token expired. Please re-login",
+      });
+      setUser(undefined);
+    }
+  }, []);
+
+  function handleResetMessage(): void {
+    setMessage(undefined);
+  }
+
   const classes = props.classes;
 
   return (
@@ -117,35 +183,44 @@ function Layout(props: LayoutProps): ReactElement {
         <meta name="theme-color" content="#009688" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <NoSsr>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Header
-            {...props}
-            brand="Frontend"
-            changeColorOnScroll={{
-              height: 200,
-              color: "primary",
-            }}
-            color="transparent"
-            fixed
-            rightLinks={<HeaderLinks {...props} />}
+
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {user ? (
+          <Fragment>
+            <Header
+              {...props}
+              brand="Frontend"
+              changeColorOnScroll={{
+                height: 200,
+                color: "primary",
+              }}
+              color="transparent"
+              fixed
+              rightLinks={<HeaderLinks {...props} />}
+            />
+            {props.children}
+            <Container
+              className={classes.footer}
+              component="footer"
+              maxWidth="xl">
+              <Card>
+                <CardContent>
+                  <Typography component="div">
+                    <Markdown source="Copyright © Owner" escapeHtml={false} />
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Container>
+          </Fragment>
+        ) : (
+          <Auth
+            apiUrl={apiUrl}
+            setMessage={setMessage}
+            handleAuthorized={handleAuthorized}
           />
-          {props.children}
-          <Container
-            className={classes.footer}
-            component="footer"
-            maxWidth="xl">
-            <Card>
-              <CardContent>
-                <Typography component="div">
-                  <Markdown source="Copyright © Owner" escapeHtml={false} />
-                </Typography>
-              </CardContent>
-            </Card>
-          </Container>
-        </ThemeProvider>
-      </NoSsr>
+        )}
+      </ThemeProvider>
     </>
   );
 }
