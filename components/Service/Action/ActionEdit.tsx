@@ -1,4 +1,5 @@
 import React, { ReactElement, useState, useMemo, Fragment } from "react";
+import dynamic from "next/dynamic";
 import { makeStyles } from "@material-ui/styles";
 import {
   DialogContent,
@@ -10,8 +11,9 @@ import {
   Button,
   DialogTitle,
 } from "@material-ui/core";
-import MonacoEditor from "react-monaco-editor";
 import YAML from "yaml";
+
+const MonacoEditor = dynamic(import("react-monaco-editor"), { ssr: false });
 
 import { ActionViewProps } from "./ActionView";
 import Action from "../../../types/Action";

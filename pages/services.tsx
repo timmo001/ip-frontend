@@ -23,13 +23,17 @@ import Service from "../types/Service";
 import ServiceEdit from "../components/Service/ServiceEdit";
 import ServiceView from "../components/Service/ServiceView";
 import useStyles from "../assets/jss/components/layout";
+import User from "../types/User";
+import Message from "../types/Message";
 
 interface ServicesProps {}
 
 function Dashboard(props: ServicesProps): ReactElement {
-  const [auth, setAuth] = useState<ApiAuthorization>();
   const [addService, setAddService] = useState<boolean>(false);
+  const [auth, setAuth] = useState<ApiAuthorization>();
+  const [message, setMessage] = useState<Message>();
   const [services, setServices] = useState<Service[]>();
+  const [user, setUser] = useState<User>();
 
   const apiUrl: string = useMemo(
     () =>
@@ -39,12 +43,7 @@ function Dashboard(props: ServicesProps): ReactElement {
     []
   );
 
-  const handleAuthorized = useCallback(
-    (auth: ApiAuthorization): void => setAuth(auth),
-    []
-  );
-
-  const getServices = useCallback(async (): Promise<void> => {
+  async function getServices(): Promise<void> {
     try {
       console.log("getServices - auth:", auth);
       const response: AxiosResponse = await axios.get("/backend/services", {
@@ -53,22 +52,22 @@ function Dashboard(props: ServicesProps): ReactElement {
       });
       if (response.status === 200 && response.data) {
         if (process.env.NODE_ENV === "development")
-          console.log("Services:", response.data);
+          console.log("getServices - Services:", response.data);
         setServices(response.data);
       } else {
-        // setMessage({
-        //   severity: "error",
-        //   text: `Error getting Services: ${response.data}`,
-        // });
+        setMessage({
+          severity: "error",
+          text: `Error getting Services: ${response.data}`,
+        });
       }
     } catch (e) {
       console.error(e);
-      // setMessage({
-      //   severity: "error",
-      //   text: `Error getting Services: ${e.message}`,
-      // });
+      setMessage({
+        severity: "error",
+        text: `Error getting Services: ${e.message}`,
+      });
     }
-  }, []);
+  }
 
   const handleDeleteService = useCallback(
     (i: number) => async (): Promise<void> => {
@@ -85,24 +84,24 @@ function Dashboard(props: ServicesProps): ReactElement {
           if (response.status === 200 && response.data) {
             if (process.env.NODE_ENV === "development")
               console.log("Deleted:", service);
-            // setMessage({
-            //   severity: "success",
-            //   text: `Deleted Service: ${service.name}`,
-            // });
+            setMessage({
+              severity: "success",
+              text: `Deleted Service: ${service.name}`,
+            });
             services.splice(i, 1);
             setServices(services);
           } else {
-            // setMessage({
-            //   severity: "error",
-            //   text: `Error updating Service: ${response.data}`,
-            // });
+            setMessage({
+              severity: "error",
+              text: `Error updating Service: ${response.data}`,
+            });
           }
         } catch (e) {
           console.error(e);
-          // setMessage({
-          //   severity: "error",
-          //   text: `Error updating Service: ${e.message}`,
-          // });
+          setMessage({
+            severity: "error",
+            text: `Error updating Service: ${e.message}`,
+          });
         }
     },
     [services]
@@ -122,25 +121,25 @@ function Dashboard(props: ServicesProps): ReactElement {
         if (response.status === 201 && response.data) {
           if (process.env.NODE_ENV === "development")
             console.log("Services:", response.data);
-          // setMessage({
-          //   severity: "success",
-          //   text: `Updated Service: ${service.name}`,
-          // });
+          setMessage({
+            severity: "success",
+            text: `Updated Service: ${service.name}`,
+          });
           service.id = response.data.id;
           if (services) services.push(service);
           setServices(services);
         } else {
-          // setMessage({
-          //   severity: "error",
-          //   text: `Error updating Service: ${response.data}`,
-          // });
+          setMessage({
+            severity: "error",
+            text: `Error updating Service: ${response.data}`,
+          });
         }
       } catch (e) {
         console.error(e);
-        // setMessage({
-        //   severity: "error",
-        //   text: `Error updating Service: ${e.message}`,
-        // });
+        setMessage({
+          severity: "error",
+          text: `Error updating Service: ${e.message}`,
+        });
       }
     },
     [services]
@@ -160,24 +159,24 @@ function Dashboard(props: ServicesProps): ReactElement {
         if (response.status === 200 && response.data) {
           if (process.env.NODE_ENV === "development")
             console.log("Services:", response.data);
-          // setMessage({
-          //   severity: "success",
-          //   text: `Updated Service: ${service.name}`,
-          // });
+          setMessage({
+            severity: "success",
+            text: `Updated Service: ${service.name}`,
+          });
           if (services) services[i] = service;
           setServices(services);
         } else {
-          // setMessage({
-          //   severity: "error",
-          //   text: `Error updating Service: ${response.data}`,
-          // });
+          setMessage({
+            severity: "error",
+            text: `Error updating Service: ${response.data}`,
+          });
         }
       } catch (e) {
         console.error(e);
-        // setMessage({
-        //   severity: "error",
-        //   text: `Error updating Service: ${e.message}`,
-        // });
+        setMessage({
+          severity: "error",
+          text: `Error updating Service: ${e.message}`,
+        });
       }
     },
     [services]
@@ -199,22 +198,22 @@ function Dashboard(props: ServicesProps): ReactElement {
           if (response.status === 201 && response.data) {
             if (process.env.NODE_ENV === "development")
               console.log("Services:", response.data);
-            // setMessage({
-            //   severity: "info",
-            //   text: `Event triggered for Service: ${service.name}`,
-            // });
+            setMessage({
+              severity: "info",
+              text: `Event triggered for Service: ${service.name}`,
+            });
           } else {
-            // setMessage({
-            //   severity: "error",
-            //   text: `Error triggering Event: ${response.data}`,
-            // });
+            setMessage({
+              severity: "error",
+              text: `Error triggering Event: ${response.data}`,
+            });
           }
         } catch (e) {
           console.error(e);
-          // setMessage({
-          //   severity: "error",
-          //   text: `Error triggering Event: ${e.message}`,
-          // });
+          setMessage({
+            severity: "error",
+            text: `Error triggering Event: ${e.message}`,
+          });
         }
     },
     [services]
@@ -229,22 +228,24 @@ function Dashboard(props: ServicesProps): ReactElement {
   }
 
   useEffect(() => {
-    if (!services) getServices();
-  }, [services, getServices]);
+    console.log("services - trigger");
+    if (auth && !services) getServices();
+  }, [auth, services, getServices]);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const classes = useStyles();
   return (
     <Layout
-      {...props}
       apiUrl={apiUrl}
       auth={auth}
       classes={classes}
-      handleAuthorized={handleAuthorized}
-      title="Home"
-      url="https://upaas.timmo.dev"
-      description="TODO">
+      description="TODO"
+      setAuth={setAuth}
+      setMessage={setMessage}
+      setUser={setUser}
+      title="Services"
+      url="https://upaas.timmo.dev">
       <Container className={classes.main} component="article" maxWidth="xl">
         <Grid container direction="row">
           {services

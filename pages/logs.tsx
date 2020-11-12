@@ -4,12 +4,14 @@ import { Container, Grid } from "@material-ui/core";
 
 import ApiAuthorization from "../types/ApiAuthorization";
 import Layout from "../components/Layout";
+import Message from "../types/Message";
+import User from "../types/User";
 import useStyles from "../assets/jss/components/layout";
 
-interface LogsProps {}
-
-function Logs(props: LogsProps): ReactElement {
+function Logs(): ReactElement {
   const [auth, setAuth] = useState<ApiAuthorization>();
+  const [message, setMessage] = useState<Message>();
+  const [user, setUser] = useState<User>();
 
   const apiUrl: string = useMemo(
     () =>
@@ -19,23 +21,23 @@ function Logs(props: LogsProps): ReactElement {
     []
   );
 
-  const handleAuthorized = useCallback(
-    (auth: ApiAuthorization): void => setAuth(auth),
-    []
-  );
+  function handleResetMessage(): void {
+    setMessage(undefined);
+  }
 
   const classes = useStyles();
 
   return (
     <Layout
-      {...props}
       apiUrl={apiUrl}
       auth={auth}
       classes={classes}
-      handleAuthorized={handleAuthorized}
+      description="TODO"
+      setAuth={setAuth}
+      setMessage={setMessage}
+      setUser={setUser}
       title="Logs"
-      url="https://upaas.timmo.dev"
-      description="TODO">
+      url="https://upaas.timmo.dev">
       <Container className={classes.main} component="article" maxWidth="xl">
         <Grid container direction="row"></Grid>
       </Container>

@@ -185,7 +185,7 @@ function Layout(props: LayoutProps): ReactElement {
           <Fragment>
             <Header
               {...props}
-              brand="Frontend"
+              brand="UPAAS"
               changeColorOnScroll={{
                 height: 200,
                 color: "primary",

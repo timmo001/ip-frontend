@@ -9,9 +9,7 @@ import StatLastEvent from "../components/Stats/StatLastEvent";
 import User from "../types/User";
 import useStyles from "../assets/jss/components/layout";
 
-interface DashboardProps {}
-
-function Dashboard(props: DashboardProps): ReactElement {
+function Dashboard(): ReactElement {
   const [auth, setAuth] = useState<ApiAuthorization>();
   const [message, setMessage] = useState<Message>();
   const [user, setUser] = useState<User>();
@@ -32,7 +30,6 @@ function Dashboard(props: DashboardProps): ReactElement {
 
   return (
     <Layout
-      {...props}
       apiUrl={apiUrl}
       auth={auth}
       classes={classes}
