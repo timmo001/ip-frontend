@@ -158,14 +158,14 @@ function Layout(props: LayoutProps): ReactElement {
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#009688" />
         <link rel="canonical" href={props.url} />
-        <meta name="author" content="Aidan Timson" />
+        <meta name="author" content="Owner" />
         <meta
           name="description"
           content={
             props.description
               ? `${props.description}`
               : props.title
-              ? `${props.title} - Frontend`
+              ? `${props.title} - UPAAS`
               : `UPAAS`
           }
         />
