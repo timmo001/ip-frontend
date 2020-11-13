@@ -33,6 +33,7 @@ function ServerConfig(): ReactElement {
       auth={auth}
       classes={classes}
       description="TODO"
+      message={message}
       setAuth={setAuth}
       setMessage={setMessage}
       setUser={setUser}

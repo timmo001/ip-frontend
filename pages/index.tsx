@@ -22,10 +22,6 @@ function Dashboard(): ReactElement {
     []
   );
 
-  function handleResetMessage(): void {
-    setMessage(undefined);
-  }
-
   const classes = useStyles();
 
   return (
@@ -34,6 +30,7 @@ function Dashboard(): ReactElement {
       auth={auth}
       classes={classes}
       description="TODO"
+      message={message}
       setAuth={setAuth}
       setMessage={setMessage}
       setUser={setUser}

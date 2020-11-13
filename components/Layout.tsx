@@ -4,8 +4,6 @@ import React, {
   ReactElement,
   SetStateAction,
   useCallback,
-  useMemo,
-  useState,
 } from "react";
 import Head from "next/head";
 import axios, { AxiosResponse } from "axios";
@@ -30,6 +28,7 @@ import HeaderLinks from "./HeaderLinks";
 import Markdown from "./Markdown";
 import Message from "../types/Message";
 import User from "../types/User";
+import ShowMessage from "./Shared/ShowMessage";
 
 let theme = createMuiTheme({
   palette: {
@@ -72,8 +71,10 @@ interface LayoutProps {
   auth: ApiAuthorization;
   children?: ReactElement | ReactElement[];
   classes: ClassNameMap;
+
   description?: string;
   keywords?: string;
+  message?: Message;
   setAuth: Dispatch<SetStateAction<ApiAuthorization | undefined>>;
   setMessage: Dispatch<SetStateAction<Message | undefined>>;
   setUser: Dispatch<SetStateAction<User | undefined>>;
@@ -130,6 +131,10 @@ function Layout(props: LayoutProps): ReactElement {
     },
     [props.apiUrl, props.auth, props.setUser, props.setMessage]
   );
+
+  function handleResetMessage(): void {
+    props.setMessage(undefined);
+  }
 
   const classes = props.classes;
 
@@ -216,6 +221,15 @@ function Layout(props: LayoutProps): ReactElement {
             handleAuthorized={handleAuthorized}
             setMessage={props.setMessage}
           />
+        )}
+        {props.message ? (
+          <ShowMessage
+            handleResetMessage={handleResetMessage}
+            severity={props.message.severity}
+            text={props.message.text}
+          />
+        ) : (
+          ""
         )}
       </ThemeProvider>
     </>
