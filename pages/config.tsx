@@ -21,10 +21,6 @@ function ServerConfig(): ReactElement {
     []
   );
 
-  function handleResetMessage(): void {
-    setMessage(undefined);
-  }
-
   const classes = useStyles();
 
   return (
