@@ -103,10 +103,6 @@ function Layout(props: LayoutProps): ReactElement {
               console.log("handleAuthorized - User:", user);
             props.setAuth(auth);
             props.setUser(user);
-            props.setMessage({
-              severity: "success",
-              text: `Hi ${user.firstName}!`,
-            });
             setTimeout(
               () => handleAuthorized(auth),
               moment(auth.expiry).valueOf() - moment().valueOf() + 10000

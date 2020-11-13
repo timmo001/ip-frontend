@@ -129,6 +129,10 @@ export default function Auth(props: AuthProps): ReactElement {
           .toDate();
         localStorage.setItem("auth", JSON.stringify(auth));
         console.log("Auth - authorized:", auth);
+        props.setMessage({
+          severity: "success",
+          text: `Successfully logged in!`,
+        });
         props.handleAuthorized(auth);
       } else
         props.setMessage({
