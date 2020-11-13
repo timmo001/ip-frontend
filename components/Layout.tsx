@@ -71,7 +71,6 @@ interface LayoutProps {
   auth: ApiAuthorization;
   children?: ReactElement | ReactElement[];
   classes: ClassNameMap;
-
   description?: string;
   keywords?: string;
   message?: Message;
@@ -115,18 +114,22 @@ function Layout(props: LayoutProps): ReactElement {
           localStorage.removeItem("auth");
         }
       } else {
-        localStorage.removeItem("auth");
         console.log("Auth token expired");
         props.setMessage({
           severity: "info",
           text: "Token expired. Please re-login",
         });
-        props.setAuth(undefined);
-        props.setUser(undefined);
+        handleLogOut();
       }
     },
     [props.apiUrl, props.auth, props.setUser, props.setMessage]
   );
+
+  function handleLogOut(): void {
+    localStorage.removeItem("auth");
+    props.setAuth(undefined);
+    props.setUser(undefined);
+  }
 
   function handleResetMessage(): void {
     props.setMessage(undefined);
@@ -195,7 +198,9 @@ function Layout(props: LayoutProps): ReactElement {
               }}
               color="transparent"
               fixed
-              rightLinks={<HeaderLinks user={props.user} />}
+              rightLinks={
+                <HeaderLinks handleLogOut={handleLogOut} user={props.user} />
+              }
             />
             {props.children}
             <Container

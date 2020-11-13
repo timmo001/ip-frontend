@@ -124,6 +124,10 @@ const headerLinksStyle = makeStyles((theme: Theme) => ({
     margin: theme.spacing(-1),
     backgroundColor: theme.palette.primary.main,
   },
+  menuProfile: {
+    height: theme.spacing(8),
+    minWidth: 220,
+  },
 }));
 
 export default headerLinksStyle;
