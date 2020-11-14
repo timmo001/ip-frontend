@@ -140,9 +140,9 @@ export default function EndpointView(props: EndpointViewProps): ReactElement {
               {endpoint.supportedMethods.split(",").join(", ")}
               <br />
               <br />
-              {endpoint.resultOnly ? "Result Only" : "Full Response"}
+              <b>{endpoint.resultOnly ? "Result Only" : "Full Response"}</b>
               <br />
-              {endpoint.published ? "Published" : "Draft"}
+              <b>{endpoint.published ? "Published" : "Draft"}</b>
             </Typography>
           </Grid>
         </AccordionDetails>
