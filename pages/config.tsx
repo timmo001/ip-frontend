@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useMemo, useState } from "react";
+import React, { ReactElement, useMemo, useState } from "react";
 import { GetStaticProps } from "next";
 import { Container, Grid } from "@material-ui/core";
 

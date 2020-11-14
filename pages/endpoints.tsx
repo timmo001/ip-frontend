@@ -18,19 +18,19 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 
 import ApiAuthorization from "../types/ApiAuthorization";
+import Endpoint from "../types/Endpoint";
+import EndpointEdit from "../components/Endpoint/EndpointEdit";
+import EndpointView from "../components/Endpoint/EndpointView";
 import Layout from "../components/Layout";
 import Message from "../types/Message";
-import Service from "../types/Service";
-import ServiceEdit from "../components/Service/ServiceEdit";
-import ServiceView from "../components/Service/ServiceView";
 import User from "../types/User";
 import useStyles from "../assets/jss/components/layout";
 
-function Services(): ReactElement {
-  const [addService, setAddService] = useState<boolean>(false);
+function Endpoints(): ReactElement {
+  const [addEndpoint, setAddEndpoint] = useState<boolean>(false);
   const [auth, setAuth] = useState<ApiAuthorization>();
+  const [endpoints, setEndpoints] = useState<Endpoint[]>();
   const [message, setMessage] = useState<Message>();
-  const [services, setServices] = useState<Service[]>();
   const [user, setUser] = useState<User>();
 
   const apiUrl: string = useMemo(
@@ -41,39 +41,39 @@ function Services(): ReactElement {
     []
   );
 
-  async function getServices(): Promise<void> {
+  async function getEndpoints(): Promise<void> {
     try {
-      console.log("getServices - auth:", auth);
-      const response: AxiosResponse = await axios.get("/backend/services", {
+      console.log("getEndpoints - auth:", auth);
+      const response: AxiosResponse = await axios.get("/backend/endpoints", {
         baseURL: apiUrl,
         headers: { Authorization: `Bearer ${auth.accessToken}` },
       });
       if (response.status === 200 && response.data) {
         if (process.env.NODE_ENV === "development")
-          console.log("getServices - Services:", response.data);
-        setServices(response.data);
+          console.log("getEndpoints - Endpoints:", response.data);
+        setEndpoints(response.data);
       } else {
         setMessage({
           severity: "error",
-          text: `Error getting Services: ${response.data}`,
+          text: `Error getting Endpoints: ${response.data}`,
         });
       }
     } catch (e) {
       console.error(e);
       setMessage({
         severity: "error",
-        text: `Error getting Services: ${e.message}`,
+        text: `Error getting Endpoints: ${e.message}`,
       });
     }
   }
 
-  const handleDeleteService = useCallback(
+  const handleDeleteEndpoint = useCallback(
     (i: number) => async (): Promise<void> => {
-      if (services)
+      if (endpoints)
         try {
-          const service = services[i];
+          const endpoint = endpoints[i];
           const response: AxiosResponse = await axios.delete(
-            `/backend/services/${service.id}`,
+            `/backend/endpoints/${endpoint.id}`,
             {
               baseURL: apiUrl,
               headers: { Authorization: `Bearer ${auth.accessToken}` },
@@ -81,36 +81,36 @@ function Services(): ReactElement {
           );
           if (response.status === 200 && response.data) {
             if (process.env.NODE_ENV === "development")
-              console.log("Deleted:", service);
+              console.log("Deleted:", endpoint);
             setMessage({
               severity: "success",
-              text: `Deleted Service: ${service.name}`,
+              text: `Deleted Endpoint: ${endpoint.name}`,
             });
-            services.splice(i, 1);
-            setServices(services);
+            endpoints.splice(i, 1);
+            setEndpoints(endpoints);
           } else {
             setMessage({
               severity: "error",
-              text: `Error updating Service: ${response.data}`,
+              text: `Error updating Endpoint: ${response.data}`,
             });
           }
         } catch (e) {
           console.error(e);
           setMessage({
             severity: "error",
-            text: `Error updating Service: ${e.message}`,
+            text: `Error updating Endpoint: ${e.message}`,
           });
         }
     },
-    [services]
+    [endpoints]
   );
 
-  const handleCreateService = useCallback(
-    async (service: Service): Promise<void> => {
+  const handleCreateEndpoint = useCallback(
+    async (endpoint: Endpoint): Promise<void> => {
       try {
         const response: AxiosResponse = await axios.post(
-          `/backend/services`,
-          service,
+          `/backend/endpoints`,
+          endpoint,
           {
             baseURL: apiUrl,
             headers: { Authorization: `Bearer ${auth.accessToken}` },
@@ -118,37 +118,37 @@ function Services(): ReactElement {
         );
         if (response.status === 201 && response.data) {
           if (process.env.NODE_ENV === "development")
-            console.log("Services:", response.data);
+            console.log("Endpoints:", response.data);
           setMessage({
             severity: "success",
-            text: `Updated Service: ${service.name}`,
+            text: `Updated Endpoint: ${endpoint.name}`,
           });
-          service.id = response.data.id;
-          if (services) services.push(service);
-          setServices(services);
+          endpoint.id = response.data.id;
+          if (endpoints) endpoints.push(endpoint);
+          setEndpoints(endpoints);
         } else {
           setMessage({
             severity: "error",
-            text: `Error updating Service: ${response.data}`,
+            text: `Error updating Endpoint: ${response.data}`,
           });
         }
       } catch (e) {
         console.error(e);
         setMessage({
           severity: "error",
-          text: `Error updating Service: ${e.message}`,
+          text: `Error updating Endpoint: ${e.message}`,
         });
       }
     },
-    [services]
+    [endpoints]
   );
 
-  const handleUpdateService = useCallback(
-    (i: number) => async (service: Service): Promise<void> => {
+  const handleUpdateEndpoint = useCallback(
+    (i: number) => async (endpoint: Endpoint): Promise<void> => {
       try {
         const response: AxiosResponse = await axios.put(
-          `/backend/services/${service.id}`,
-          service,
+          `/backend/endpoints/${endpoint.id}`,
+          endpoint,
           {
             baseURL: apiUrl,
             headers: { Authorization: `Bearer ${auth.accessToken}` },
@@ -156,79 +156,41 @@ function Services(): ReactElement {
         );
         if (response.status === 200 && response.data) {
           if (process.env.NODE_ENV === "development")
-            console.log("Services:", response.data);
+            console.log("Endpoints:", response.data);
           setMessage({
             severity: "success",
-            text: `Updated Service: ${service.name}`,
+            text: `Updated Endpoint: ${endpoint.name}`,
           });
-          if (services) services[i] = service;
-          setServices(services);
+          if (endpoints) endpoints[i] = endpoint;
+          setEndpoints(endpoints);
         } else {
           setMessage({
             severity: "error",
-            text: `Error updating Service: ${response.data}`,
+            text: `Error updating Endpoint: ${response.data}`,
           });
         }
       } catch (e) {
         console.error(e);
         setMessage({
           severity: "error",
-          text: `Error updating Service: ${e.message}`,
+          text: `Error updating Endpoint: ${e.message}`,
         });
       }
     },
-    [services]
+    [endpoints]
   );
 
-  const handleTriggerService = useCallback(
-    (i: number) => async (): Promise<void> => {
-      if (services)
-        try {
-          const service = services[i];
-          const response: AxiosResponse = await axios.post(
-            `/backend/events`,
-            { type: "service", serviceKey: service.id },
-            {
-              baseURL: apiUrl,
-              headers: { Authorization: `Bearer ${auth.accessToken}` },
-            }
-          );
-          if (response.status === 201 && response.data) {
-            if (process.env.NODE_ENV === "development")
-              console.log("Services:", response.data);
-            setMessage({
-              severity: "info",
-              text: `Event triggered for Service: ${service.name}`,
-            });
-          } else {
-            setMessage({
-              severity: "error",
-              text: `Error triggering Event: ${response.data}`,
-            });
-          }
-        } catch (e) {
-          console.error(e);
-          setMessage({
-            severity: "error",
-            text: `Error triggering Event: ${e.message}`,
-          });
-        }
-    },
-    [services]
-  );
-
-  function handleAddService(): void {
-    setAddService(true);
+  function handleAddEndpoint(): void {
+    setAddEndpoint(true);
   }
 
-  function handleFinishedAddingService(): void {
-    setAddService(false);
+  function handleFinishedAddingEndpoint(): void {
+    setAddEndpoint(false);
   }
 
   useEffect(() => {
-    console.log("services - trigger");
-    if (auth && !services) getServices();
-  }, [auth, services, getServices]);
+    if (auth && !endpoints) getEndpoints();
+  }, [auth, endpoints, getEndpoints]);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -243,19 +205,18 @@ function Services(): ReactElement {
       setAuth={setAuth}
       setMessage={setMessage}
       setUser={setUser}
-      title="Services"
+      title="Endpoints"
       url="https://upaas.timmo.dev"
       user={user}>
       <Container className={classes.main} component="article" maxWidth="xl">
         <Grid container direction="row">
-          {services
-            ? services.map((service: Service, index: number) => (
-                <ServiceView
+          {endpoints
+            ? endpoints.map((endpoint: Endpoint, index: number) => (
+                <EndpointView
                   key={index}
-                  service={service}
-                  handleDeleteService={handleDeleteService(index)}
-                  handleTriggerService={handleTriggerService(index)}
-                  handleUpdateService={handleUpdateService(index)}
+                  endpoint={endpoint}
+                  handleDeleteEndpoint={handleDeleteEndpoint(index)}
+                  handleUpdateEndpoint={handleUpdateEndpoint(index)}
                 />
               ))
             : ""}
@@ -263,26 +224,35 @@ function Services(): ReactElement {
             className={classes.fab}
             color="primary"
             aria-label="add"
-            onClick={handleAddService}>
+            onClick={handleAddEndpoint}>
             <AddIcon />
           </Fab>
           <Dialog
-            open={addService}
+            open={addEndpoint}
             fullScreen={fullScreen}
             fullWidth
             maxWidth="lg"
             aria-labelledby="dialog-title">
-            {addService ? (
-              <ServiceEdit
-                service={{ id: "", name: "", conditions: [], actions: [] }}
-                handleUpdateService={handleCreateService}
-                handleFinishedEditingService={handleFinishedAddingService}
+            {addEndpoint ? (
+              <EndpointEdit
+                endpoint={{
+                  id: "",
+                  endpoint: "",
+                  service: "",
+                  name: "",
+                  resultOnly: true,
+                  logLevel: "info",
+                  supportedMethods: "",
+                  published: false,
+                }}
+                handleUpdateEndpoint={handleCreateEndpoint}
+                handleFinishedEditingEndpoint={handleFinishedAddingEndpoint}
               />
             ) : (
               ""
             )}
           </Dialog>
-        </Grid>
+        </Grid>{" "}
       </Container>
     </Layout>
   );
@@ -295,4 +265,4 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-export default Services;
+export default Endpoints;

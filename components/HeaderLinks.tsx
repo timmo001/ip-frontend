@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import Icon from "@mdi/react";
 import {
+  mdiCloudOutline,
   mdiCogOutline,
   mdiLogoutVariant,
   mdiScriptTextOutline,
@@ -81,6 +82,19 @@ function HeaderLinks(props: HeaderLinksProps): ReactElement {
                 size={1}
               />
               <span className={classes.listItemText}>Services</span>
+            </Button>
+          </Link>
+        </ListItem>
+        <ListItem className={classes.listItem}>
+          <Link href="/endpoints">
+            <Button variant="text" className={classes.navLink}>
+              <Icon
+                className={classes.icon}
+                color={theme.palette.text.primary}
+                path={mdiCloudOutline}
+                size={1}
+              />
+              <span className={classes.listItemText}>Endpoints</span>
             </Button>
           </Link>
         </ListItem>
