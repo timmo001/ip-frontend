@@ -1,4 +1,5 @@
 import React, { ReactElement, useState, useMemo, Fragment } from "react";
+import dynamic from "next/dynamic";
 import { makeStyles } from "@material-ui/styles";
 import {
   DialogContent,
@@ -9,6 +10,9 @@ import {
   Button,
   DialogTitle,
 } from "@material-ui/core";
+import YAML from "yaml";
+
+const MonacoEditor = dynamic(import("react-monaco-editor"), { ssr: false });
 
 import Service from "../../types/Service";
 
@@ -43,12 +47,22 @@ interface ServiceEditProps {
 export default function ServiceEdit(props: ServiceEditProps): ReactElement {
   const { handleFinishedEditingService, handleUpdateService } = props;
   const [service, setService] = useState<Service>(props.service);
+  const config = useMemo(() => YAML.stringify(service.config), [
+    service.config,
+  ]);
 
   const handleTextFieldChange = (prop: keyof Service) => (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     setService({ ...service, [prop]: event.target.value });
   };
+
+  function handleConfigChange(newValue: string): void {
+    try {
+      const config = YAML.parse(newValue);
+      setService({ ...service, config });
+    } catch (e) {}
+  }
 
   function handleSave(): void {
     if (!validationSuccess) return;
@@ -96,6 +110,14 @@ export default function ServiceEdit(props: ServiceEditProps): ReactElement {
             />
           </Grid>
         </section>
+        <MonacoEditor
+          height="520px"
+          width="100%"
+          language="yaml"
+          theme="vs-dark"
+          defaultValue={config}
+          onChange={handleConfigChange}
+        />
       </DialogContent>
       <DialogActions className={classes.actions}>
         <Button
