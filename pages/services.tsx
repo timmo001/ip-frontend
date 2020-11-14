@@ -226,7 +226,6 @@ function Services(): ReactElement {
   }
 
   useEffect(() => {
-    console.log("services - trigger");
     if (auth && !services) getServices();
   }, [auth, services, getServices]);
 
