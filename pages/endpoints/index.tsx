@@ -17,14 +17,14 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
-import ApiAuthorization from "../types/ApiAuthorization";
-import Endpoint from "../types/Endpoint";
-import EndpointEdit from "../components/Endpoint/EndpointEdit";
-import EndpointView from "../components/Endpoint/EndpointView";
-import Layout from "../components/Layout";
-import Message from "../types/Message";
-import User from "../types/User";
-import useStyles from "../assets/jss/components/layout";
+import ApiAuthorization from "../../types/ApiAuthorization";
+import Endpoint from "../../types/Endpoint";
+import EndpointEdit from "../../components/Endpoint/EndpointEdit";
+import EndpointView from "../../components/Endpoint/EndpointView";
+import Layout from "../../components/Layout";
+import Message from "../../types/Message";
+import User from "../../types/User";
+import useStyles from "../../assets/jss/components/layout";
 
 function Endpoints(): ReactElement {
   const [addEndpoint, setAddEndpoint] = useState<boolean>(false);

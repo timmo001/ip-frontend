@@ -17,14 +17,14 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
-import ApiAuthorization from "../types/ApiAuthorization";
-import Layout from "../components/Layout";
-import Message from "../types/Message";
-import Service from "../types/Service";
-import ServiceEdit from "../components/Service/ServiceEdit";
-import ServiceView from "../components/Service/ServiceView";
-import User from "../types/User";
-import useStyles from "../assets/jss/components/layout";
+import ApiAuthorization from "../../types/ApiAuthorization";
+import Layout from "../../components/Layout";
+import Message from "../../types/Message";
+import Service from "../../types/Service";
+import ServiceEdit from "../../components/Service/ServiceEdit";
+import ServiceView from "../../components/Service/ServiceView";
+import User from "../../types/User";
+import useStyles from "../../assets/jss/components/layout";
 
 function Services(): ReactElement {
   const [addService, setAddService] = useState<boolean>(false);
