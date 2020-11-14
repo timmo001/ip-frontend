@@ -108,7 +108,12 @@ export default function EndpointEdit(props: EndpointEditProps): ReactElement {
   ): void => {
     setEndpoint({
       ...endpoint,
-      [prop]: (event.target.value as string[]).join(","),
+      [prop]: (event.target.value as string[])
+        .filter((value: string) =>
+          // Remove any rogue null values
+          value.length > 0 ? true : false
+        )
+        .join(","),
     });
   };
 
