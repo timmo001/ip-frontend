@@ -4,6 +4,8 @@ import React, {
   ReactElement,
   SetStateAction,
   useCallback,
+  useEffect,
+  useState,
 } from "react";
 import Head from "next/head";
 import axios, { AxiosResponse } from "axios";
@@ -29,6 +31,8 @@ import Markdown from "./Markdown";
 import Message from "../types/Message";
 import User from "../types/User";
 import ShowMessage from "./Shared/ShowMessage";
+import { Skeleton } from "@material-ui/lab";
+import Loading from "./Shared/Loading";
 
 let theme = createMuiTheme({
   palette: {
@@ -83,6 +87,8 @@ interface LayoutProps {
 }
 
 function Layout(props: LayoutProps): ReactElement {
+  const [initialLoad, setInitialLoad] = useState<boolean>(true);
+
   const handleAuthorized = useCallback(
     async (auth: ApiAuthorization): Promise<void> => {
       if (process.env.NODE_ENV === "development")
@@ -121,9 +127,21 @@ function Layout(props: LayoutProps): ReactElement {
         });
         handleLogOut();
       }
+      setInitialLoad(false);
     },
     [props.apiUrl, props.auth, props.setUser, props.setMessage]
   );
+
+  useEffect(() => {
+    if (!props.auth) {
+      const authStr = localStorage.getItem("auth");
+      const auth: ApiAuthorization | null = authStr
+        ? JSON.parse(authStr)
+        : null;
+      if (auth) handleAuthorized(auth);
+      else setInitialLoad(false);
+    }
+  }, [props.auth, handleAuthorized]);
 
   function handleLogOut(): void {
     localStorage.removeItem("auth");
@@ -187,7 +205,9 @@ function Layout(props: LayoutProps): ReactElement {
 
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {props.auth ? (
+        {initialLoad ? (
+          <Loading text="Loading..." />
+        ) : props.auth ? (
           <Fragment>
             <Header
               {...props}

@@ -4,6 +4,7 @@ import { Grid, CircularProgress, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    position: "absolute",
     height: "100%",
     width: "100%",
     background: theme.palette.background.default,
@@ -32,8 +33,8 @@ function Loading(props: LoadingProps): ReactElement {
       <Typography
         className={classes.text}
         color="textPrimary"
-        variant="subtitle1"
-        component="h3">
+        component="h3"
+        variant="subtitle1">
         {props.text}
       </Typography>
     </Grid>

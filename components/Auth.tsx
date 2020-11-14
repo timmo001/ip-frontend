@@ -3,7 +3,6 @@ import React, {
   Fragment,
   ReactElement,
   SetStateAction,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -62,12 +61,6 @@ export default function Auth(props: AuthProps): ReactElement {
     lastName: "",
   });
   const [registering, setRegistering] = useState<boolean>(false);
-
-  useEffect(() => {
-    const authStr = localStorage.getItem("auth");
-    const auth: ApiAuthorization | null = authStr ? JSON.parse(authStr) : null;
-    if (auth) props.handleAuthorized(auth);
-  }, [props.handleAuthorized]);
 
   const handleChange = (prop: keyof User) => (
     event: React.ChangeEvent<HTMLInputElement>
