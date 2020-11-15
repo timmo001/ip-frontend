@@ -6,15 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { GetStaticProps } from "next";
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Container,
-  Link,
-} from "@material-ui/core";
+import { Button, Container, Link } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
 import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
 
@@ -80,10 +72,6 @@ function EndpointEdit(props: EndpointEditProps): ReactElement {
   const handleDelete = useCallback(async (): Promise<void> => {
     try {
       await deleteEndpoint({ apiUrl, auth }, endpoint);
-      // setMessage({
-      //   severity: "success",
-      //   text: `Deleted Endpoint: ${endpoint.name}`,
-      // });
       window.location.assign("/endpoints");
     } catch (e) {
       setMessage({
@@ -97,10 +85,6 @@ function EndpointEdit(props: EndpointEditProps): ReactElement {
     async (endpoint: Endpoint): Promise<void> => {
       try {
         await updateEndpoint({ apiUrl, auth }, endpoint);
-        // setMessage({
-        //   severity: "success",
-        //   text: `Updated Endpoint: ${endpoint.name}`,
-        // });
         window.location.assign("/endpoints");
       } catch (e) {
         setMessage({

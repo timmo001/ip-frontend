@@ -1,21 +1,8 @@
-import React, {
-  ReactElement,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { ReactElement, useEffect, useMemo, useState } from "react";
 import { GetStaticProps } from "next";
 import Link from "next/link";
 import moment from "moment";
-import {
-  Button,
-  Card,
-  Container,
-  Fab,
-  Grid,
-  useTheme,
-} from "@material-ui/core";
+import { Button, Card, Container, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/EditTwoTone";
 import {
@@ -27,12 +14,7 @@ import {
   ValueFormatterParams,
 } from "@material-ui/data-grid";
 
-import {
-  createEndpoint,
-  deleteEndpoint,
-  getEndpoints,
-  updateEndpoint,
-} from "../../lib/data/endpoints";
+import { getEndpoints } from "../../lib/data/endpoints";
 import { getServices } from "../../lib/data/services";
 import ApiAuthorization from "../../types/ApiAuthorization";
 import CustomPagination from "../../components/DataGrid/CustomPagination";
@@ -80,66 +62,6 @@ function Endpoints(): ReactElement {
     }
   }
 
-  const handleDeleteEndpoint = useCallback(
-    (i: number) => async (): Promise<void> => {
-      try {
-        const endpoint = endpoints[i];
-        await deleteEndpoint({ apiUrl, auth }, endpoint);
-        endpoints.splice(i, 1);
-        setEndpoints(endpoints);
-        setMessage({
-          severity: "success",
-          text: `Deleted Endpoint: ${endpoint.name}`,
-        });
-      } catch (e) {
-        setMessage({
-          severity: "error",
-          text: e.message,
-        });
-      }
-    },
-    [endpoints]
-  );
-
-  const handleCreateEndpoint = useCallback(
-    async (endpoint: Endpoint): Promise<void> => {
-      try {
-        endpoints.push(await createEndpoint({ apiUrl, auth }, endpoint));
-        setEndpoints(endpoints);
-        setMessage({
-          severity: "success",
-          text: `Updated Endpoint: ${endpoint.name}`,
-        });
-      } catch (e) {
-        setMessage({
-          severity: "error",
-          text: e.message,
-        });
-      }
-    },
-    [endpoints]
-  );
-
-  const handleUpdateEndpoint = useCallback(
-    (i: number) => async (endpoint: Endpoint): Promise<void> => {
-      try {
-        if (endpoints)
-          endpoints[i] = await updateEndpoint({ apiUrl, auth }, endpoint);
-        setEndpoints(endpoints);
-        setMessage({
-          severity: "success",
-          text: `Updated Endpoint: ${endpoint.name}`,
-        });
-      } catch (e) {
-        setMessage({
-          severity: "error",
-          text: e.message,
-        });
-      }
-    },
-    [endpoints]
-  );
-
   useEffect(() => {
     if (auth) {
       if (!endpoints) handleGetEndpoints();
@@ -147,7 +69,6 @@ function Endpoints(): ReactElement {
     }
   }, [auth, endpoints, handleGetEndpoints]);
 
-  const theme = useTheme();
   const classes = useStyles();
 
   const sortModel: SortModel = useMemo(
