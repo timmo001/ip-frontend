@@ -30,6 +30,7 @@ import Message from "../types/Message";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    position: "absolute",
     display: "flex",
     height: "100%",
   },
