@@ -46,9 +46,10 @@ export async function deleteEndpoint(
       headers: { Authorization: `Bearer ${auth.accessToken}` },
     }
   );
-  if (response.status === 200 && response.data) {
+  if (response.status === 200) {
     if (process.env.NODE_ENV === "development")
       console.log("Deleted:", endpoint);
+    return;
   }
   throw new Error(`Error deleting Endpoint: ${response.data}`);
 }
@@ -65,6 +66,7 @@ export async function createEndpoint(
       headers: { Authorization: `Bearer ${auth.accessToken}` },
     }
   );
+  console.log(response);
   if (response.status === 201 && response.data) {
     if (process.env.NODE_ENV === "development")
       console.log("Endpoints:", response.data);

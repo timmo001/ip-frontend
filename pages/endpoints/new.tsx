@@ -50,6 +50,7 @@ function EndpointNew(): ReactElement {
     void
   > => {
     try {
+      console.log({ apiUrl, auth }, endpoint);
       await createEndpoint({ apiUrl, auth }, endpoint);
       // setMessage({
       //   severity: "success",
@@ -115,9 +116,9 @@ function EndpointNew(): ReactElement {
             supportedMethods: "",
             published: false,
           }}
+          handleSave={handleCreateEndpoint}
           new
           services={services}
-          handleSave={handleCreateEndpoint}
         />
       </Container>
     </Layout>

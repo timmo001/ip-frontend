@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import Head from "next/head";
 import axios, { AxiosResponse } from "axios";
-import { teal, indigo } from "@material-ui/core/colors";
+import { teal } from "@material-ui/core/colors";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {
   createMuiTheme,
@@ -31,14 +31,13 @@ import Markdown from "./Markdown";
 import Message from "../types/Message";
 import User from "../types/User";
 import ShowMessage from "./Shared/ShowMessage";
-import { Skeleton } from "@material-ui/lab";
 import Loading from "./Shared/Loading";
 
 let theme = createMuiTheme({
   palette: {
     type: "dark",
     primary: teal,
-    secondary: indigo,
+    secondary: teal,
     contrastThreshold: 3,
     tonalOffset: 0.2,
   },
