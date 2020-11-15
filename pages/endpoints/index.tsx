@@ -6,29 +6,46 @@ import React, {
   useState,
 } from "react";
 import { GetStaticProps } from "next";
-import axios, { AxiosResponse } from "axios";
+import Link from "next/link";
+import moment from "moment";
 import {
+  Button,
+  Card,
   Container,
-  Dialog,
   Fab,
   Grid,
-  useMediaQuery,
   useTheme,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/EditTwoTone";
+import {
+  ColDef,
+  DataGrid,
+  RowsProp,
+  SortDirection,
+  SortModel,
+  ValueFormatterParams,
+} from "@material-ui/data-grid";
 
+import {
+  createEndpoint,
+  deleteEndpoint,
+  getEndpoints,
+  updateEndpoint,
+} from "../../lib/data/endpoints";
+import { getServices } from "../../lib/data/services";
 import ApiAuthorization from "../../types/ApiAuthorization";
+import CustomPagination from "../../components/DataGrid/CustomPagination";
 import Endpoint from "../../types/Endpoint";
-import EndpointEdit from "../../components/Endpoint/EndpointEdit";
-import EndpointView from "../../components/Endpoint/EndpointView";
 import Layout from "../../components/Layout";
 import Message from "../../types/Message";
+import Service from "../../types/Service";
 import User from "../../types/User";
 import useStyles from "../../assets/jss/components/layout";
 
 function Endpoints(): ReactElement {
-  const [addEndpoint, setAddEndpoint] = useState<boolean>(false);
   const [auth, setAuth] = useState<ApiAuthorization>();
+  const [services, setServices] = useState<Service[]>();
   const [endpoints, setEndpoints] = useState<Endpoint[]>();
   const [message, setMessage] = useState<Message>();
   const [user, setUser] = useState<User>();
@@ -41,66 +58,45 @@ function Endpoints(): ReactElement {
     []
   );
 
-  async function getEndpoints(): Promise<void> {
+  async function handleGetServices(): Promise<void> {
     try {
-      console.log("getEndpoints - auth:", auth);
-      const response: AxiosResponse = await axios.get("/backend/endpoints", {
-        baseURL: apiUrl,
-        headers: { Authorization: `Bearer ${auth.accessToken}` },
-      });
-      if (response.status === 200 && response.data) {
-        if (process.env.NODE_ENV === "development")
-          console.log("getEndpoints - Endpoints:", response.data);
-        setEndpoints(response.data);
-      } else {
-        setMessage({
-          severity: "error",
-          text: `Error getting Endpoints: ${response.data}`,
-        });
-      }
+      setServices(await getServices({ apiUrl, auth }));
     } catch (e) {
-      console.error(e);
       setMessage({
         severity: "error",
-        text: `Error getting Endpoints: ${e.message}`,
+        text: e.message,
+      });
+    }
+  }
+
+  async function handleGetEndpoints(): Promise<void> {
+    try {
+      setEndpoints(await getEndpoints({ apiUrl, auth }));
+    } catch (e) {
+      setMessage({
+        severity: "error",
+        text: e.message,
       });
     }
   }
 
   const handleDeleteEndpoint = useCallback(
     (i: number) => async (): Promise<void> => {
-      if (endpoints)
-        try {
-          const endpoint = endpoints[i];
-          const response: AxiosResponse = await axios.delete(
-            `/backend/endpoints/${endpoint.id}`,
-            {
-              baseURL: apiUrl,
-              headers: { Authorization: `Bearer ${auth.accessToken}` },
-            }
-          );
-          if (response.status === 200 && response.data) {
-            if (process.env.NODE_ENV === "development")
-              console.log("Deleted:", endpoint);
-            setMessage({
-              severity: "success",
-              text: `Deleted Endpoint: ${endpoint.name}`,
-            });
-            endpoints.splice(i, 1);
-            setEndpoints(endpoints);
-          } else {
-            setMessage({
-              severity: "error",
-              text: `Error updating Endpoint: ${response.data}`,
-            });
-          }
-        } catch (e) {
-          console.error(e);
-          setMessage({
-            severity: "error",
-            text: `Error updating Endpoint: ${e.message}`,
-          });
-        }
+      try {
+        const endpoint = endpoints[i];
+        await deleteEndpoint({ apiUrl, auth }, endpoint);
+        endpoints.splice(i, 1);
+        setEndpoints(endpoints);
+        setMessage({
+          severity: "success",
+          text: `Deleted Endpoint: ${endpoint.name}`,
+        });
+      } catch (e) {
+        setMessage({
+          severity: "error",
+          text: e.message,
+        });
+      }
     },
     [endpoints]
   );
@@ -108,35 +104,16 @@ function Endpoints(): ReactElement {
   const handleCreateEndpoint = useCallback(
     async (endpoint: Endpoint): Promise<void> => {
       try {
-        const response: AxiosResponse = await axios.post(
-          `/backend/endpoints`,
-          endpoint,
-          {
-            baseURL: apiUrl,
-            headers: { Authorization: `Bearer ${auth.accessToken}` },
-          }
-        );
-        if (response.status === 201 && response.data) {
-          if (process.env.NODE_ENV === "development")
-            console.log("Endpoints:", response.data);
-          setMessage({
-            severity: "success",
-            text: `Updated Endpoint: ${endpoint.name}`,
-          });
-          endpoint.id = response.data.id;
-          if (endpoints) endpoints.push(endpoint);
-          setEndpoints(endpoints);
-        } else {
-          setMessage({
-            severity: "error",
-            text: `Error updating Endpoint: ${response.data}`,
-          });
-        }
+        endpoints.push(await createEndpoint({ apiUrl, auth }, endpoint));
+        setEndpoints(endpoints);
+        setMessage({
+          severity: "success",
+          text: `Updated Endpoint: ${endpoint.name}`,
+        });
       } catch (e) {
-        console.error(e);
         setMessage({
           severity: "error",
-          text: `Error updating Endpoint: ${e.message}`,
+          text: e.message,
         });
       }
     },
@@ -146,55 +123,164 @@ function Endpoints(): ReactElement {
   const handleUpdateEndpoint = useCallback(
     (i: number) => async (endpoint: Endpoint): Promise<void> => {
       try {
-        const response: AxiosResponse = await axios.put(
-          `/backend/endpoints/${endpoint.id}`,
-          endpoint,
-          {
-            baseURL: apiUrl,
-            headers: { Authorization: `Bearer ${auth.accessToken}` },
-          }
-        );
-        if (response.status === 200 && response.data) {
-          if (process.env.NODE_ENV === "development")
-            console.log("Endpoints:", response.data);
-          setMessage({
-            severity: "success",
-            text: `Updated Endpoint: ${endpoint.name}`,
-          });
-          if (endpoints) endpoints[i] = endpoint;
-          setEndpoints(endpoints);
-        } else {
-          setMessage({
-            severity: "error",
-            text: `Error updating Endpoint: ${response.data}`,
-          });
-        }
+        if (endpoints)
+          endpoints[i] = await updateEndpoint({ apiUrl, auth }, endpoint);
+        setEndpoints(endpoints);
+        setMessage({
+          severity: "success",
+          text: `Updated Endpoint: ${endpoint.name}`,
+        });
       } catch (e) {
-        console.error(e);
         setMessage({
           severity: "error",
-          text: `Error updating Endpoint: ${e.message}`,
+          text: e.message,
         });
       }
     },
     [endpoints]
   );
 
-  function handleAddEndpoint(): void {
-    setAddEndpoint(true);
-  }
-
-  function handleFinishedAddingEndpoint(): void {
-    setAddEndpoint(false);
-  }
-
   useEffect(() => {
-    if (auth && !endpoints) getEndpoints();
-  }, [auth, endpoints, getEndpoints]);
+    if (auth) {
+      if (!endpoints) handleGetEndpoints();
+      if (!services) handleGetServices();
+    }
+  }, [auth, endpoints, handleGetEndpoints]);
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const classes = useStyles();
+
+  const sortModel: SortModel = useMemo(
+    () => [
+      {
+        field: "name",
+        sort: "asc" as SortDirection,
+      },
+    ],
+    []
+  );
+
+  const columns: ColDef[] = useMemo(
+    () => [
+      {
+        field: "dbId",
+        headerName: "ID",
+        type: "string",
+        width: 300,
+      },
+      {
+        field: "name",
+        headerName: "Name",
+        type: "string",
+        width: 320,
+      },
+      {
+        field: "endpoint",
+        headerName: "Endpoint",
+        type: "string",
+        width: 160,
+      },
+      {
+        field: "service",
+        headerName: "Service",
+        type: "string",
+        valueFormatter: (params: ValueFormatterParams) =>
+          services
+            ? services.find((s: Service) => s.id === (params.value as string))
+                .name
+            : params.value,
+        width: 280,
+      },
+      {
+        field: "resultOnly",
+        headerName: "Result Only?",
+        type: "string",
+        width: 115,
+      },
+      {
+        field: "logLevel",
+        headerName: "Log Level",
+        type: "string",
+        width: 120,
+      },
+      {
+        field: "supportedMethods",
+        headerName: "Supported Methods",
+        type: "string",
+        width: 180,
+      },
+      {
+        field: "published",
+        headerName: "Published?",
+        type: "string",
+        width: 105,
+      },
+      {
+        field: "updatedOn",
+        headerName: "Last Updated",
+        type: "dateTime",
+        valueFormatter: (params: ValueFormatterParams) =>
+          moment(params.value as string)
+            .locale(window.navigator.language)
+            .format("L HH:mm"),
+        width: 145,
+      },
+      {
+        disableSorting: true,
+        field: "",
+        renderCell: (params: ValueFormatterParams) => (
+          <Link
+            href={`/endpoints/edit?id=${params.getValue("dbId") as string}`}>
+            <Button
+              className={classes.buttonWithIcon}
+              color="primary"
+              size="small"
+              variant="text">
+              <EditIcon className={classes.iconOnButton} fontSize="small" />
+              Edit
+            </Button>
+          </Link>
+        ),
+        width: 100,
+      },
+    ],
+    []
+  );
+
+  const rows: RowsProp = useMemo(
+    () =>
+      endpoints
+        ? endpoints.map(
+            (
+              {
+                id,
+                name,
+                endpoint,
+                service,
+                resultOnly,
+                logLevel,
+                supportedMethods,
+                published,
+                updatedOn,
+              }: Endpoint,
+              index: number
+            ) => ({
+              id: index,
+              dbId: id,
+              name,
+              endpoint,
+              service,
+              resultOnly,
+              logLevel,
+              supportedMethods,
+              published,
+              updatedOn,
+            })
+          )
+        : [],
+    [endpoints, services]
+  );
+
   return (
     <Layout
       apiUrl={apiUrl}
@@ -209,50 +295,38 @@ function Endpoints(): ReactElement {
       url="https://upaas.timmo.dev"
       user={user}>
       <Container className={classes.main} component="article" maxWidth="xl">
-        <Grid container direction="row">
-          {endpoints
-            ? endpoints.map((endpoint: Endpoint, index: number) => (
-                <EndpointView
-                  key={index}
-                  endpoint={endpoint}
-                  handleDeleteEndpoint={handleDeleteEndpoint(index)}
-                  handleUpdateEndpoint={handleUpdateEndpoint(index)}
-                />
-              ))
-            : ""}
-          <Fab
-            className={classes.fab}
-            color="primary"
-            aria-label="add"
-            onClick={handleAddEndpoint}>
-            <AddIcon />
-          </Fab>
-          <Dialog
-            open={addEndpoint}
-            fullScreen={fullScreen}
-            fullWidth
-            maxWidth="lg"
-            aria-labelledby="dialog-title">
-            {addEndpoint ? (
-              <EndpointEdit
-                endpoint={{
-                  id: "",
-                  endpoint: "",
-                  service: "",
-                  name: "",
-                  resultOnly: true,
-                  logLevel: "info",
-                  supportedMethods: "",
-                  published: false,
+        <Grid
+          className={classes.header}
+          container
+          direction="row"
+          alignItems="flex-start"
+          justify="center">
+          <Link href="/endpoints/new">
+            <Button
+              className={classes.buttonWithIcon}
+              color="primary"
+              size="medium"
+              variant="contained">
+              <AddIcon className={classes.iconOnButton} />
+              Add Endpoint
+            </Button>
+          </Link>
+        </Grid>
+        <Card style={{ height: 720 }}>
+          <div style={{ display: "flex", height: "100%" }}>
+            <div style={{ flexGrow: 1 }}>
+              <DataGrid
+                columns={columns}
+                components={{
+                  pagination: CustomPagination,
                 }}
-                handleUpdateEndpoint={handleCreateEndpoint}
-                handleFinishedEditingEndpoint={handleFinishedAddingEndpoint}
+                disableSelectionOnClick
+                rows={rows}
+                sortModel={sortModel}
               />
-            ) : (
-              ""
-            )}
-          </Dialog>
-        </Grid>{" "}
+            </div>
+          </div>
+        </Card>
       </Container>
     </Layout>
   );

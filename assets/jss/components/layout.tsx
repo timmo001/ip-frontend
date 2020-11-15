@@ -21,7 +21,10 @@ const layoutStyle = makeStyles((theme: Theme) => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
-
+  divider: {
+    height: "100%",
+    padding: theme.spacing(1),
+  },
   alert: {
     marginTop: theme.spacing(2),
   },
@@ -83,6 +86,16 @@ const layoutStyle = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(2),
   },
   flex: { flex: 1 },
+  buttonWithIcon: {
+    marginLeft: theme.spacing(1),
+    padding: theme.spacing(1),
+  },
+  iconOnButton: {
+    marginRight: theme.spacing(0.5),
+  },
+  header: {
+    padding: theme.spacing(0, 2, 2),
+  },
 }));
 
 export default layoutStyle;

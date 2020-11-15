@@ -6,7 +6,6 @@ import React, {
   useState,
 } from "react";
 import { GetStaticProps } from "next";
-import axios, { AxiosResponse } from "axios";
 import {
   Container,
   Dialog,
@@ -22,6 +21,13 @@ import Layout from "../../components/Layout";
 import Message from "../../types/Message";
 import Service from "../../types/Service";
 import ServiceEdit from "../../components/Service/ServiceEdit";
+import {
+  createService,
+  deleteService,
+  getServices,
+  triggerService,
+  updateService,
+} from "../../lib/data/services";
 import ServiceView from "../../components/Service/ServiceView";
 import User from "../../types/User";
 import useStyles from "../../assets/jss/components/layout";
@@ -41,66 +47,34 @@ function Services(): ReactElement {
     []
   );
 
-  async function getServices(): Promise<void> {
+  async function handleGetServices(): Promise<void> {
     try {
-      console.log("getServices - auth:", auth);
-      const response: AxiosResponse = await axios.get("/backend/services", {
-        baseURL: apiUrl,
-        headers: { Authorization: `Bearer ${auth.accessToken}` },
-      });
-      if (response.status === 200 && response.data) {
-        if (process.env.NODE_ENV === "development")
-          console.log("getServices - Services:", response.data);
-        setServices(response.data);
-      } else {
-        setMessage({
-          severity: "error",
-          text: `Error getting Services: ${response.data}`,
-        });
-      }
+      setServices(await getServices({ apiUrl, auth }));
     } catch (e) {
-      console.error(e);
       setMessage({
         severity: "error",
-        text: `Error getting Services: ${e.message}`,
+        text: e.message,
       });
     }
   }
 
   const handleDeleteService = useCallback(
     (i: number) => async (): Promise<void> => {
-      if (services)
-        try {
-          const service = services[i];
-          const response: AxiosResponse = await axios.delete(
-            `/backend/services/${service.id}`,
-            {
-              baseURL: apiUrl,
-              headers: { Authorization: `Bearer ${auth.accessToken}` },
-            }
-          );
-          if (response.status === 200 && response.data) {
-            if (process.env.NODE_ENV === "development")
-              console.log("Deleted:", service);
-            setMessage({
-              severity: "success",
-              text: `Deleted Service: ${service.name}`,
-            });
-            services.splice(i, 1);
-            setServices(services);
-          } else {
-            setMessage({
-              severity: "error",
-              text: `Error updating Service: ${response.data}`,
-            });
-          }
-        } catch (e) {
-          console.error(e);
-          setMessage({
-            severity: "error",
-            text: `Error updating Service: ${e.message}`,
-          });
-        }
+      try {
+        const service = services[i];
+        await deleteService({ apiUrl, auth }, service);
+        services.splice(i, 1);
+        setServices(services);
+        setMessage({
+          severity: "success",
+          text: `Deleted Service: ${service.name}`,
+        });
+      } catch (e) {
+        setMessage({
+          severity: "error",
+          text: e.message,
+        });
+      }
     },
     [services]
   );
@@ -108,35 +82,16 @@ function Services(): ReactElement {
   const handleCreateService = useCallback(
     async (service: Service): Promise<void> => {
       try {
-        const response: AxiosResponse = await axios.post(
-          `/backend/services`,
-          service,
-          {
-            baseURL: apiUrl,
-            headers: { Authorization: `Bearer ${auth.accessToken}` },
-          }
-        );
-        if (response.status === 201 && response.data) {
-          if (process.env.NODE_ENV === "development")
-            console.log("Services:", response.data);
-          setMessage({
-            severity: "success",
-            text: `Updated Service: ${service.name}`,
-          });
-          service.id = response.data.id;
-          if (services) services.push(service);
-          setServices(services);
-        } else {
-          setMessage({
-            severity: "error",
-            text: `Error updating Service: ${response.data}`,
-          });
-        }
+        services.push(await createService({ apiUrl, auth }, service));
+        setServices(services);
+        setMessage({
+          severity: "success",
+          text: `Updated Service: ${service.name}`,
+        });
       } catch (e) {
-        console.error(e);
         setMessage({
           severity: "error",
-          text: `Error updating Service: ${e.message}`,
+          text: e.message,
         });
       }
     },
@@ -146,34 +101,17 @@ function Services(): ReactElement {
   const handleUpdateService = useCallback(
     (i: number) => async (service: Service): Promise<void> => {
       try {
-        const response: AxiosResponse = await axios.put(
-          `/backend/services/${service.id}`,
-          service,
-          {
-            baseURL: apiUrl,
-            headers: { Authorization: `Bearer ${auth.accessToken}` },
-          }
-        );
-        if (response.status === 200 && response.data) {
-          if (process.env.NODE_ENV === "development")
-            console.log("Services:", response.data);
-          setMessage({
-            severity: "success",
-            text: `Updated Service: ${service.name}`,
-          });
-          if (services) services[i] = service;
-          setServices(services);
-        } else {
-          setMessage({
-            severity: "error",
-            text: `Error updating Service: ${response.data}`,
-          });
-        }
+        if (services)
+          services[i] = await updateService({ apiUrl, auth }, service);
+        setServices(services);
+        setMessage({
+          severity: "success",
+          text: `Updated Service: ${service.name}`,
+        });
       } catch (e) {
-        console.error(e);
         setMessage({
           severity: "error",
-          text: `Error updating Service: ${e.message}`,
+          text: e.message,
         });
       }
     },
@@ -182,37 +120,19 @@ function Services(): ReactElement {
 
   const handleTriggerService = useCallback(
     (i: number) => async (): Promise<void> => {
-      if (services)
-        try {
-          const service = services[i];
-          const response: AxiosResponse = await axios.post(
-            `/backend/events`,
-            { type: "service", serviceKey: service.id },
-            {
-              baseURL: apiUrl,
-              headers: { Authorization: `Bearer ${auth.accessToken}` },
-            }
-          );
-          if (response.status === 201 && response.data) {
-            if (process.env.NODE_ENV === "development")
-              console.log("Services:", response.data);
-            setMessage({
-              severity: "info",
-              text: `Event triggered for Service: ${service.name}`,
-            });
-          } else {
-            setMessage({
-              severity: "error",
-              text: `Error triggering Event: ${response.data}`,
-            });
-          }
-        } catch (e) {
-          console.error(e);
-          setMessage({
-            severity: "error",
-            text: `Error triggering Event: ${e.message}`,
-          });
-        }
+      try {
+        const service = services[i];
+        await triggerService({ apiUrl, auth }, service);
+        setMessage({
+          severity: "success",
+          text: `Event triggered for Service: ${service.name}`,
+        });
+      } catch (e) {
+        setMessage({
+          severity: "error",
+          text: e.message,
+        });
+      }
     },
     [services]
   );
@@ -226,8 +146,8 @@ function Services(): ReactElement {
   }
 
   useEffect(() => {
-    if (auth && !services) getServices();
-  }, [auth, services, getServices]);
+    if (auth && !services) handleGetServices();
+  }, [auth, services, handleGetServices]);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
