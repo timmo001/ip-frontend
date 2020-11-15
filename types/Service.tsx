@@ -9,4 +9,5 @@ export default interface Service {
   config?: GenericObject;
   conditions: Condition[];
   actions: Action[];
+  updatedOn?: Date;
 }

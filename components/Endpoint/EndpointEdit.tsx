@@ -5,13 +5,10 @@ import {
   CardActions,
   CardContent,
   Checkbox,
-  Chip,
   FormControl,
   FormControlLabel,
   Grid,
-  Input,
   InputLabel,
-  ListItemText,
   makeStyles,
   MenuItem,
   Select,
@@ -20,13 +17,13 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
 import SaveIcon from "@material-ui/icons/SaveTwoTone";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
 import Endpoint from "../../types/Endpoint";
 import Service from "../../types/Service";
-import { Autocomplete } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

@@ -20,6 +20,23 @@ export async function getServices({
   throw new Error(`Error getting Services: ${response.data}`);
 }
 
+export async function getService(
+  { apiUrl, auth }: RequestParams,
+  id: string
+): Promise<Service> {
+  console.log("getServices - auth:", auth);
+  const response: AxiosResponse = await axios.get(`/backend/services/${id}`, {
+    baseURL: apiUrl,
+    headers: { Authorization: `Bearer ${auth.accessToken}` },
+  });
+  if (response.status === 200 && response.data) {
+    if (process.env.NODE_ENV === "development")
+      console.log("getServices - Services:", response.data);
+    return response.data;
+  }
+  throw new Error(`Error getting Services: ${response.data}`);
+}
+
 export async function deleteService(
   { apiUrl, auth }: RequestParams,
   service: Service

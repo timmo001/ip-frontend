@@ -1,28 +1,29 @@
 import React, { ReactElement, useState, useMemo, Fragment } from "react";
 import dynamic from "next/dynamic";
-import { makeStyles } from "@material-ui/styles";
 import {
-  DialogContent,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Divider,
   Grid,
+  makeStyles,
   TextField,
   Theme,
-  DialogActions,
-  Button,
-  DialogTitle,
+  Typography,
 } from "@material-ui/core";
+import SaveIcon from "@material-ui/icons/SaveTwoTone";
 import YAML from "yaml";
 
 const MonacoEditor = dynamic(import("react-monaco-editor"), { ssr: false });
 
+import Action from "../../types/Action";
+import ActionView from "./Action/ActionView";
 import Service from "../../types/Service";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: theme.spacing(1),
-  },
-  textField: {
-    maxWidth: "48%",
-    margin: theme.spacing(1, 1, 2),
   },
   container: {
     padding: 0,
@@ -34,19 +35,43 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   actions: {
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
+  formControl: {
+    maxWidth: "48%",
+    margin: theme.spacing(1, 1, 2),
+  },
+  chips: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  chip: {
+    margin: 2,
+  },
+  noLabel: {
+    marginTop: theme.spacing(3),
+  },
+  buttonWithIcon: {
+    marginLeft: theme.spacing(1),
+    padding: theme.spacing(1),
+  },
+  iconOnButton: {
+    marginRight: theme.spacing(0.5),
+  },
+  flex: { flex: 1 },
 }));
-
 interface ServiceEditProps {
+  actions: ReactElement | ReactElement[];
+  handleSave: (service: Service) => Promise<void>;
+  new?: boolean;
   service: Service;
-  handleFinishedEditingService: () => void;
-  handleUpdateService: (service: Service) => Promise<void>;
 }
 
-export default function ServiceEdit(props: ServiceEditProps): ReactElement {
-  const { handleFinishedEditingService, handleUpdateService } = props;
+export default function ServiceEdit(
+  props: ServiceEditProps
+): ReactElement | null {
   const [service, setService] = useState<Service>(props.service);
+
   const config = useMemo(() => YAML.stringify(service.config), [
     service.config,
   ]);
@@ -64,78 +89,102 @@ export default function ServiceEdit(props: ServiceEditProps): ReactElement {
     } catch (e) {}
   }
 
-  function handleSave(): void {
-    if (!validationSuccess) return;
-    if (process.env.NODE_ENV === "development")
-      console.log("ServiceEdit - Save:", service);
+  const handleUpdateAction = (i: number) => (action: Action): void => {
+    service.actions[i] = action;
+    setService(service);
+  };
 
-    handleUpdateService(service);
-
-    handleFinishedEditingService();
-  }
+  if (!service) return null;
 
   const validationSuccess: boolean = useMemo(() => {
+    if (!service) return false;
     if (!service.name) return false;
     return true;
-  }, [service.name]);
+  }, [service]);
 
   const classes = useStyles();
+
   return (
     <Fragment>
-      <DialogTitle id="dialog-title">Service: {service.name}</DialogTitle>
-      <DialogContent className={classes.container}>
-        <section className={classes.content}>
-          <Grid
-            component="form"
-            container
-            direction="row"
-            alignItems="center"
-            justify="center">
-            <TextField
-              className={classes.textField}
-              fullWidth
-              label="Name"
-              margin="dense"
-              required
-              value={service.name}
-              onChange={handleTextFieldChange("name")}
-            />
-            <TextField
-              className={classes.textField}
-              fullWidth
-              label="Description"
-              margin="dense"
-              value={service.description}
-              onChange={handleTextFieldChange("description")}
-            />
+      <Card>
+        <CardContent>
+          <Typography component="h2" variant="h4" gutterBottom>
+            Service: {service.name}
+          </Typography>
+          <section className={classes.content}>
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              justify="center">
+              <TextField
+                className={classes.formControl}
+                fullWidth
+                label="Name"
+                margin="dense"
+                required
+                variant="outlined"
+                value={service.name}
+                onChange={handleTextFieldChange("name")}
+              />
+              <TextField
+                className={classes.formControl}
+                fullWidth
+                label="Description"
+                margin="dense"
+                variant="outlined"
+                value={service.description}
+                onChange={handleTextFieldChange("description")}
+              />
+            </Grid>
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              justify="center"></Grid>
+          </section>
+          <Typography component="h5" variant="h5" gutterBottom>
+            Config
+          </Typography>
+          <Divider light />
+          <MonacoEditor
+            height="240px"
+            width="100%"
+            language="yaml"
+            theme="vs-dark"
+            defaultValue={config}
+            onChange={handleConfigChange}
+          />
+          <Typography component="h5" variant="h5" gutterBottom>
+            Actions
+          </Typography>
+          <Divider light />
+          <Grid item container direction="row" justify="space-evenly">
+            {service.actions.map((action: Action, index: number) => (
+              <ActionView
+                key={index}
+                {...props}
+                action={action}
+                handleUpdateAction={handleUpdateAction(index)}
+              />
+            ))}
           </Grid>
-        </section>
-        <MonacoEditor
-          height="520px"
-          width="100%"
-          language="yaml"
-          theme="vs-dark"
-          defaultValue={config}
-          onChange={handleConfigChange}
-        />
-      </DialogContent>
-      <DialogActions className={classes.actions}>
-        <Button
-          size="medium"
-          color="primary"
-          variant="text"
-          onClick={handleFinishedEditingService}>
-          Cancel
-        </Button>
-        <Button
-          disabled={!validationSuccess}
-          size="medium"
-          color="primary"
-          variant="contained"
-          onClick={handleSave}>
-          Save
-        </Button>
-      </DialogActions>
+        </CardContent>
+        <CardActions className={classes.actions}>
+          {props.actions}
+          <Button
+            className={classes.buttonWithIcon}
+            disabled={!validationSuccess}
+            color="primary"
+            size="medium"
+            variant="contained"
+            onClick={() => props.handleSave(service)}>
+            <SaveIcon className={classes.iconOnButton} fontSize="small" />
+            {props.new ? "Create" : "Save"}
+          </Button>
+          <div className={classes.flex} />
+        </CardActions>
+      </Card>
     </Fragment>
   );
 }

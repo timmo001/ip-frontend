@@ -1,42 +1,34 @@
-import React, {
-  ReactElement,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { ReactElement, useEffect, useMemo, useState } from "react";
 import { GetStaticProps } from "next";
-import {
-  Container,
-  Dialog,
-  Fab,
-  Grid,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import Link from "next/link";
+import moment from "moment";
+import { Button, Card, Container, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/EditTwoTone";
+import {
+  ColDef,
+  DataGrid,
+  RowsProp,
+  SortDirection,
+  SortModel,
+  ValueFormatterParams,
+} from "@material-ui/data-grid";
 
+import { getServices } from "../../lib/data/services";
+import Action from "../../types/Action";
 import ApiAuthorization from "../../types/ApiAuthorization";
+import Condition from "../../types/Condition";
+import CustomPagination from "../../components/DataGrid/CustomPagination";
 import Layout from "../../components/Layout";
 import Message from "../../types/Message";
 import Service from "../../types/Service";
-import ServiceEdit from "../../components/Service/ServiceEdit";
-import {
-  createService,
-  deleteService,
-  getServices,
-  triggerService,
-  updateService,
-} from "../../lib/data/services";
-import ServiceView from "../../components/Service/ServiceView";
 import User from "../../types/User";
 import useStyles from "../../assets/jss/components/layout";
 
 function Services(): ReactElement {
-  const [addService, setAddService] = useState<boolean>(false);
   const [auth, setAuth] = useState<ApiAuthorization>();
-  const [message, setMessage] = useState<Message>();
   const [services, setServices] = useState<Service[]>();
+  const [message, setMessage] = useState<Message>();
   const [user, setUser] = useState<User>();
 
   const apiUrl: string = useMemo(
@@ -58,100 +50,117 @@ function Services(): ReactElement {
     }
   }
 
-  const handleDeleteService = useCallback(
-    (i: number) => async (): Promise<void> => {
-      try {
-        const service = services[i];
-        await deleteService({ apiUrl, auth }, service);
-        services.splice(i, 1);
-        setServices(services);
-        setMessage({
-          severity: "success",
-          text: `Deleted Service: ${service.name}`,
-        });
-      } catch (e) {
-        setMessage({
-          severity: "error",
-          text: e.message,
-        });
-      }
-    },
-    [services]
-  );
-
-  const handleCreateService = useCallback(
-    async (service: Service): Promise<void> => {
-      try {
-        services.push(await createService({ apiUrl, auth }, service));
-        setServices(services);
-        setMessage({
-          severity: "success",
-          text: `Updated Service: ${service.name}`,
-        });
-      } catch (e) {
-        setMessage({
-          severity: "error",
-          text: e.message,
-        });
-      }
-    },
-    [services]
-  );
-
-  const handleUpdateService = useCallback(
-    (i: number) => async (service: Service): Promise<void> => {
-      try {
-        if (services)
-          services[i] = await updateService({ apiUrl, auth }, service);
-        setServices(services);
-        setMessage({
-          severity: "success",
-          text: `Updated Service: ${service.name}`,
-        });
-      } catch (e) {
-        setMessage({
-          severity: "error",
-          text: e.message,
-        });
-      }
-    },
-    [services]
-  );
-
-  const handleTriggerService = useCallback(
-    (i: number) => async (): Promise<void> => {
-      try {
-        const service = services[i];
-        await triggerService({ apiUrl, auth }, service);
-        setMessage({
-          severity: "success",
-          text: `Event triggered for Service: ${service.name}`,
-        });
-      } catch (e) {
-        setMessage({
-          severity: "error",
-          text: e.message,
-        });
-      }
-    },
-    [services]
-  );
-
-  function handleAddService(): void {
-    setAddService(true);
-  }
-
-  function handleFinishedAddingService(): void {
-    setAddService(false);
-  }
-
   useEffect(() => {
-    if (auth && !services) handleGetServices();
+    if (auth) if (!services) handleGetServices();
   }, [auth, services, handleGetServices]);
 
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const classes = useStyles();
+
+  const sortModel: SortModel = useMemo(
+    () => [
+      {
+        field: "name",
+        sort: "asc" as SortDirection,
+      },
+    ],
+    []
+  );
+
+  const columns: ColDef[] = useMemo(
+    () => [
+      {
+        field: "dbId",
+        headerName: "ID",
+        type: "string",
+        width: 300,
+      },
+      {
+        field: "name",
+        headerName: "Name",
+        type: "string",
+        width: 340,
+      },
+      {
+        field: "description",
+        headerName: "Description",
+        type: "string",
+        width: 620,
+      },
+      {
+        field: "conditions",
+        headerName: "Conditions",
+        type: "string",
+        valueFormatter: (params: ValueFormatterParams) =>
+          (params.value as Condition[]).length || "0",
+        width: 160,
+      },
+      {
+        field: "actions",
+        headerName: "Actions",
+        type: "string",
+        valueFormatter: (params: ValueFormatterParams) =>
+          (params.value as Action[]).length,
+        width: 160,
+      },
+      {
+        field: "updatedOn",
+        headerName: "Last Updated",
+        type: "dateTime",
+        valueFormatter: (params: ValueFormatterParams) =>
+          moment(params.value as string)
+            .locale(window.navigator.language)
+            .format("L HH:mm"),
+        width: 145,
+      },
+      {
+        disableSorting: true,
+        field: "",
+        renderCell: (params: ValueFormatterParams) => (
+          <Link href={`/services/edit?id=${params.getValue("dbId") as string}`}>
+            <Button
+              className={classes.buttonWithIcon}
+              color="primary"
+              size="small"
+              variant="text">
+              <EditIcon className={classes.iconOnButton} fontSize="small" />
+              Edit
+            </Button>
+          </Link>
+        ),
+        width: 100,
+      },
+    ],
+    []
+  );
+
+  const rows: RowsProp = useMemo(
+    () =>
+      services
+        ? services.map(
+            (
+              {
+                id,
+                name,
+                description,
+                conditions,
+                actions,
+                updatedOn,
+              }: Service,
+              index: number
+            ) => ({
+              id: index,
+              dbId: id,
+              name,
+              description,
+              conditions,
+              actions,
+              updatedOn,
+            })
+          )
+        : [],
+    [services, services]
+  );
+
   return (
     <Layout
       apiUrl={apiUrl}
@@ -166,42 +175,38 @@ function Services(): ReactElement {
       url="https://upaas.timmo.dev"
       user={user}>
       <Container className={classes.main} component="article" maxWidth="xl">
-        <Grid container direction="row">
-          {services
-            ? services.map((service: Service, index: number) => (
-                <ServiceView
-                  key={index}
-                  service={service}
-                  handleDeleteService={handleDeleteService(index)}
-                  handleTriggerService={handleTriggerService(index)}
-                  handleUpdateService={handleUpdateService(index)}
-                />
-              ))
-            : ""}
-          <Fab
-            className={classes.fab}
-            color="primary"
-            aria-label="add"
-            onClick={handleAddService}>
-            <AddIcon />
-          </Fab>
-          <Dialog
-            open={addService}
-            fullScreen={fullScreen}
-            fullWidth
-            maxWidth="lg"
-            aria-labelledby="dialog-title">
-            {addService ? (
-              <ServiceEdit
-                service={{ id: "", name: "", conditions: [], actions: [] }}
-                handleUpdateService={handleCreateService}
-                handleFinishedEditingService={handleFinishedAddingService}
-              />
-            ) : (
-              ""
-            )}
-          </Dialog>
+        <Grid
+          className={classes.header}
+          container
+          direction="row"
+          alignItems="flex-start"
+          justify="center">
+          <Link href="/services/new">
+            <Button
+              className={classes.buttonWithIcon}
+              color="primary"
+              size="medium"
+              variant="contained">
+              <AddIcon className={classes.iconOnButton} />
+              Add Service
+            </Button>
+          </Link>
         </Grid>
+        <Card style={{ height: 720 }}>
+          <div style={{ display: "flex", height: "100%" }}>
+            <div style={{ flexGrow: 1 }}>
+              <DataGrid
+                columns={columns}
+                components={{
+                  pagination: CustomPagination,
+                }}
+                disableSelectionOnClick
+                rows={rows}
+                sortModel={sortModel}
+              />
+            </div>
+          </div>
+        </Card>
       </Container>
     </Layout>
   );

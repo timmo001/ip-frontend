@@ -109,6 +109,7 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
               label="Description"
               margin="dense"
               required
+              variant="outlined"
               value={action.description}
               onChange={handleTextFieldChange("description")}
             />
@@ -118,6 +119,7 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
               fullWidth
               label="Requires"
               margin="dense"
+              variant="outlined"
               value={action.requires}
               onChange={handleTextFieldChange("requires")}
             />
@@ -128,6 +130,7 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
               label="Plugin"
               margin="dense"
               required
+              variant="outlined"
               value={action.service.plugin}
               onChange={handleServiceDefinitionChange("plugin")}
             />
@@ -138,6 +141,7 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
               label="Service"
               margin="dense"
               required
+              variant="outlined"
               value={action.service.service}
               onChange={handleServiceDefinitionChange("service")}
             />
