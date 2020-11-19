@@ -93,7 +93,7 @@ function Events(): ReactElement {
         field: "message",
         headerName: "Message",
         type: "message",
-        width: 200,
+        width: 320,
       },
       {
         field: "updatedOn",
@@ -124,23 +124,6 @@ function Events(): ReactElement {
             .locale(window.navigator.language)
             .format("L HH:mm"),
         width: 145,
-      },
-      {
-        disableSorting: true,
-        field: "",
-        renderCell: (params: ValueFormatterParams) => (
-          <Link href={`/events/logs?id=${params.getValue("dbId") as string}`}>
-            <Button
-              className={classes.buttonWithIcon}
-              color="primary"
-              size="small"
-              variant="text">
-              <LogIcon className={classes.iconOnButton} fontSize="small" />
-              Logs
-            </Button>
-          </Link>
-        ),
-        width: 100,
       },
     ],
     []

@@ -14,7 +14,7 @@ export async function getServices({
   });
   if (response.status === 200 && response.data) {
     if (process.env.NODE_ENV === "development")
-      console.log("getServices - Services:", response.data);
+      console.log("Services:", response.data);
     return response.data;
   }
   throw new Error(`Error getting Services: ${JSON.stringify(response.data)}`);
@@ -31,7 +31,7 @@ export async function getService(
   });
   if (response.status === 200 && response.data) {
     if (process.env.NODE_ENV === "development")
-      console.log("getServices - Services:", response.data);
+      console.log("Service:", response.data);
     return response.data;
   }
   throw new Error(`Error getting Services: ${JSON.stringify(response.data)}`);
@@ -70,7 +70,7 @@ export async function createService(
   );
   if (response.status === 201 && response.data) {
     if (process.env.NODE_ENV === "development")
-      console.log("Services:", response.data);
+      console.log("Create Service Result:", response.data);
     service.id = response.data.id;
     return service;
   }
@@ -91,7 +91,7 @@ export async function updateService(
   );
   if (response.status === 200 && response.data) {
     if (process.env.NODE_ENV === "development")
-      console.log("Services:", response.data);
+      console.log("Update Service Result:", response.data);
     return service;
   }
   throw new Error(`Error updating Service: ${JSON.stringify(response.data)}`);
@@ -102,8 +102,8 @@ export async function triggerService(
   service: Service
 ): Promise<void> {
   const response: AxiosResponse = await axios.post(
-    `/backend/events`,
-    { type: "service", serviceKey: service.id },
+    `/backend/events/${service.id}/trigger`,
+    undefined,
     {
       baseURL: apiUrl,
       headers: { Authorization: `Bearer ${auth.accessToken}` },
@@ -111,7 +111,7 @@ export async function triggerService(
   );
   if (response.status === 201 && response.data) {
     if (process.env.NODE_ENV === "development")
-      console.log("Services:", response.data);
+      console.log("Trigger Service Result:", response.data);
     return;
   }
   throw new Error(`Error triggering Event: ${JSON.stringify(response.data)}`);
