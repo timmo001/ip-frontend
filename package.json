@@ -26,7 +26,7 @@
     "react-moment": "1.0.0",
     "react-monaco-editor": "0.40.0",
     "react-syntax-highlighter": "15.3.0",
-    "socket.io-client": "3.0.2",
+    "socket.io-client": "3.0.3",
     "yaml": "1.10.0"
   },
   "license": "MIT",
