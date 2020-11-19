@@ -45,24 +45,20 @@ function ServiceNew(): ReactElement {
     }
   }
 
-  const handleCreateService = useCallback(async (service: Service): Promise<
-    void
-  > => {
-    try {
-      console.log({ apiUrl, auth }, service);
-      await createService({ apiUrl, auth }, service);
-      // setMessage({
-      //   severity: "success",
-      //   text: `Updated Service: ${service.name}`,
-      // });
-      window.location.assign("/services");
-    } catch (e) {
-      setMessage({
-        severity: "error",
-        text: e.message,
-      });
-    }
-  }, []);
+  const handleCreateService = useCallback(
+    async (service: Service): Promise<void> => {
+      try {
+        await createService({ apiUrl, auth }, service);
+        window.location.assign("/services");
+      } catch (e) {
+        setMessage({
+          severity: "error",
+          text: e.message,
+        });
+      }
+    },
+    [apiUrl, auth]
+  );
 
   useEffect(() => {
     if (auth) {

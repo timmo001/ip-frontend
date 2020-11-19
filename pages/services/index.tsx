@@ -99,7 +99,7 @@ function Services(): ReactElement {
         headerName: "Actions",
         type: "string",
         valueFormatter: (params: ValueFormatterParams) =>
-          (params.value as Action[]).length,
+          (params.value as Condition[]).length || "0",
         width: 160,
       },
       {

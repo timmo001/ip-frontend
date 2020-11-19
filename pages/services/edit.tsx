@@ -67,7 +67,7 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
         text: e.message,
       });
     }
-  }, [service]);
+  }, [apiUrl, auth, service]);
 
   const handleUpdateService = useCallback(
     async (service: Service): Promise<void> => {
@@ -81,7 +81,7 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
         });
       }
     },
-    [service]
+    [apiUrl, auth, service]
   );
 
   const handleTriggerService = useCallback(async (): Promise<void> => {
@@ -93,7 +93,7 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
         text: e.message,
       });
     }
-  }, [service]);
+  }, [apiUrl, auth, service]);
 
   function handleDeleteConfirm(): void {
     setDeleteConfirm(true);

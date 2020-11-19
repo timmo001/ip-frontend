@@ -79,7 +79,7 @@ function EndpointEdit(props: EndpointEditProps): ReactElement {
         text: e.message,
       });
     }
-  }, [endpoint]);
+  }, [apiUrl, auth, endpoint]);
 
   const handleUpdateEndpoint = useCallback(
     async (endpoint: Endpoint): Promise<void> => {
@@ -93,7 +93,7 @@ function EndpointEdit(props: EndpointEditProps): ReactElement {
         });
       }
     },
-    [endpoint]
+    [apiUrl, auth, endpoint]
   );
 
   function handleDeleteConfirm(): void {

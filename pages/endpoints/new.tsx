@@ -16,6 +16,7 @@ import ApiAuthorization from "../../types/ApiAuthorization";
 import Endpoint from "../../types/Endpoint";
 import EndpointEditView from "../../components/Endpoint/EndpointEdit";
 import Layout from "../../components/Layout";
+import Loading from "../../components/Shared/Loading";
 import Message from "../../types/Message";
 import Service from "../../types/Service";
 import User from "../../types/User";
@@ -46,24 +47,20 @@ function EndpointNew(): ReactElement {
     }
   }
 
-  const handleCreateEndpoint = useCallback(async (endpoint: Endpoint): Promise<
-    void
-  > => {
-    try {
-      console.log({ apiUrl, auth }, endpoint);
-      await createEndpoint({ apiUrl, auth }, endpoint);
-      // setMessage({
-      //   severity: "success",
-      //   text: `Updated Endpoint: ${endpoint.name}`,
-      // });
-      window.location.assign("/endpoints");
-    } catch (e) {
-      setMessage({
-        severity: "error",
-        text: e.message,
-      });
-    }
-  }, []);
+  const handleCreateEndpoint = useCallback(
+    async (endpoint: Endpoint): Promise<void> => {
+      try {
+        await createEndpoint({ apiUrl, auth }, endpoint);
+        window.location.assign("/endpoints");
+      } catch (e) {
+        setMessage({
+          severity: "error",
+          text: e.message,
+        });
+      }
+    },
+    [apiUrl, auth]
+  );
 
   useEffect(() => {
     if (auth) {
@@ -86,41 +83,45 @@ function EndpointNew(): ReactElement {
       title="Endpoints"
       url="https://upaas.timmo.dev"
       user={user}>
-      <Container className={classes.main} component="article" maxWidth="xl">
-        <EndpointEditView
-          actions={
-            <Fragment>
-              <Link href="/endpoints">
-                <Button
-                  className={classes.buttonWithIcon}
-                  color="primary"
-                  size="medium"
-                  style={{ marginLeft: 0 }}
-                  variant="contained">
-                  <DeleteIcon
-                    className={classes.iconOnButton}
-                    fontSize="small"
-                  />
-                  Cancel
-                </Button>
-              </Link>
-            </Fragment>
-          }
-          endpoint={{
-            id: "",
-            endpoint: "",
-            service: "",
-            name: "",
-            resultOnly: true,
-            logLevel: "info",
-            supportedMethods: "",
-            published: false,
-          }}
-          handleSave={handleCreateEndpoint}
-          new
-          services={services}
-        />
-      </Container>
+      {!services ? (
+        <Loading text="Loading Data.." />
+      ) : (
+        <Container className={classes.main} component="article" maxWidth="xl">
+          <EndpointEditView
+            actions={
+              <Fragment>
+                <Link href="/endpoints">
+                  <Button
+                    className={classes.buttonWithIcon}
+                    color="primary"
+                    size="medium"
+                    style={{ marginLeft: 0 }}
+                    variant="contained">
+                    <DeleteIcon
+                      className={classes.iconOnButton}
+                      fontSize="small"
+                    />
+                    Cancel
+                  </Button>
+                </Link>
+              </Fragment>
+            }
+            endpoint={{
+              id: "",
+              endpoint: "",
+              service: "",
+              name: "",
+              resultOnly: true,
+              logLevel: "info",
+              supportedMethods: "",
+              published: false,
+            }}
+            handleSave={handleCreateEndpoint}
+            new
+            services={services}
+          />
+        </Container>
+      )}
     </Layout>
   );
 }
