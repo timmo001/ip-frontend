@@ -52,7 +52,7 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
     } catch (e) {
       setMessage({
         severity: "error",
-        text: e.message,
+        text: JSON.stringify(e.message),
       });
     }
   }
@@ -64,7 +64,7 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
     } catch (e) {
       setMessage({
         severity: "error",
-        text: e.message,
+        text: JSON.stringify(e.message),
       });
     }
   }, [apiUrl, auth, service]);
@@ -77,7 +77,7 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
       } catch (e) {
         setMessage({
           severity: "error",
-          text: e.message,
+          text: JSON.stringify(e.message),
         });
       }
     },
@@ -90,7 +90,7 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
     } catch (e) {
       setMessage({
         severity: "error",
-        text: e.message,
+        text: JSON.stringify(e.message),
       });
     }
   }, [apiUrl, auth, service]);

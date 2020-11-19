@@ -42,7 +42,7 @@ function EndpointNew(): ReactElement {
     } catch (e) {
       setMessage({
         severity: "error",
-        text: e.message,
+        text: JSON.stringify(e.message),
       });
     }
   }
@@ -55,7 +55,7 @@ function EndpointNew(): ReactElement {
       } catch (e) {
         setMessage({
           severity: "error",
-          text: e.message,
+          text: JSON.stringify(e.message),
         });
       }
     },

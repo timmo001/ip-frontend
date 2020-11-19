@@ -40,7 +40,7 @@ function ServiceNew(): ReactElement {
     } catch (e) {
       setMessage({
         severity: "error",
-        text: e.message,
+        text: JSON.stringify(e.message),
       });
     }
   }
@@ -53,7 +53,7 @@ function ServiceNew(): ReactElement {
       } catch (e) {
         setMessage({
           severity: "error",
-          text: e.message,
+          text: JSON.stringify(e.message),
         });
       }
     },

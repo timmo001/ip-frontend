@@ -53,7 +53,7 @@ function EndpointEdit(props: EndpointEditProps): ReactElement {
     } catch (e) {
       setMessage({
         severity: "error",
-        text: e.message,
+        text: JSON.stringify(e.message),
       });
     }
   }
@@ -64,7 +64,7 @@ function EndpointEdit(props: EndpointEditProps): ReactElement {
     } catch (e) {
       setMessage({
         severity: "error",
-        text: e.message,
+        text: JSON.stringify(e.message),
       });
     }
   }
@@ -76,7 +76,7 @@ function EndpointEdit(props: EndpointEditProps): ReactElement {
     } catch (e) {
       setMessage({
         severity: "error",
-        text: e.message,
+        text: JSON.stringify(e.message),
       });
     }
   }, [apiUrl, auth, endpoint]);

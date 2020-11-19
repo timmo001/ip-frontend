@@ -16,7 +16,7 @@ export async function getEndpoints({
       console.log("getEndpoints - Endpoints:", response.data);
     return response.data;
   }
-  throw new Error(`Error getting Endpoints: ${response.data}`);
+  throw new Error(`Error getting Endpoints: ${JSON.stringify(response.data)}`);
 }
 
 export async function getEndpoint(
@@ -32,7 +32,7 @@ export async function getEndpoint(
       console.log("getEndpoint - Endpoint:", response.data);
     return response.data;
   }
-  throw new Error(`Error getting Endpoint: ${response.data}`);
+  throw new Error(`Error getting Endpoint: ${JSON.stringify(response.data)}`);
 }
 
 export async function deleteEndpoint(
@@ -51,7 +51,7 @@ export async function deleteEndpoint(
       console.log("Deleted:", endpoint);
     return;
   }
-  throw new Error(`Error deleting Endpoint: ${response.data}`);
+  throw new Error(`Error deleting Endpoint: ${JSON.stringify(response.data)}`);
 }
 
 export async function createEndpoint(
@@ -73,7 +73,7 @@ export async function createEndpoint(
     endpoint.id = response.data.id;
     return endpoint;
   }
-  throw new Error(`Error creating Endpoint: ${response.data}`);
+  throw new Error(`Error creating Endpoint: ${JSON.stringify(response.data)}`);
 }
 
 export async function updateEndpoint(
@@ -93,7 +93,7 @@ export async function updateEndpoint(
       console.log("Endpoints:", response.data);
     return endpoint;
   }
-  throw new Error(`Error updating Endpoint: ${response.data}`);
+  throw new Error(`Error updating Endpoint: ${JSON.stringify(response.data)}`);
 }
 
 export async function triggerEndpoint(
@@ -112,5 +112,5 @@ export async function triggerEndpoint(
     if (process.env.NODE_ENV === "development")
       console.log("Endpoints:", response.data);
   }
-  throw new Error(`Error triggering Event: ${response.data}`);
+  throw new Error(`Error triggering Event: ${JSON.stringify(response.data)}`);
 }

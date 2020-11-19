@@ -17,7 +17,7 @@ export async function getServices({
       console.log("getServices - Services:", response.data);
     return response.data;
   }
-  throw new Error(`Error getting Services: ${response.data}`);
+  throw new Error(`Error getting Services: ${JSON.stringify(response.data)}`);
 }
 
 export async function getService(
@@ -34,7 +34,7 @@ export async function getService(
       console.log("getServices - Services:", response.data);
     return response.data;
   }
-  throw new Error(`Error getting Services: ${response.data}`);
+  throw new Error(`Error getting Services: ${JSON.stringify(response.data)}`);
 }
 
 export async function deleteService(
@@ -51,8 +51,9 @@ export async function deleteService(
   if (response.status === 200 && response.data) {
     if (process.env.NODE_ENV === "development")
       console.log("Deleted:", service);
+    return;
   }
-  throw new Error(`Error deleting Service: ${response.data}`);
+  throw new Error(`Error deleting Service: ${JSON.stringify(response.data)}`);
 }
 
 export async function createService(
@@ -73,7 +74,7 @@ export async function createService(
     service.id = response.data.id;
     return service;
   }
-  throw new Error(`Error creating Service: ${response.data}`);
+  throw new Error(`Error creating Service: ${JSON.stringify(response.data)}`);
 }
 
 export async function updateService(
@@ -93,7 +94,7 @@ export async function updateService(
       console.log("Services:", response.data);
     return service;
   }
-  throw new Error(`Error updating Service: ${response.data}`);
+  throw new Error(`Error updating Service: ${JSON.stringify(response.data)}`);
 }
 
 export async function triggerService(
@@ -111,6 +112,7 @@ export async function triggerService(
   if (response.status === 201 && response.data) {
     if (process.env.NODE_ENV === "development")
       console.log("Services:", response.data);
+    return;
   }
-  throw new Error(`Error triggering Event: ${response.data}`);
+  throw new Error(`Error triggering Event: ${JSON.stringify(response.data)}`);
 }
