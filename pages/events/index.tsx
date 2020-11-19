@@ -126,7 +126,7 @@ function Events(): ReactElement {
         width: 145,
       },
     ],
-    []
+    [events]
   );
 
   const rows: RowsProp = useMemo(

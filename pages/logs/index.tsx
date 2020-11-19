@@ -66,16 +66,20 @@ function Logs(): ReactElement {
   const columns: ColDef[] = useMemo(
     () => [
       {
-        field: "dbId",
-        headerName: "ID",
-        type: "string",
-        width: 310,
+        field: "createdOn",
+        headerName: "Created On",
+        type: "dateTime",
+        valueFormatter: (params: ValueFormatterParams) =>
+          moment(params.value as string)
+            .locale(window.navigator.language)
+            .format("L HH:mm"),
+        width: 145,
       },
       {
         field: "text",
         headerName: "Text",
         type: "string",
-        width: 1020,
+        width: 1340,
       },
       {
         field: "level",
@@ -89,52 +93,20 @@ function Logs(): ReactElement {
         type: "string",
         width: 240,
       },
-      {
-        field: "createdOn",
-        headerName: "Created On",
-        type: "dateTime",
-        valueFormatter: (params: ValueFormatterParams) =>
-          moment(params.value as string)
-            .locale(window.navigator.language)
-            .format("L HH:mm"),
-        width: 145,
-      },
-      // {
-      //   disableSorting: true,
-      //   field: "",
-      //   renderCell: (params: ValueFormatterParams) => (
-      //     <Link href={`/logs/log?id=${params.getValue("dbId") as string}`}>
-      //       <Button
-      //         className={classes.buttonWithIcon}
-      //         color="primary"
-      //         size="small"
-      //         variant="text">
-      //         <LogIcon className={classes.iconOnButton} fontSize="small" />
-      //         Logs
-      //       </Button>
-      //     </Link>
-      //   ),
-      //   width: 100,
-      // },
     ],
-    []
+    [logs]
   );
 
   const rows: RowsProp = useMemo(
     () =>
       logs
         ? logs.map(
-            (
-              { id, text, level, type, event, createdOn }: Log,
-              index: number
-            ) => ({
+            ({ text, level, type, createdOn }: Log, index: number) => ({
               id: index,
-              dbId: id,
+              createdOn,
               text,
               level,
               type,
-              event,
-              createdOn,
             })
           )
         : [],
