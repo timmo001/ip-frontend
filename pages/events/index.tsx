@@ -1,6 +1,5 @@
 import React, { ReactElement, useEffect, useMemo, useState } from "react";
 import { GetStaticProps } from "next";
-import Link from "next/link";
 import moment from "moment";
 import { Button, Card, Container } from "@material-ui/core";
 import LogIcon from "@material-ui/icons/TextFieldsTwoTone";
@@ -13,18 +12,19 @@ import {
   ValueFormatterParams,
 } from "@material-ui/data-grid";
 
-import { getLogs } from "../../lib/data/logs";
+import { getEvents } from "../../lib/data/events";
 import ApiAuthorization from "../../types/ApiAuthorization";
 import Layout from "../../components/Layout";
-import Log from "../../types/Log";
+import Event from "../../types/Event";
 import Message from "../../types/Message";
 import User from "../../types/User";
 import useStyles from "../../assets/jss/components/layout";
+import Link from "next/link";
 import CustomPagination from "../../components/DataGrid/CustomPagination";
 
-function Logs(): ReactElement {
+function Events(): ReactElement {
   const [auth, setAuth] = useState<ApiAuthorization>();
-  const [logs, setLogs] = useState<Log[]>();
+  const [events, setEvents] = useState<Event[]>();
   const [message, setMessage] = useState<Message>();
   const [user, setUser] = useState<User>();
 
@@ -36,9 +36,9 @@ function Logs(): ReactElement {
     []
   );
 
-  async function handleGetLogs(): Promise<void> {
+  async function handleGetEvents(): Promise<void> {
     try {
-      setLogs(await getLogs({ apiUrl, auth }));
+      setEvents(await getEvents({ apiUrl, auth }));
     } catch (e) {
       setMessage({
         severity: "error",
@@ -48,15 +48,15 @@ function Logs(): ReactElement {
   }
 
   useEffect(() => {
-    if (auth && !logs) handleGetLogs();
-  }, [auth, logs]);
+    if (auth && !events) handleGetEvents();
+  }, [auth, events]);
 
   const classes = useStyles();
 
   const sortModel: SortModel = useMemo(
     () => [
       {
-        field: "createdOn",
+        field: "updatedOn",
         sort: "desc" as SortDirection,
       },
     ],
@@ -72,26 +72,32 @@ function Logs(): ReactElement {
         width: 310,
       },
       {
-        field: "text",
-        headerName: "Text",
+        field: "service",
+        headerName: "Service",
         type: "string",
-        width: 1020,
+        width: 300,
       },
       {
-        field: "level",
-        headerName: "Level",
+        field: "endpoint",
+        headerName: "Endpoint",
         type: "string",
-        width: 120,
+        width: 300,
       },
       {
-        field: "type",
-        headerName: "Type",
+        field: "status",
+        headerName: "Status",
         type: "string",
-        width: 240,
+        width: 180,
       },
       {
-        field: "createdOn",
-        headerName: "Created On",
+        field: "message",
+        headerName: "Message",
+        type: "message",
+        width: 200,
+      },
+      {
+        field: "updatedOn",
+        headerName: "Last Updated",
         type: "dateTime",
         valueFormatter: (params: ValueFormatterParams) =>
           moment(params.value as string)
@@ -99,46 +105,77 @@ function Logs(): ReactElement {
             .format("L HH:mm"),
         width: 145,
       },
-      // {
-      //   disableSorting: true,
-      //   field: "",
-      //   renderCell: (params: ValueFormatterParams) => (
-      //     <Link href={`/logs/log?id=${params.getValue("dbId") as string}`}>
-      //       <Button
-      //         className={classes.buttonWithIcon}
-      //         color="primary"
-      //         size="small"
-      //         variant="text">
-      //         <LogIcon className={classes.iconOnButton} fontSize="small" />
-      //         Logs
-      //       </Button>
-      //     </Link>
-      //   ),
-      //   width: 100,
-      // },
+      {
+        field: "startedOn",
+        headerName: "Started On",
+        type: "dateTime",
+        valueFormatter: (params: ValueFormatterParams) =>
+          moment(params.value as string)
+            .locale(window.navigator.language)
+            .format("L HH:mm"),
+        width: 145,
+      },
+      {
+        field: "completedOn",
+        headerName: "Completed On",
+        type: "dateTime",
+        valueFormatter: (params: ValueFormatterParams) =>
+          moment(params.value as string)
+            .locale(window.navigator.language)
+            .format("L HH:mm"),
+        width: 145,
+      },
+      {
+        disableSorting: true,
+        field: "",
+        renderCell: (params: ValueFormatterParams) => (
+          <Link href={`/events/logs?id=${params.getValue("dbId") as string}`}>
+            <Button
+              className={classes.buttonWithIcon}
+              color="primary"
+              size="small"
+              variant="text">
+              <LogIcon className={classes.iconOnButton} fontSize="small" />
+              Logs
+            </Button>
+          </Link>
+        ),
+        width: 100,
+      },
     ],
     []
   );
 
   const rows: RowsProp = useMemo(
     () =>
-      logs
-        ? logs.map(
+      events
+        ? events.map(
             (
-              { id, text, level, type, event, createdOn }: Log,
+              {
+                id,
+                service,
+                endpoint,
+                status,
+                createdOn,
+                updatedOn,
+                completedOn,
+                message,
+              }: Event,
               index: number
             ) => ({
               id: index,
               dbId: id,
-              text,
-              level,
-              type,
-              event,
+              service,
+              endpoint,
+              status,
               createdOn,
+              updatedOn,
+              completedOn,
+              message,
             })
           )
         : [],
-    [logs]
+    [events]
   );
 
   return (
@@ -151,7 +188,7 @@ function Logs(): ReactElement {
       setAuth={setAuth}
       setMessage={setMessage}
       setUser={setUser}
-      title="Logs"
+      title="Events"
       url="https://upaas.timmo.dev"
       user={user}>
       <Container className={classes.main} component="article" maxWidth="xl">
@@ -182,4 +219,4 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-export default Logs;
+export default Events;

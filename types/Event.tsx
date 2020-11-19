@@ -1,4 +1,10 @@
 export default interface Event {
-  serviceKey: string;
-  type: 'service';
+  id: string;
+  service: string;
+  endpoint: string;
+  status: string;
+  createdOn?: Date;
+  updatedOn?: Date;
+  completedOn?: Date;
+  message?: string;
 }

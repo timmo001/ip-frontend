@@ -19,6 +19,7 @@ import Icon from "@mdi/react";
 import {
   mdiCloudOutline,
   mdiCogOutline,
+  mdiExclamation,
   mdiLogoutVariant,
   mdiScriptTextOutline,
   mdiTextBoxOutline,
@@ -99,6 +100,19 @@ function HeaderLinks(props: HeaderLinksProps): ReactElement {
           </Link>
         </ListItem>
         <ListItem className={clsx(classes.listItem, classes.divider)} />
+        <ListItem className={classes.listItem}>
+          <Link href="/events">
+            <Button variant="text" className={classes.navLink}>
+              <Icon
+                className={classes.icon}
+                color={theme.palette.text.primary}
+                path={mdiExclamation}
+                size={1}
+              />
+              <span className={classes.listItemText}>Events</span>
+            </Button>
+          </Link>
+        </ListItem>
         <ListItem className={classes.listItem}>
           <Link href="/logs">
             <Button variant="text" className={classes.navLink}>
