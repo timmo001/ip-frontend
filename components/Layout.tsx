@@ -157,7 +157,7 @@ function Layout(props: LayoutProps): ReactElement {
   return (
     <>
       <Head>
-        <title>{props.title ? `${props.title} - UPAAS` : `UPAAS`}</title>
+        <title>{props.title ? `${props.title} - UPaaS` : `UPaaS`}</title>
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -185,8 +185,8 @@ function Layout(props: LayoutProps): ReactElement {
             props.description
               ? `${props.description}`
               : props.title
-              ? `${props.title} - UPAAS`
-              : `UPAAS`
+              ? `${props.title} - UPaaS`
+              : `UPaaS`
           }
         />
         <meta
@@ -210,7 +210,7 @@ function Layout(props: LayoutProps): ReactElement {
           <Fragment>
             <Header
               {...props}
-              brand="UPAAS"
+              brand="UPaaS"
               changeColorOnScroll={{
                 height: 200,
                 color: "primary",
