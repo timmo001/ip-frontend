@@ -15,7 +15,6 @@ import {
 } from "@material-ui/data-grid";
 
 import { getServices } from "../../lib/data/services";
-import Action from "../../types/Action";
 import ApiAuthorization from "../../types/ApiAuthorization";
 import Condition from "../../types/Condition";
 import CustomPagination from "../../components/DataGrid/CustomPagination";
@@ -182,7 +181,7 @@ function Services(): ReactElement {
           alignItems="flex-start"
           justify="center">
           <Link href="/services/new">
-            <Button
+          <Button
               className={classes.buttonWithIcon}
               color="primary"
               size="medium"

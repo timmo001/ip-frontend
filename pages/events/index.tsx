@@ -1,8 +1,8 @@
 import React, { ReactElement, useEffect, useMemo, useState } from "react";
 import { GetStaticProps } from "next";
 import moment from "moment";
-import { Button, Card, Container } from "@material-ui/core";
-import LogIcon from "@material-ui/icons/TextFieldsTwoTone";
+import { Button, Card, Container, Grid } from "@material-ui/core";
+import RefreshIcon from "@material-ui/icons/RefreshTwoTone";
 import {
   ColDef,
   DataGrid,
@@ -14,13 +14,12 @@ import {
 
 import { getEvents } from "../../lib/data/events";
 import ApiAuthorization from "../../types/ApiAuthorization";
-import Layout from "../../components/Layout";
+import CustomPagination from "../../components/DataGrid/CustomPagination";
 import Event from "../../types/Event";
+import Layout from "../../components/Layout";
 import Message from "../../types/Message";
 import User from "../../types/User";
 import useStyles from "../../assets/jss/components/layout";
-import Link from "next/link";
-import CustomPagination from "../../components/DataGrid/CustomPagination";
 
 function Events(): ReactElement {
   const [auth, setAuth] = useState<ApiAuthorization>();
@@ -175,6 +174,22 @@ function Events(): ReactElement {
       url="https://upaas.timmo.dev"
       user={user}>
       <Container className={classes.main} component="article" maxWidth="xl">
+        <Grid
+          className={classes.header}
+          container
+          direction="row"
+          alignItems="flex-start"
+          justify="center">
+          <Button
+            className={classes.buttonWithIcon}
+            color="primary"
+            size="medium"
+            variant="contained"
+            onClick={handleGetEvents}>
+            <RefreshIcon className={classes.iconOnButton} />
+            Refresh
+          </Button>
+        </Grid>
         <Card style={{ height: 720 }}>
           <div style={{ display: "flex", height: "100%" }}>
             <div style={{ flexGrow: 1 }}>

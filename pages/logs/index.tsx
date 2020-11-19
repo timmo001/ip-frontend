@@ -1,9 +1,8 @@
 import React, { ReactElement, useEffect, useMemo, useState } from "react";
 import { GetStaticProps } from "next";
-import Link from "next/link";
 import moment from "moment";
-import { Button, Card, Container } from "@material-ui/core";
-import LogIcon from "@material-ui/icons/TextFieldsTwoTone";
+import { Button, Card, Container, Grid } from "@material-ui/core";
+import RefreshIcon from "@material-ui/icons/RefreshTwoTone";
 import {
   ColDef,
   DataGrid,
@@ -100,15 +99,13 @@ function Logs(): ReactElement {
   const rows: RowsProp = useMemo(
     () =>
       logs
-        ? logs.map(
-            ({ text, level, type, createdOn }: Log, index: number) => ({
-              id: index,
-              createdOn,
-              text,
-              level,
-              type,
-            })
-          )
+        ? logs.map(({ text, level, type, createdOn }: Log, index: number) => ({
+            id: index,
+            createdOn,
+            text,
+            level,
+            type,
+          }))
         : [],
     [logs]
   );
@@ -127,6 +124,22 @@ function Logs(): ReactElement {
       url="https://upaas.timmo.dev"
       user={user}>
       <Container className={classes.main} component="article" maxWidth="xl">
+        <Grid
+          className={classes.header}
+          container
+          direction="row"
+          alignItems="flex-start"
+          justify="center">
+          <Button
+            className={classes.buttonWithIcon}
+            color="primary"
+            size="medium"
+            variant="contained"
+            onClick={handleGetLogs}>
+            <RefreshIcon className={classes.iconOnButton} />
+            Refresh
+          </Button>
+        </Grid>
         <Card style={{ height: 720 }}>
           <div style={{ display: "flex", height: "100%" }}>
             <div style={{ flexGrow: 1 }}>
