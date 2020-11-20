@@ -4,8 +4,24 @@ const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 module.exports = withCSS(
   withFonts({
-    webpack(config, _options) {
-      config.plugins.push(new MonacoWebpackPlugin());
+    webpack: (config) => {
+      config.module.rules.push({
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+        use: {
+          loader: "url-loader",
+          options: {
+            limit: 100000,
+          },
+        },
+      });
+
+      config.plugins.push(
+        new MonacoWebpackPlugin({
+          languages: ["javascript", "typescript", "yaml"],
+          filename: "static/[name].worker.js",
+        })
+      );
+
       return config;
     },
     cssLoaderOptions: { url: false },
