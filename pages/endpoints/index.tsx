@@ -40,9 +40,9 @@ function Endpoints(): ReactElement {
     []
   );
 
-  async function handleGetServices(): Promise<void> {
+  async function handleGetEndpoints(): Promise<void> {
     try {
-      setServices(await getServices({ apiUrl, auth }));
+      setEndpoints(await getEndpoints({ apiUrl, auth }));
     } catch (e) {
       setMessage({
         severity: "error",
@@ -51,9 +51,9 @@ function Endpoints(): ReactElement {
     }
   }
 
-  async function handleGetEndpoints(): Promise<void> {
+  async function handleGetServices(): Promise<void> {
     try {
-      setEndpoints(await getEndpoints({ apiUrl, auth }));
+      setServices(await getServices({ apiUrl, auth }));
     } catch (e) {
       setMessage({
         severity: "error",

@@ -86,6 +86,7 @@ const layoutStyle = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(2),
   },
   flex: { flex: 1 },
+  flexNoWrap: { flexWrap: "nowrap" },
   buttonWithIcon: {
     marginLeft: theme.spacing(1),
     padding: theme.spacing(1),
@@ -95,6 +96,10 @@ const layoutStyle = makeStyles((theme: Theme) => ({
   },
   header: {
     padding: theme.spacing(0, 2, 2),
+  },
+  text: {
+    marginLeft: theme.spacing(0.5),
+    fontWeight: "normal",
   },
 }));
 
