@@ -212,7 +212,7 @@ function Layout(props: LayoutProps): ReactElement {
               {...props}
               brand="UPaaS"
               changeColorOnScroll={{
-                height: 200,
+                height: 32,
                 color: "primary",
               }}
               color="transparent"
