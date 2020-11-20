@@ -24,6 +24,5 @@ module.exports = withCSS(
 
       return config;
     },
-    cssLoaderOptions: { url: false },
   })
 );
