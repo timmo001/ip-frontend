@@ -49,7 +49,7 @@ export default function ActionView(props: ActionViewProps): ReactElement {
   const classes = useStyles();
   return (
     <Fragment>
-      <Grid className={classes.root} item xs={12} sm={8} md={4} lg={3} xl={2}>
+      <Grid className={classes.root} item xs={12} xl={8}>
         <Card square>
           <CardActionArea onClick={handleShowEditAction}>
             <CardContent>

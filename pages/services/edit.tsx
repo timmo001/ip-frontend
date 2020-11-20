@@ -132,6 +132,9 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
             actions={
               <Fragment>
                 <div className={classes.flex} />
+                <div className={classes.flex} />
+                <div className={classes.flex} />
+                <div className={classes.flex} />
                 <Button
                   className={classes.buttonWithIcon}
                   color="primary"
