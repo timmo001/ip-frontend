@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useMemo, Fragment } from "react";
+import React, { ReactElement, useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { makeStyles } from "@material-ui/styles";
 import {
@@ -10,6 +10,9 @@ import {
   DialogActions,
   Button,
   DialogTitle,
+  useTheme,
+  useMediaQuery,
+  Dialog,
 } from "@material-ui/core";
 import YAML from "yaml";
 
@@ -91,9 +94,17 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
     return true;
   }, [action.description, action.service.plugin, action.service.service]);
 
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const classes = useStyles();
+
   return (
-    <Fragment>
+    <Dialog
+      open
+      fullScreen={fullScreen}
+      fullWidth
+      maxWidth="lg"
+      aria-labelledby="dialog-title">
       <DialogTitle id="dialog-title">Action: {action.description}</DialogTitle>
       <DialogContent className={classes.container}>
         <section className={classes.content}>
@@ -176,6 +187,6 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
           Save
         </Button>
       </DialogActions>
-    </Fragment>
+    </Dialog>
   );
 }

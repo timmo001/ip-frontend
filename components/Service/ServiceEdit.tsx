@@ -12,6 +12,7 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import SaveIcon from "@material-ui/icons/SaveTwoTone";
 import YAML from "yaml";
 
@@ -20,6 +21,7 @@ const MonacoEditor = dynamic(import("react-monaco-editor"), { ssr: false });
 import Action from "../../types/Action";
 import ActionView from "./Action/ActionView";
 import Service from "../../types/Service";
+import ActionEdit from "./Action/ActionEdit";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -48,8 +50,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   chip: {
     margin: 2,
   },
-  noLabel: {
-    marginTop: theme.spacing(3),
+  marginTop: {
+    marginTop: theme.spacing(2),
   },
   buttonWithIcon: {
     marginLeft: theme.spacing(1),
@@ -72,9 +74,15 @@ export default function ServiceEdit(
 ): ReactElement | null {
   const [service, setService] = useState<Service>(props.service);
 
-  const config = useMemo(() => YAML.stringify(service.config), [
-    service.config,
-  ]);
+  const [addAction, setAddAction] = useState<boolean>(false);
+
+  function handleAdddingAction() {
+    setAddAction(true);
+  }
+
+  function handleFinishedAddingAction() {
+    setAddAction(false);
+  }
 
   const handleTextFieldChange = (prop: keyof Service) => (
     event: React.ChangeEvent<HTMLInputElement>
@@ -89,12 +97,19 @@ export default function ServiceEdit(
     } catch (e) {}
   }
 
+  const handleAddAction = (action: Action): void => {
+    service.actions.push(action);
+    setService(service);
+  };
+
   const handleUpdateAction = (i: number) => (action: Action): void => {
     service.actions[i] = action;
     setService(service);
   };
 
-  if (!service) return null;
+  const config = useMemo(() => YAML.stringify(service.config), [
+    service.config,
+  ]);
 
   const validationSuccess: boolean = useMemo(() => {
     if (!service) return false;
@@ -155,7 +170,11 @@ export default function ServiceEdit(
             defaultValue={config}
             onChange={handleConfigChange}
           />
-          <Typography component="h5" variant="h5" gutterBottom>
+          <Typography
+            className={classes.marginTop}
+            component="h5"
+            variant="h5"
+            gutterBottom>
             Actions
           </Typography>
           <Divider light />
@@ -168,6 +187,18 @@ export default function ServiceEdit(
                 handleUpdateAction={handleUpdateAction(index)}
               />
             ))}
+            <Grid item xs={12} container justify="center">
+              <Button
+                className={classes.buttonWithIcon}
+                disabled={!validationSuccess}
+                color="secondary"
+                size="medium"
+                variant="outlined"
+                onClick={handleAdddingAction}>
+                <AddIcon className={classes.iconOnButton} fontSize="small" />
+                Add Action
+              </Button>
+            </Grid>
           </Grid>
         </CardContent>
         <CardActions className={classes.actions}>
@@ -188,6 +219,21 @@ export default function ServiceEdit(
           <div className={classes.flex} />
         </CardActions>
       </Card>
+      {addAction ? (
+        <ActionEdit
+          action={{
+            description: "",
+            requires: "",
+            service: { plugin: "", service: "" },
+            parameters: undefined,
+          }}
+          key={-1}
+          handleFinishedEditingAction={handleFinishedAddingAction}
+          handleUpdateAction={handleAddAction}
+        />
+      ) : (
+        ""
+      )}
     </Fragment>
   );
 }

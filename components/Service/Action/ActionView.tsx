@@ -44,9 +44,8 @@ export default function ActionView(props: ActionViewProps): ReactElement {
     setEditAction(false);
   }
 
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const classes = useStyles();
+
   return (
     <Fragment>
       <Grid className={classes.root} item xs={12} xl={8}>
@@ -87,12 +86,6 @@ export default function ActionView(props: ActionViewProps): ReactElement {
           </CardActionArea>
         </Card>
       </Grid>
-      <Dialog
-        open={editAction}
-        fullScreen={fullScreen}
-        fullWidth
-        maxWidth="lg"
-        aria-labelledby="dialog-title">
         {editAction ? (
           <ActionEdit
             {...props}
@@ -101,7 +94,6 @@ export default function ActionView(props: ActionViewProps): ReactElement {
         ) : (
           ""
         )}
-      </Dialog>
     </Fragment>
   );
 }
