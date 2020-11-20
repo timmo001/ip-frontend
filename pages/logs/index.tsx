@@ -140,7 +140,7 @@ function Logs(): ReactElement {
             Refresh
           </Button>
         </Grid>
-        <Card style={{ height: 720 }}>
+        <Card style={{ height: 1020 }}>
           <div style={{ display: "flex", height: "100%" }}>
             <div style={{ flexGrow: 1 }}>
               <DataGrid
