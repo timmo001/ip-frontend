@@ -187,10 +187,14 @@ export default function ServiceEdit(
                 handleUpdateAction={handleUpdateAction(index)}
               />
             ))}
-            <Grid item xs={12} container justify="center">
+            <Grid
+              className={classes.marginTop}
+              item
+              xs={12}
+              container
+              justify="center">
               <Button
                 className={classes.buttonWithIcon}
-                disabled={!validationSuccess}
                 color="secondary"
                 size="medium"
                 variant="outlined"
