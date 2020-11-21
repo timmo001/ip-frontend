@@ -15,8 +15,8 @@ import {
 } from "@material-ui/data-grid";
 
 import { getServices } from "../../lib/data/services";
+import Action from "../../types/Action";
 import ApiAuthorization from "../../types/ApiAuthorization";
-import Condition from "../../types/Condition";
 import CustomPagination from "../../components/DataGrid/CustomPagination";
 import Layout from "../../components/Layout";
 import Message from "../../types/Message";
@@ -90,7 +90,7 @@ function Services(): ReactElement {
         headerName: "Actions",
         type: "string",
         valueFormatter: (params: ValueFormatterParams) =>
-          (params.value as Condition[]).length || "0",
+          (params.value as Action[]).length || "0",
         width: 160,
       },
       {
