@@ -4,6 +4,7 @@ export default interface Endpoint {
   service: string;
   name: string;
   resultOnly: boolean;
+  contentType: string;
   logLevel: "debug" | "info" | "warn" | "error";
   supportedMethods: string;
   published: boolean;

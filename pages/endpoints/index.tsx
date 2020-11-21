@@ -85,21 +85,20 @@ function Endpoints(): ReactElement {
     () => [
       {
         field: "dbId",
-        headerName: "ID",
         type: "string",
-        width: 300,
+        hide: true,
       },
       {
         field: "name",
         headerName: "Name",
         type: "string",
-        width: 320,
+        width: 480,
       },
       {
         field: "endpoint",
         headerName: "Endpoint",
         type: "string",
-        width: 160,
+        width: 180,
       },
       {
         field: "service",
@@ -117,6 +116,12 @@ function Endpoints(): ReactElement {
         headerName: "Result Only?",
         type: "string",
         width: 115,
+      },
+      {
+        field: "contentType",
+        headerName: "Content Type",
+        type: "string",
+        width: 140,
       },
       {
         field: "logLevel",
@@ -179,6 +184,7 @@ function Endpoints(): ReactElement {
                 endpoint,
                 service,
                 resultOnly,
+                contentType,
                 logLevel,
                 supportedMethods,
                 published,
@@ -192,6 +198,7 @@ function Endpoints(): ReactElement {
               endpoint,
               service,
               resultOnly,
+              contentType,
               logLevel,
               supportedMethods,
               published,

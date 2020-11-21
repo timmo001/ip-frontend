@@ -101,7 +101,11 @@ export default function EndpointEdit(
   const handleToggleChange = (prop: keyof Endpoint) => (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setEndpoint({ ...endpoint, [prop]: event.target.checked });
+    setEndpoint({
+      ...endpoint,
+      contentType: "application/json",
+      [prop]: event.target.checked,
+    });
   };
 
   const handleServiceChange = (
@@ -148,6 +152,7 @@ export default function EndpointEdit(
     if (!endpoint.service) return false;
     if (!endpoint.logLevel) return false;
     if (!endpoint.supportedMethods) return false;
+    if (!endpoint.contentType) return false;
     return true;
   }, [endpoint]);
 
@@ -282,6 +287,22 @@ export default function EndpointEdit(
                   label="Result Only"
                 />
               </FormControl>
+              <TextField
+                className={classes.formControl}
+                disabled={!endpoint.resultOnly}
+                label="Content Type"
+                margin="dense"
+                required
+                variant="outlined"
+                value={endpoint.contentType}
+                onChange={handleTextFieldChange("contentType")}
+              />
+            </Grid>
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              justify="center">
               <FormControl className={classes.formControl}>
                 <FormControlLabel
                   control={
