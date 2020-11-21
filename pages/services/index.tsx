@@ -77,21 +77,13 @@ function Services(): ReactElement {
         field: "name",
         headerName: "Name",
         type: "string",
-        width: 340,
+        width: 420,
       },
       {
         field: "description",
         headerName: "Description",
         type: "string",
-        width: 620,
-      },
-      {
-        field: "conditions",
-        headerName: "Conditions",
-        type: "string",
-        valueFormatter: (params: ValueFormatterParams) =>
-          (params.value as Condition[]).length || "0",
-        width: 160,
+        width: 720,
       },
       {
         field: "actions",
@@ -137,21 +129,13 @@ function Services(): ReactElement {
       services
         ? services.map(
             (
-              {
-                id,
-                name,
-                description,
-                conditions,
-                actions,
-                updatedOn,
-              }: Service,
+              { id, name, description, actions, updatedOn }: Service,
               index: number
             ) => ({
               id: index,
               dbId: id,
               name,
               description,
-              conditions,
               actions,
               updatedOn,
             })
@@ -181,7 +165,7 @@ function Services(): ReactElement {
           alignItems="flex-start"
           justify="center">
           <Link href="/services/new">
-          <Button
+            <Button
               className={classes.buttonWithIcon}
               color="primary"
               size="medium"
