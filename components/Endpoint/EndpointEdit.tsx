@@ -116,12 +116,11 @@ export default function EndpointEdit(
   };
 
   const handleSelectionChange = (prop: keyof Endpoint) => (
-    _event: React.ChangeEvent<{ value: unknown }>,
-    newValue: any
+    event: React.ChangeEvent<{ value: unknown }>
   ): void => {
     setEndpoint({
       ...endpoint,
-      [prop]: newValue,
+      [prop]: event.target.value as string,
     });
   };
 
@@ -222,8 +221,8 @@ export default function EndpointEdit(
                   id="log-level"
                   value={endpoint.logLevel}
                   onChange={handleSelectionChange("logLevel")}>
-                  {logLevels.map((logLevel: string) => (
-                    <MenuItem key={logLevel} value={logLevel}>
+                  {logLevels.map((logLevel: string, index: number) => (
+                    <MenuItem key={index} value={logLevel}>
                       {logLevel}
                     </MenuItem>
                   ))}
