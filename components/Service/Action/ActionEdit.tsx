@@ -105,7 +105,9 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
       fullWidth
       maxWidth="lg"
       aria-labelledby="dialog-title">
-      <DialogTitle id="dialog-title">Action: {action.description}</DialogTitle>
+      <DialogTitle id="dialog-title">
+        Action: {action.description} ({action.id})
+      </DialogTitle>
       <DialogContent className={classes.container}>
         <section className={classes.content}>
           <Grid

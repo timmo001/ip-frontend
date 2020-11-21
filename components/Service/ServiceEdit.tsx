@@ -1,5 +1,6 @@
 import React, { ReactElement, useState, useMemo, Fragment } from "react";
 import dynamic from "next/dynamic";
+import { v4 as uuidv4 } from "uuid";
 import {
   Button,
   Card,
@@ -226,6 +227,7 @@ export default function ServiceEdit(
       {addAction ? (
         <ActionEdit
           action={{
+            id: uuidv4(),
             description: "",
             requires: "",
             service: { plugin: "", service: "" },

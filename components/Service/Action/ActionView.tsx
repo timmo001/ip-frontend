@@ -4,12 +4,9 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  Dialog,
   Grid,
   Theme,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@material-ui/core";
 
 import Action from "../../../types/Action";
@@ -53,7 +50,7 @@ export default function ActionView(props: ActionViewProps): ReactElement {
           <CardActionArea onClick={handleShowEditAction}>
             <CardContent>
               <Typography component="h5" variant="h5" gutterBottom>
-                {action.description}
+                {action.description} ({action.id})
               </Typography>
               <Grid
                 container
@@ -86,14 +83,14 @@ export default function ActionView(props: ActionViewProps): ReactElement {
           </CardActionArea>
         </Card>
       </Grid>
-        {editAction ? (
-          <ActionEdit
-            {...props}
-            handleFinishedEditingAction={handleFinishedEditingAction}
-          />
-        ) : (
-          ""
-        )}
+      {editAction ? (
+        <ActionEdit
+          {...props}
+          handleFinishedEditingAction={handleFinishedEditingAction}
+        />
+      ) : (
+        ""
+      )}
     </Fragment>
   );
 }
