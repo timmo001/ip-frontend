@@ -133,10 +133,10 @@
     react-is "^16.8.0"
     react-transition-group "^4.4.0"
 
-"@material-ui/data-grid@4.0.0-alpha.10":
-  version "4.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/@material-ui/data-grid/-/data-grid-4.0.0-alpha.10.tgz#054281b3d3567af6387bff50712510859c621896"
-  integrity sha512-paWjOv+b8lomLM7n5+pT1sEv1QQTLYxMGHlaWq1KUzYMfETOpjieUE8Szk5DdpqrR3N3PtDRPHQC5vTQLG71gA==
+"@material-ui/data-grid@4.0.0-alpha.11":
+  version "4.0.0-alpha.11"
+  resolved "https://registry.yarnpkg.com/@material-ui/data-grid/-/data-grid-4.0.0-alpha.11.tgz#ad3a8acd663d2256d1165b257165be342db5285d"
+  integrity sha512-OYgA1zNoFDHwA0KG7GoGCH3PnEuhbWL6EZbaVf2y+7biFaubHSIPiE5YOC4PBI+XJaIgESJhEjxc+ruhoSEc2w==
   dependencies:
     "@material-ui/utils" "^5.0.0-alpha.14"
     prop-types "^15.7.2"
