@@ -133,15 +133,14 @@
     react-is "^16.8.0 || ^17.0.0"
     react-transition-group "^4.4.0"
 
-"@material-ui/data-grid@4.0.0-alpha.15":
-  version "4.0.0-alpha.15"
-  resolved "https://registry.yarnpkg.com/@material-ui/data-grid/-/data-grid-4.0.0-alpha.15.tgz#9dd25210adcea283cb6e6d3b15aab51a2180207e"
-  integrity sha512-jm4n1qs3TX0wLvDsa0lwDEkAHdWcxp0pN/e8zTfdxAYrziO3VluKyS79Zjgr8l/urmgqoERVF2P6gN8iwp5/Uw==
+"@material-ui/data-grid@4.0.0-alpha.17":
+  version "4.0.0-alpha.17"
+  resolved "https://registry.yarnpkg.com/@material-ui/data-grid/-/data-grid-4.0.0-alpha.17.tgz#a70c5e48f1cc236437ee4e68512c76394ffa758e"
+  integrity sha512-eqZ/H7jxl3UhVdz1H4OV5D7ZjXpnyg7mHZ4L92kp6qL2O820q2U482RGqyzrlFQCkDezAKqRUnn0iav7tUPDlQ==
   dependencies:
     "@material-ui/utils" "^5.0.0-alpha.14"
     prop-types "^15.7.2"
     reselect "^4.0.0"
-    tslib "^2.0.0"
 
 "@material-ui/icons@4.11.2":
   version "4.11.2"
@@ -4881,11 +4880,6 @@ tslib@^1.9.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
-
-tslib@^2.0.0:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.3.tgz#8e0741ac45fc0c226e58a17bfc3e64b9bc6ca61c"
-  integrity sha512-uZtkfKblCEQtZKBF6EBXVZeQNl82yqtDQdv+eck8u7tdPxjLu2/lp5/uPW+um2tpuxINHWy3GhiccY7QgEaVHQ==
 
 tty-browserify@0.0.0:
   version "0.0.0"
