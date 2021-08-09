@@ -4,6 +4,9 @@ const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 module.exports = withCSS(
   withFonts({
+    eslint: {
+      ignoreDuringBuilds: true,
+    },
     webpack: (config) => {
       config.module.rules.push({
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
