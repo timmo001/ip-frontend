@@ -20,8 +20,9 @@
   "bin": "dist",
   "scripts": {
     "build": "next build",
-    "start:dev": "next dev",
-    "start": "next start"
+    "package": "rimraf out && yarn build && node scripts/package.js",
+    "start": "next start",
+    "start:dev": "next dev"
   },
   "dependencies": {
     "@material-ui/core": "4.12.3",
