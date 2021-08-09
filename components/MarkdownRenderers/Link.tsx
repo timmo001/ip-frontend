@@ -16,7 +16,8 @@ function Link({
         )
           ? "_self"
           : "_blank"
-      }>
+      }
+    >
       {children}
     </a>
   );
