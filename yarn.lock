@@ -2124,11 +2124,6 @@ node-fetch@2.6.1:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
-node-hide-console-window@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/node-hide-console-window/-/node-hide-console-window-2.1.0.tgz#52563c3a92e6636b405b46d37e676537111b7a2b"
-  integrity sha512-Ao6Pe4CObt5wfLFy/xZzI4TUXNSIWP5Hfel1XJXB64tJ6OQ6xh26q01NfgRNanAwYispibRTeWWDr9/HGloDxA==
-
 node-html-parser@1.4.9:
   version "1.4.9"
   resolved "https://registry.yarnpkg.com/node-html-parser/-/node-html-parser-1.4.9.tgz#3c8f6cac46479fae5800725edb532e9ae8fd816c"
