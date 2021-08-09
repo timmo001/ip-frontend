@@ -6,18 +6,17 @@ import { Button, Card, Container, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/EditTwoTone";
 import {
-  ColDef,
   DataGrid,
-  RowsProp,
-  SortDirection,
-  SortModel,
-  ValueFormatterParams,
+  GridColDef,
+  GridRowsProp,
+  GridSortDirection,
+  GridSortModel,
+  GridValueFormatterParams,
 } from "@material-ui/data-grid";
 
 import { getServices } from "../../lib/data/services";
 import Action from "../../types/Action";
 import ApiAuthorization from "../../types/ApiAuthorization";
-import CustomPagination from "../../components/DataGrid/CustomPagination";
 import Layout from "../../components/Layout";
 import Message from "../../types/Message";
 import Service from "../../types/Service";
@@ -55,19 +54,20 @@ function Services(): ReactElement {
 
   const classes = useStyles();
 
-  const sortModel: SortModel = useMemo(
+  const sortModel: GridSortModel = useMemo(
     () => [
       {
         field: "name",
-        sort: "asc" as SortDirection,
+        sort: "asc" as GridSortDirection,
       },
     ],
     []
   );
 
-  const columns: ColDef[] = useMemo(
+  const columns: GridColDef[] = useMemo(
     () => [
       {
+        id: "dbId",
         field: "dbId",
         headerName: "ID",
         type: "string",
@@ -89,7 +89,7 @@ function Services(): ReactElement {
         field: "actions",
         headerName: "Actions",
         type: "string",
-        valueFormatter: (params: ValueFormatterParams) =>
+        valueFormatter: (params: GridValueFormatterParams) =>
           (params.value as Action[]).length || "0",
         width: 160,
       },
@@ -97,7 +97,7 @@ function Services(): ReactElement {
         field: "updatedOn",
         headerName: "Last Updated",
         type: "dateTime",
-        valueFormatter: (params: ValueFormatterParams) =>
+        valueFormatter: (params: GridValueFormatterParams) =>
           moment(params.value as string)
             .locale(window.navigator.language)
             .format("L HH:mm"),
@@ -106,8 +106,12 @@ function Services(): ReactElement {
       {
         disableSorting: true,
         field: "",
-        renderCell: (params: ValueFormatterParams) => (
-          <Link href={`/services/edit?id=${params.getValue("dbId") as string}`}>
+        renderCell: (params: GridValueFormatterParams) => (
+          <Link
+            href={`/services/edit?id=${
+              params.getValue("dbId", "dbId") as string
+            }`}
+          >
             <Button
               className={classes.buttonWithIcon}
               color="primary"
@@ -125,7 +129,7 @@ function Services(): ReactElement {
     []
   );
 
-  const rows: RowsProp = useMemo(
+  const rows: GridRowsProp = useMemo(
     () =>
       services
         ? services.map(
@@ -184,10 +188,8 @@ function Services(): ReactElement {
             <div style={{ flexGrow: 1 }}>
               <DataGrid
                 columns={columns}
-                components={{
-                  pagination: CustomPagination,
-                }}
                 disableSelectionOnClick
+                pagination
                 rows={rows}
                 sortModel={sortModel}
               />

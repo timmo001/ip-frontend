@@ -4,17 +4,16 @@ import moment from "moment";
 import { Button, Card, Container, Grid } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/RefreshTwoTone";
 import {
-  ColDef,
   DataGrid,
-  RowsProp,
-  SortDirection,
-  SortModel,
-  ValueFormatterParams,
+  GridColDef,
+  GridRowsProp,
+  GridSortDirection,
+  GridSortModel,
+  GridValueFormatterParams,
 } from "@material-ui/data-grid";
 
 import { getEvents } from "../../lib/data/events";
 import ApiAuthorization from "../../types/ApiAuthorization";
-import CustomPagination from "../../components/DataGrid/CustomPagination";
 import Event from "../../types/Event";
 import Layout from "../../components/Layout";
 import Message from "../../types/Message";
@@ -52,17 +51,17 @@ function Events(): ReactElement {
 
   const classes = useStyles();
 
-  const sortModel: SortModel = useMemo(
+  const sortModel: GridSortModel = useMemo(
     () => [
       {
         field: "updatedOn",
-        sort: "desc" as SortDirection,
+        sort: "desc" as GridSortDirection,
       },
     ],
     []
   );
 
-  const columns: ColDef[] = useMemo(
+  const columns: GridColDef[] = useMemo(
     () => [
       {
         field: "dbId",
@@ -98,7 +97,7 @@ function Events(): ReactElement {
         field: "updatedOn",
         headerName: "Last Updated",
         type: "dateTime",
-        valueFormatter: (params: ValueFormatterParams) =>
+        valueFormatter: (params: GridValueFormatterParams) =>
           moment(params.value as string)
             .locale(window.navigator.language)
             .format("L HH:mm"),
@@ -108,7 +107,7 @@ function Events(): ReactElement {
         field: "startedOn",
         headerName: "Started On",
         type: "dateTime",
-        valueFormatter: (params: ValueFormatterParams) =>
+        valueFormatter: (params: GridValueFormatterParams) =>
           moment(params.value as string)
             .locale(window.navigator.language)
             .format("L HH:mm"),
@@ -118,7 +117,7 @@ function Events(): ReactElement {
         field: "completedOn",
         headerName: "Completed On",
         type: "dateTime",
-        valueFormatter: (params: ValueFormatterParams) =>
+        valueFormatter: (params: GridValueFormatterParams) =>
           moment(params.value as string)
             .locale(window.navigator.language)
             .format("L HH:mm"),
@@ -128,7 +127,7 @@ function Events(): ReactElement {
     [events]
   );
 
-  const rows: RowsProp = useMemo(
+  const rows: GridRowsProp = useMemo(
     () =>
       events
         ? events.map(
@@ -198,10 +197,8 @@ function Events(): ReactElement {
             <div style={{ flexGrow: 1 }}>
               <DataGrid
                 columns={columns}
-                components={{
-                  pagination: CustomPagination,
-                }}
                 disableSelectionOnClick
+                pagination
                 rows={rows}
                 sortModel={sortModel}
               />

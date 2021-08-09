@@ -4,12 +4,12 @@ import moment from "moment";
 import { Button, Card, Container, Grid } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/RefreshTwoTone";
 import {
-  ColDef,
   DataGrid,
-  RowsProp,
-  SortDirection,
-  SortModel,
-  ValueFormatterParams,
+  GridColDef,
+  GridRowsProp,
+  GridSortDirection,
+  GridSortModel,
+  GridValueFormatterParams,
 } from "@material-ui/data-grid";
 
 import { getLogs } from "../../lib/data/logs";
@@ -19,7 +19,6 @@ import Log from "../../types/Log";
 import Message from "../../types/Message";
 import User from "../../types/User";
 import useStyles from "../../assets/jss/components/layout";
-import CustomPagination from "../../components/DataGrid/CustomPagination";
 
 function Logs(): ReactElement {
   const [auth, setAuth] = useState<ApiAuthorization>();
@@ -52,23 +51,23 @@ function Logs(): ReactElement {
 
   const classes = useStyles();
 
-  const sortModel: SortModel = useMemo(
+  const GridSortModel: GridSortModel = useMemo(
     () => [
       {
         field: "createdOn",
-        sort: "desc" as SortDirection,
+        sort: "desc" as GridSortDirection,
       },
     ],
     []
   );
 
-  const columns: ColDef[] = useMemo(
+  const columns: GridColDef[] = useMemo(
     () => [
       {
         field: "createdOn",
         headerName: "Created On",
         type: "dateTime",
-        valueFormatter: (params: ValueFormatterParams) =>
+        valueFormatter: (params: GridValueFormatterParams) =>
           moment(params.value as string)
             .locale(window.navigator.language)
             .format("L HH:mm"),
@@ -96,7 +95,7 @@ function Logs(): ReactElement {
     [logs]
   );
 
-  const rows: RowsProp = useMemo(
+  const rows: GridRowsProp = useMemo(
     () =>
       logs
         ? logs.map(({ text, level, type, createdOn }: Log, index: number) => ({
@@ -148,12 +147,10 @@ function Logs(): ReactElement {
             <div style={{ flexGrow: 1 }}>
               <DataGrid
                 columns={columns}
-                components={{
-                  pagination: CustomPagination,
-                }}
                 disableSelectionOnClick
+                pagination
                 rows={rows}
-                sortModel={sortModel}
+                sortModel={GridSortModel}
               />
             </div>
           </div>
