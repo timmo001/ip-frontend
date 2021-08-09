@@ -1,4 +1,4 @@
-name: "ip"
+name: "ip-frontend"
 arch: "amd64"
 platform: "linux"
 version: "v2.5.0"
@@ -7,15 +7,15 @@ section: "default"
 priority: "extra"
 maintainer: "Aidan Timson <contact@timmo.xyz>"
 description: |
-  IP.
+  IP Frontend
 vendor: "Timmo"
 homepage: "https://ip.timmo.dev"
 license: "MIT"
 contents:
   - src: ./out/*
-    dst: /usr/local/share/ip
-  - src: ./scripts/ip.desktop
-    dst: /usr/share/applications/ip.desktop
+    dst: /usr/local/share/ip-frontend
+  - src: ./scripts/ip-frontend.desktop
+    dst: /usr/share/applications/ip-frontend.desktop
 depends:
   - libavahi-compat-libdnssd-dev
 overrides:

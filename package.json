@@ -1,7 +1,23 @@
 {
-  "name": "frontend",
+  "name": "ip-frontend",
   "version": "1.0.0",
+  "description": "ip frontend",
   "private": true,
+  "author": {
+    "name": "Aidan Timson <Timmo>",
+    "email": "contact@timmo.xyz",
+    "url": "https://ip.timmo.dev"
+  },
+  "keywords": [
+    "ip",
+    "backend"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timmo001/ip-backend"
+  },
+  "license": "MIT",
+  "bin": "dist",
   "scripts": {
     "build": "next build",
     "start:dev": "next dev",
@@ -30,7 +46,6 @@
     "uuid": "8.3.2",
     "yaml": "1.10.0"
   },
-  "license": "MIT",
   "devDependencies": {
     "@types/node": "14.14.32",
     "@types/react": "16.14.5",
@@ -43,5 +58,15 @@
     "next-fonts": "1.5.1",
     "prettier": "2.2.1",
     "typescript": "4.2.3"
+  },
+  "pkg": {
+    "assets": [
+      "node_modules/**/*"
+    ],
+    "outputPath": "out",
+    "scripts": "dist/main.js",
+    "targets": [
+      "host"
+    ]
   }
 }
