@@ -151,12 +151,14 @@ function Endpoints(): ReactElement {
         field: "",
         renderCell: (params: ValueFormatterParams) => (
           <Link
-            href={`/endpoints/edit?id=${params.getValue("dbId") as string}`}>
+            href={`/endpoints/edit?id=${params.getValue("dbId") as string}`}
+          >
             <Button
               className={classes.buttonWithIcon}
               color="primary"
               size="small"
-              variant="text">
+              variant="text"
+            >
               <EditIcon className={classes.iconOnButton} fontSize="small" />
               Edit
             </Button>
@@ -214,20 +216,23 @@ function Endpoints(): ReactElement {
       setUser={setUser}
       title="Endpoints"
       url="https://upaas.timmo.dev"
-      user={user}>
+      user={user}
+    >
       <Container className={classes.main} component="article" maxWidth="xl">
         <Grid
           className={classes.header}
           container
           direction="row"
           alignItems="flex-start"
-          justify="center">
+          justify="center"
+        >
           <Link href="/endpoints/new">
             <Button
               className={classes.buttonWithIcon}
               color="primary"
               size="medium"
-              variant="contained">
+              variant="contained"
+            >
               <AddIcon className={classes.iconOnButton} />
               Add Endpoint
             </Button>

@@ -122,20 +122,23 @@ function Logs(): ReactElement {
       setUser={setUser}
       title="Logs"
       url="https://upaas.timmo.dev"
-      user={user}>
+      user={user}
+    >
       <Container className={classes.main} component="article" maxWidth="xl">
         <Grid
           className={classes.header}
           container
           direction="row"
           alignItems="flex-start"
-          justify="center">
+          justify="center"
+        >
           <Button
             className={classes.buttonWithIcon}
             color="primary"
             size="medium"
             variant="contained"
-            onClick={handleGetLogs}>
+            onClick={handleGetLogs}
+          >
             <RefreshIcon className={classes.iconOnButton} />
             Refresh
           </Button>

@@ -125,7 +125,8 @@ function EndpointEdit(props: EndpointEditProps): ReactElement {
       setUser={setUser}
       title={endpoint ? endpoint.name : "Edit"}
       url="https://upaas.timmo.dev"
-      user={user}>
+      user={user}
+    >
       {!endpoint || !services ? (
         <Loading text="Loading Data.." />
       ) : (
@@ -139,7 +140,8 @@ function EndpointEdit(props: EndpointEditProps): ReactElement {
                   size="medium"
                   style={{ backgroundColor: red[800] }}
                   variant="contained"
-                  onClick={handleDeleteConfirm}>
+                  onClick={handleDeleteConfirm}
+                >
                   <DeleteIcon
                     className={classes.iconOnButton}
                     fontSize="small"
@@ -152,7 +154,8 @@ function EndpointEdit(props: EndpointEditProps): ReactElement {
                     color="primary"
                     size="medium"
                     style={{ marginLeft: 0 }}
-                    variant="contained">
+                    variant="contained"
+                  >
                     <DeleteIcon
                       className={classes.iconOnButton}
                       fontSize="small"

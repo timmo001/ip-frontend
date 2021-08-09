@@ -123,9 +123,10 @@ function Dashboard(): ReactElement {
     handleGetServices,
   ]);
 
-  const latestEvent: Event = useMemo(() => (events ? events[0] : undefined), [
-    events,
-  ]);
+  const latestEvent: Event = useMemo(
+    () => (events ? events[0] : undefined),
+    [events]
+  );
   const latestEventService: Service = useMemo(
     () =>
       services && events
@@ -182,7 +183,8 @@ function Dashboard(): ReactElement {
       setUser={setUser}
       title="Home"
       url="https://upaas.timmo.dev"
-      user={user}>
+      user={user}
+    >
       {!endpoints || !events || !logs || !services ? (
         <Loading text="Loading Data.." />
       ) : (
@@ -200,7 +202,8 @@ function Dashboard(): ReactElement {
                     xs
                     container
                     direction="row"
-                    justify="space-around">
+                    justify="space-around"
+                  >
                     <Grid className={classes.item} item>
                       <Icon
                         color={theme.palette.success.main}
@@ -210,7 +213,8 @@ function Dashboard(): ReactElement {
                       <Typography
                         className={classes.text}
                         component="span"
-                        variant="subtitle1">
+                        variant="subtitle1"
+                      >
                         Complete: {completedEvents.length}
                       </Typography>
                     </Grid>
@@ -223,7 +227,8 @@ function Dashboard(): ReactElement {
                       <Typography
                         className={classes.text}
                         component="span"
-                        variant="subtitle1">
+                        variant="subtitle1"
+                      >
                         Running: {runningEvents.length}
                       </Typography>
                     </Grid>
@@ -236,7 +241,8 @@ function Dashboard(): ReactElement {
                       <Typography
                         className={classes.text}
                         component="span"
-                        variant="subtitle1">
+                        variant="subtitle1"
+                      >
                         Error: {erroredEvents.length}
                       </Typography>
                     </Grid>
@@ -273,7 +279,8 @@ function Dashboard(): ReactElement {
                     xs
                     container
                     direction="row"
-                    justify="space-around">
+                    justify="space-around"
+                  >
                     <Grid className={classes.item} item>
                       <Icon
                         color={theme.palette.primary.main}
@@ -283,7 +290,8 @@ function Dashboard(): ReactElement {
                       <Typography
                         className={classes.text}
                         component="span"
-                        variant="subtitle1">
+                        variant="subtitle1"
+                      >
                         Debug: {debugLogs.length}
                       </Typography>
                     </Grid>
@@ -296,7 +304,8 @@ function Dashboard(): ReactElement {
                       <Typography
                         className={classes.text}
                         component="span"
-                        variant="subtitle1">
+                        variant="subtitle1"
+                      >
                         Info: {infoLogs.length}
                       </Typography>
                     </Grid>
@@ -309,7 +318,8 @@ function Dashboard(): ReactElement {
                       <Typography
                         className={classes.text}
                         component="span"
-                        variant="subtitle1">
+                        variant="subtitle1"
+                      >
                         Warning: {warnLogs.length}
                       </Typography>
                     </Grid>
@@ -322,7 +332,8 @@ function Dashboard(): ReactElement {
                       <Typography
                         className={classes.text}
                         component="span"
-                        variant="subtitle1">
+                        variant="subtitle1"
+                      >
                         Error: {errorLogs.length}
                       </Typography>
                     </Grid>
@@ -359,7 +370,8 @@ function Dashboard(): ReactElement {
                     xs
                     container
                     direction="row"
-                    justify="space-around">
+                    justify="space-around"
+                  >
                     <Grid className={classes.item} item>
                       <Icon
                         color={theme.palette.secondary.main}
@@ -369,7 +381,8 @@ function Dashboard(): ReactElement {
                       <Typography
                         className={classes.text}
                         component="span"
-                        variant="subtitle1">
+                        variant="subtitle1"
+                      >
                         Total: {services.length}
                       </Typography>
                     </Grid>
@@ -390,7 +403,8 @@ function Dashboard(): ReactElement {
                     xs
                     container
                     direction="row"
-                    justify="space-around">
+                    justify="space-around"
+                  >
                     <Grid className={classes.item} item>
                       <Icon
                         color={theme.palette.secondary.main}
@@ -400,7 +414,8 @@ function Dashboard(): ReactElement {
                       <Typography
                         className={classes.text}
                         component="span"
-                        variant="subtitle1">
+                        variant="subtitle1"
+                      >
                         Total: {endpoints.length}
                       </Typography>
                     </Grid>

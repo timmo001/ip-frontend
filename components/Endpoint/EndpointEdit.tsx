@@ -92,17 +92,17 @@ export default function EndpointEdit(
     [endpoint]
   );
 
-  const handleTextFieldChange = (prop: keyof Endpoint) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setEndpoint({ ...endpoint, [prop]: event.target.value });
-  };
+  const handleTextFieldChange =
+    (prop: keyof Endpoint) =>
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      setEndpoint({ ...endpoint, [prop]: event.target.value });
+    };
 
-  const handleToggleChange = (prop: keyof Endpoint) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setEndpoint({ ...endpoint, [prop]: event.target.checked });
-  };
+  const handleToggleChange =
+    (prop: keyof Endpoint) =>
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      setEndpoint({ ...endpoint, [prop]: event.target.checked });
+    };
 
   const handleServiceChange = (
     _event: React.ChangeEvent<{ value: unknown }>,
@@ -115,29 +115,31 @@ export default function EndpointEdit(
       });
   };
 
-  const handleSelectionChange = (prop: keyof Endpoint) => (
-    event: React.ChangeEvent<{ value: unknown }>
-  ): void => {
-    setEndpoint({
-      ...endpoint,
-      [prop]: event.target.value as string,
-    });
-  };
+  const handleSelectionChange =
+    (prop: keyof Endpoint) =>
+    (event: React.ChangeEvent<{ value: unknown }>): void => {
+      setEndpoint({
+        ...endpoint,
+        [prop]: event.target.value as string,
+      });
+    };
 
-  const handleSelectionMultipleChange = (prop: keyof Endpoint) => (
-    _event: React.ChangeEvent<{ value: unknown }>,
-    newValue: string[]
-  ): void => {
-    setEndpoint({
-      ...endpoint,
-      [prop]: newValue
-        .filter((value: string) =>
-          // Remove any rogue null values
-          value.length > 0 ? true : false
-        )
-        .join(","),
-    });
-  };
+  const handleSelectionMultipleChange =
+    (prop: keyof Endpoint) =>
+    (
+      _event: React.ChangeEvent<{ value: unknown }>,
+      newValue: string[]
+    ): void => {
+      setEndpoint({
+        ...endpoint,
+        [prop]: newValue
+          .filter((value: string) =>
+            // Remove any rogue null values
+            value.length > 0 ? true : false
+          )
+          .join(","),
+      });
+    };
 
   if (!endpoint) return null;
 
@@ -165,7 +167,8 @@ export default function EndpointEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center">
+              justify="center"
+            >
               <TextField
                 className={classes.formControl}
                 fullWidth
@@ -191,7 +194,8 @@ export default function EndpointEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center">
+              justify="center"
+            >
               <Autocomplete
                 className={classes.formControl}
                 fullWidth
@@ -214,13 +218,15 @@ export default function EndpointEdit(
                 className={classes.formControl}
                 fullWidth
                 required
-                variant="outlined">
+                variant="outlined"
+              >
                 <InputLabel id="log-level-label">Log Level</InputLabel>
                 <Select
                   labelId="log-level-label"
                   id="log-level"
                   value={endpoint.logLevel}
-                  onChange={handleSelectionChange("logLevel")}>
+                  onChange={handleSelectionChange("logLevel")}
+                >
                   {logLevels.map((logLevel: string, index: number) => (
                     <MenuItem key={index} value={logLevel}>
                       {logLevel}
@@ -233,7 +239,8 @@ export default function EndpointEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center">
+              justify="center"
+            >
               <Autocomplete
                 className={classes.formControl}
                 disableCloseOnSelect
@@ -268,7 +275,8 @@ export default function EndpointEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center">
+              justify="center"
+            >
               <FormControl className={classes.formControl}>
                 <FormControlLabel
                   control={
@@ -306,7 +314,8 @@ export default function EndpointEdit(
             color="primary"
             size="medium"
             variant="contained"
-            onClick={() => props.handleSave(endpoint)}>
+            onClick={() => props.handleSave(endpoint)}
+          >
             <SaveIcon className={classes.iconOnButton} fontSize="small" />
             {props.new ? "Create" : "Save"}
           </Button>

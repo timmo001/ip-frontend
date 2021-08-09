@@ -51,24 +51,25 @@ interface ActionEditProps extends ActionViewProps {
 export default function ActionEdit(props: ActionEditProps): ReactElement {
   const { handleFinishedEditingAction, handleUpdateAction } = props;
   const [action, setAction] = useState<Action>(props.action);
-  const parameters = useMemo(() => YAML.stringify(props.action.parameters), [
-    props.action.parameters,
-  ]);
+  const parameters = useMemo(
+    () => YAML.stringify(props.action.parameters),
+    [props.action.parameters]
+  );
 
-  const handleTextFieldChange = (prop: keyof Action) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setAction({ ...action, [prop]: event.target.value });
-  };
+  const handleTextFieldChange =
+    (prop: keyof Action) =>
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      setAction({ ...action, [prop]: event.target.value });
+    };
 
-  const handleServiceDefinitionChange = (prop: keyof ServiceDefinition) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setAction({
-      ...action,
-      service: { ...action.service, [prop]: event.target.value },
-    });
-  };
+  const handleServiceDefinitionChange =
+    (prop: keyof ServiceDefinition) =>
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      setAction({
+        ...action,
+        service: { ...action.service, [prop]: event.target.value },
+      });
+    };
 
   function handleParametersChange(newValue: string): void {
     try {
@@ -104,7 +105,8 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
       fullScreen={fullScreen}
       fullWidth
       maxWidth="lg"
-      aria-labelledby="dialog-title">
+      aria-labelledby="dialog-title"
+    >
       <DialogTitle id="dialog-title">
         Action: {action.description} ({action.id})
       </DialogTitle>
@@ -115,7 +117,8 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
             container
             direction="row"
             alignItems="center"
-            justify="center">
+            justify="center"
+          >
             <TextField
               className={classes.textField}
               fullWidth
@@ -177,7 +180,8 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
           size="medium"
           color="primary"
           variant="text"
-          onClick={handleFinishedEditingAction}>
+          onClick={handleFinishedEditingAction}
+        >
           Cancel
         </Button>
         <Button
@@ -185,7 +189,8 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
           size="medium"
           color="primary"
           variant="contained"
-          onClick={handleSave}>
+          onClick={handleSave}
+        >
           Save
         </Button>
       </DialogActions>

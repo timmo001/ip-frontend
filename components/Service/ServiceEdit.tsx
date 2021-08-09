@@ -85,11 +85,11 @@ export default function ServiceEdit(
     setAddAction(false);
   }
 
-  const handleTextFieldChange = (prop: keyof Service) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setService({ ...service, [prop]: event.target.value });
-  };
+  const handleTextFieldChange =
+    (prop: keyof Service) =>
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      setService({ ...service, [prop]: event.target.value });
+    };
 
   function handleConfigChange(newValue: string): void {
     try {
@@ -103,14 +103,17 @@ export default function ServiceEdit(
     setService(service);
   };
 
-  const handleUpdateAction = (i: number) => (action: Action): void => {
-    service.actions[i] = action;
-    setService(service);
-  };
+  const handleUpdateAction =
+    (i: number) =>
+    (action: Action): void => {
+      service.actions[i] = action;
+      setService(service);
+    };
 
-  const config = useMemo(() => YAML.stringify(service.config), [
-    service.config,
-  ]);
+  const config = useMemo(
+    () => YAML.stringify(service.config),
+    [service.config]
+  );
 
   const validationSuccess: boolean = useMemo(() => {
     if (!service) return false;
@@ -132,7 +135,8 @@ export default function ServiceEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center">
+              justify="center"
+            >
               <TextField
                 className={classes.formControl}
                 fullWidth
@@ -157,7 +161,8 @@ export default function ServiceEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center"></Grid>
+              justify="center"
+            ></Grid>
           </section>
           <Typography component="h5" variant="h5" gutterBottom>
             Config
@@ -175,7 +180,8 @@ export default function ServiceEdit(
             className={classes.marginTop}
             component="h5"
             variant="h5"
-            gutterBottom>
+            gutterBottom
+          >
             Actions
           </Typography>
           <Divider light />
@@ -193,13 +199,15 @@ export default function ServiceEdit(
               item
               xs={12}
               container
-              justify="center">
+              justify="center"
+            >
               <Button
                 className={classes.buttonWithIcon}
                 color="secondary"
                 size="medium"
                 variant="outlined"
-                onClick={handleAdddingAction}>
+                onClick={handleAdddingAction}
+              >
                 <AddIcon className={classes.iconOnButton} fontSize="small" />
                 Add Action
               </Button>
@@ -214,7 +222,8 @@ export default function ServiceEdit(
             color="primary"
             size="medium"
             variant="contained"
-            onClick={() => props.handleSave(service)}>
+            onClick={() => props.handleSave(service)}
+          >
             <SaveIcon className={classes.iconOnButton} fontSize="small" />
             {props.new ? "Create" : "Save"}
           </Button>

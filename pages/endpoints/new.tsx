@@ -82,7 +82,8 @@ function EndpointNew(): ReactElement {
       setUser={setUser}
       title="Endpoints"
       url="https://upaas.timmo.dev"
-      user={user}>
+      user={user}
+    >
       {!services ? (
         <Loading text="Loading Data.." />
       ) : (
@@ -96,7 +97,8 @@ function EndpointNew(): ReactElement {
                     color="primary"
                     size="medium"
                     style={{ marginLeft: 0 }}
-                    variant="contained">
+                    variant="contained"
+                  >
                     <DeleteIcon
                       className={classes.iconOnButton}
                       fontSize="small"

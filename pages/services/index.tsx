@@ -112,7 +112,8 @@ function Services(): ReactElement {
               className={classes.buttonWithIcon}
               color="primary"
               size="small"
-              variant="text">
+              variant="text"
+            >
               <EditIcon className={classes.iconOnButton} fontSize="small" />
               Edit
             </Button>
@@ -156,20 +157,23 @@ function Services(): ReactElement {
       setUser={setUser}
       title="Services"
       url="https://upaas.timmo.dev"
-      user={user}>
+      user={user}
+    >
       <Container className={classes.main} component="article" maxWidth="xl">
         <Grid
           className={classes.header}
           container
           direction="row"
           alignItems="flex-start"
-          justify="center">
+          justify="center"
+        >
           <Link href="/services/new">
             <Button
               className={classes.buttonWithIcon}
               color="primary"
               size="medium"
-              variant="contained">
+              variant="contained"
+            >
               <AddIcon className={classes.iconOnButton} />
               Add Service
             </Button>

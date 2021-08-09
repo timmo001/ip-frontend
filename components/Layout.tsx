@@ -225,7 +225,8 @@ function Layout(props: LayoutProps): ReactElement {
             <Container
               className={classes.footer}
               component="footer"
-              maxWidth="xl">
+              maxWidth="xl"
+            >
               <Card>
                 <CardContent>
                   <Typography component="div">

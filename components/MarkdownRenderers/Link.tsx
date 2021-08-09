@@ -22,7 +22,8 @@ function Link(props: LinkProps): ReactElement {
         )
           ? "_self"
           : "_blank"
-      }>
+      }
+    >
       {props.children}
     </a>
   );

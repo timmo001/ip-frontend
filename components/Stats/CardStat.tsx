@@ -67,7 +67,8 @@ export default function CardStat(props: CardStatProps): ReactElement {
               <Typography
                 className={classes.text}
                 component="span"
-                variant="subtitle1">
+                variant="subtitle1"
+              >
                 {props.subtitle2}
               </Typography>
             </Grid>

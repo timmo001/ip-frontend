@@ -1,10 +1,10 @@
 import { makeStyles } from "@material-ui/core";
-import Pagination from '@material-ui/lab/Pagination';
+import Pagination from "@material-ui/lab/Pagination";
 import { ComponentProps } from "@material-ui/data-grid";
 
 const useStyles = makeStyles({
   root: {
-    display: 'flex',
+    display: "flex",
   },
 });
 
