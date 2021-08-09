@@ -40,7 +40,8 @@ jobs:
         env:
           CI: true
       - name: 🚀 Run ESLint
-        run: yarn eslint
+        run: |
+          npx eslint
   lint-jsonlint:
     name: 👕 JSONLint
     runs-on: ubuntu-latest
