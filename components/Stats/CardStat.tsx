@@ -44,7 +44,12 @@ export default function CardStat(props: CardStatProps): ReactElement {
   return (
     <Card square>
       <CardContent>
-        <Grid container direction="row" alignItems="center" justifyContent="center">
+        <Grid
+          container
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+        >
           <Grid className={classes.item} item>
             <Icon
               color={theme.palette.text.secondary}
