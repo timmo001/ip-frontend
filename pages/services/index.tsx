@@ -160,7 +160,7 @@ function Services(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Services"
-      url="https://upaas.timmo.dev"
+      url="https://ip.timmo.dev"
       user={user}
     >
       <Container className={classes.main} component="article" maxWidth="xl">
@@ -169,7 +169,7 @@ function Services(): ReactElement {
           container
           direction="row"
           alignItems="flex-start"
-          justify="center"
+          justifyContent="center"
         >
           <Link href="/services/new">
             <Button

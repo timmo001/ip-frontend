@@ -135,7 +135,7 @@ export default function ServiceEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center"
+              justifyContent="center"
             >
               <TextField
                 className={classes.formControl}
@@ -161,7 +161,7 @@ export default function ServiceEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center"
+              justifyContent="center"
             ></Grid>
           </section>
           <Typography component="h5" variant="h5" gutterBottom>
@@ -185,7 +185,7 @@ export default function ServiceEdit(
             Actions
           </Typography>
           <Divider light />
-          <Grid item container direction="row" justify="space-evenly">
+          <Grid item container direction="row" justifyContent="space-evenly">
             {service.actions.map((action: Action, index: number) => (
               <ActionView
                 key={index}
@@ -199,7 +199,7 @@ export default function ServiceEdit(
               item
               xs={12}
               container
-              justify="center"
+              justifyContent="center"
             >
               <Button
                 className={classes.buttonWithIcon}

@@ -168,7 +168,7 @@ export default function Auth(props: AuthProps): ReactElement {
         component="section"
         direction="row"
         alignItems="center"
-        justify="center"
+        justifyContent="center"
       >
         <Grid
           item
@@ -179,7 +179,7 @@ export default function Auth(props: AuthProps): ReactElement {
           container
           direction="column"
           alignItems="center"
-          justify="center"
+          justifyContent="center"
         >
           <Grid className={classes.item} item>
             <Card>
@@ -196,7 +196,7 @@ export default function Auth(props: AuthProps): ReactElement {
                   container
                   direction="column"
                   alignItems="center"
-                  justify="center"
+                  justifyContent="center"
                 >
                   <Typography gutterBottom variant="h5" component="h2">
                     {registering ? "Register" : "Login"}

@@ -124,7 +124,7 @@ function EndpointEdit(props: EndpointEditProps): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title={endpoint ? endpoint.name : "Edit"}
-      url="https://upaas.timmo.dev"
+      url="https://ip.timmo.dev"
       user={user}
     >
       {!endpoint || !services ? (

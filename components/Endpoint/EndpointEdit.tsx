@@ -167,7 +167,7 @@ export default function EndpointEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center"
+              justifyContent="center"
             >
               <TextField
                 className={classes.formControl}
@@ -194,7 +194,7 @@ export default function EndpointEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center"
+              justifyContent="center"
             >
               <Autocomplete
                 className={classes.formControl}
@@ -239,7 +239,7 @@ export default function EndpointEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center"
+              justifyContent="center"
             >
               <Autocomplete
                 className={classes.formControl}
@@ -275,7 +275,7 @@ export default function EndpointEdit(
               container
               direction="row"
               alignItems="center"
-              justify="center"
+              justifyContent="center"
             >
               <FormControl className={classes.formControl}>
                 <FormControlLabel

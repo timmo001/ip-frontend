@@ -79,7 +79,7 @@ function ServiceNew(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Services"
-      url="https://upaas.timmo.dev"
+      url="https://ip.timmo.dev"
       user={user}
     >
       <Container className={classes.main} component="article" maxWidth="xl">

@@ -122,7 +122,7 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title={service ? service.name : "Edit"}
-      url="https://upaas.timmo.dev"
+      url="https://ip.timmo.dev"
       user={user}
     >
       {!service ? (

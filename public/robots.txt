@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://upaas.timmo.dev/sitemap.xml
+Sitemap: https://ip.timmo.dev/sitemap.xml

@@ -182,14 +182,14 @@ function Dashboard(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Home"
-      url="https://upaas.timmo.dev"
+      url="https://ip.timmo.dev"
       user={user}
     >
       {!endpoints || !events || !logs || !services ? (
         <Loading text="Loading Data.." />
       ) : (
         <Container className={classes.main} component="article" maxWidth="xl">
-          <Grid container direction="row" justify="space-between">
+          <Grid container direction="row" justifyContent="space-between">
             <Grid item xs={6} xl={5}>
               <CardStat
                 icon={mdiExclamation}
@@ -202,7 +202,7 @@ function Dashboard(): ReactElement {
                     xs
                     container
                     direction="row"
-                    justify="space-around"
+                    justifyContent="space-around"
                   >
                     <Grid className={classes.item} item>
                       <Icon
@@ -253,7 +253,7 @@ function Dashboard(): ReactElement {
                     <b>
                       <i>Latest:</i>
                     </b>{" "}
-                    {latestEventService.name}
+                    {latestEventService?.name}
                   </span>
                 }
                 subtitle2={
@@ -261,7 +261,7 @@ function Dashboard(): ReactElement {
                     <b>
                       <i>Status:</i>
                     </b>{" "}
-                    {latestEvent.status}
+                    {latestEvent?.status}
                   </span>
                 }
                 title="Events"
@@ -279,7 +279,7 @@ function Dashboard(): ReactElement {
                     xs
                     container
                     direction="row"
-                    justify="space-around"
+                    justifyContent="space-around"
                   >
                     <Grid className={classes.item} item>
                       <Icon
@@ -344,7 +344,7 @@ function Dashboard(): ReactElement {
                     <b>
                       <i>Latest:</i>
                     </b>{" "}
-                    {latestEventService.name}
+                    {latestEventService?.name}
                   </span>
                 }
                 subtitle2={
@@ -352,7 +352,7 @@ function Dashboard(): ReactElement {
                     <b>
                       <i>Status:</i>
                     </b>{" "}
-                    {latestEvent.status}
+                    {latestEvent?.status}
                   </span>
                 }
                 title="Logs"
@@ -370,7 +370,7 @@ function Dashboard(): ReactElement {
                     xs
                     container
                     direction="row"
-                    justify="space-around"
+                    justifyContent="space-around"
                   >
                     <Grid className={classes.item} item>
                       <Icon
@@ -403,7 +403,7 @@ function Dashboard(): ReactElement {
                     xs
                     container
                     direction="row"
-                    justify="space-around"
+                    justifyContent="space-around"
                   >
                     <Grid className={classes.item} item>
                       <Icon

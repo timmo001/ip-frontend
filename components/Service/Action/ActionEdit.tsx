@@ -117,7 +117,7 @@ export default function ActionEdit(props: ActionEditProps): ReactElement {
             container
             direction="row"
             alignItems="center"
-            justify="center"
+            justifyContent="center"
           >
             <TextField
               className={classes.textField}

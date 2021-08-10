@@ -12,7 +12,7 @@ import axios, { AxiosResponse } from "axios";
 import { teal } from "@material-ui/core/colors";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {
-  createMuiTheme,
+  createTheme,
   responsiveFontSizes,
   ThemeProvider,
 } from "@material-ui/core/styles";
@@ -33,7 +33,7 @@ import User from "../types/User";
 import ShowMessage from "./Shared/ShowMessage";
 import Loading from "./Shared/Loading";
 
-let theme = createMuiTheme({
+let theme = createTheme({
   palette: {
     type: "dark",
     primary: teal,
@@ -157,7 +157,7 @@ function Layout(props: LayoutProps): ReactElement {
   return (
     <>
       <Head>
-        <title>{props.title ? `${props.title} - UPaaS` : `UPaaS`}</title>
+        <title>{props.title ? `${props.title} - ip` : `ip`}</title>
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -185,8 +185,8 @@ function Layout(props: LayoutProps): ReactElement {
             props.description
               ? `${props.description}`
               : props.title
-              ? `${props.title} - UPaaS`
-              : `UPaaS`
+              ? `${props.title} - ip`
+              : `ip`
           }
         />
         <meta
@@ -210,7 +210,7 @@ function Layout(props: LayoutProps): ReactElement {
           <Fragment>
             <Header
               {...props}
-              brand="UPaaS"
+              brand="ip"
               changeColorOnScroll={{
                 height: 32,
                 color: "primary",

@@ -170,7 +170,7 @@ function Events(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Events"
-      url="https://upaas.timmo.dev"
+      url="https://ip.timmo.dev"
       user={user}
     >
       <Container className={classes.main} component="article" maxWidth="xl">
@@ -179,7 +179,7 @@ function Events(): ReactElement {
           container
           direction="row"
           alignItems="flex-start"
-          justify="center"
+          justifyContent="center"
         >
           <Button
             className={classes.buttonWithIcon}

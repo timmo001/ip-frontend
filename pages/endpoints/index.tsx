@@ -217,7 +217,7 @@ function Endpoints(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Endpoints"
-      url="https://upaas.timmo.dev"
+      url="https://ip.timmo.dev"
       user={user}
     >
       <Container className={classes.main} component="article" maxWidth="xl">
@@ -226,7 +226,7 @@ function Endpoints(): ReactElement {
           container
           direction="row"
           alignItems="flex-start"
-          justify="center"
+          justifyContent="center"
         >
           <Link href="/endpoints/new">
             <Button

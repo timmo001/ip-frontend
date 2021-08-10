@@ -56,7 +56,7 @@ export default function ActionView(props: ActionViewProps): ReactElement {
                 container
                 direction="row"
                 alignItems="center"
-                justify="space-evenly"
+                justifyContent="space-evenly"
               >
                 <Typography
                   className={classes.text}

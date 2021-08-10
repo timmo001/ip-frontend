@@ -92,7 +92,7 @@ function ServerConfig(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Configutation"
-      url="https://upaas.timmo.dev"
+      url="https://ip.timmo.dev"
       user={user}
     >
       {!config ? (

@@ -81,7 +81,7 @@ function EndpointNew(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Endpoints"
-      url="https://upaas.timmo.dev"
+      url="https://ip.timmo.dev"
       user={user}
     >
       {!services ? (
