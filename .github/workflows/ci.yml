@@ -158,55 +158,14 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           yarn install
-      - name: 🚀 Package
+      - name: 🚀 Build
         run: |
-          yarn package
+          yarn build
         env:
           NODE_ENV: production
           INLINE_RUNTIME_CHUNK: false
       - name: ⬆ Upload Artifacts - Output
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.os.name }}-out
-          path: out
-      - name: 🚀 Create windows setup file
-        if: matrix.os.platform == 'win32'
-        uses: joncloud/makensis-action@v3.6
-        with:
-          script-file: "scripts/installer.nsi"
-      - name: ⬆ Upload Artifacts - Windows setup
-        if: matrix.os.platform == 'win32'
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.os.name }}-setup
-          path: "*setup.exe"
-      - name: 🚀 Create linux apk file
-        if: matrix.os.platform == 'linux'
-        run: |
-          nfpm package --config nfpm.yaml --packager apk
-      - name: ⬆ Upload Artifacts - Linux apk
-        if: matrix.os.platform == 'linux'
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.os.name }}-apk
-          path: "*.apk"
-      - name: 🚀 Create linux deb file
-        if: matrix.os.platform == 'linux'
-        run: |
-          nfpm package --config nfpm.yaml --packager deb
-      - name: ⬆ Upload Artifacts - Linux deb
-        if: matrix.os.platform == 'linux'
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.os.name }}-deb
-          path: "*.deb"
-      - name: 🚀 Create linux rpm file
-        if: matrix.os.platform == 'linux'
-        run: |
-          nfpm package --config nfpm.yaml --packager rpm
-      - name: ⬆ Upload Artifacts - Linux rpm
-        if: matrix.os.platform == 'linux'
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.os.name }}-rpm
-          path: "*.rpm"
+          name: ${{ matrix.os.name }}-build
+          path: build

@@ -7,6 +7,7 @@ module.exports = withCSS(
     eslint: {
       ignoreDuringBuilds: true,
     },
+    distDir: "build",
     webpack5: false,
     webpack: (config) => {
       config.module.rules.push({
