@@ -12,6 +12,7 @@ const filePaths = [
 async function package() {
   await exec([
     join(__dirname, "../"),
+    "--no-bytecode",
     "--output",
     join(
       __dirname,
