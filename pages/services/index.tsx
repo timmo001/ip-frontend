@@ -108,9 +108,7 @@ function Services(): ReactElement {
         field: "",
         renderCell: (params: GridValueFormatterParams) => (
           <Link
-            href={`/services/edit?id=${
-              params.getValue(0, "dbId") as string
-            }`}
+            href={`/services/edit?id=${params.getValue(0, "dbId") as string}`}
           >
             <Button
               className={classes.buttonWithIcon}
