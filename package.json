@@ -1,47 +1,63 @@
 {
-  "name": "frontend",
+  "name": "ip-frontend",
   "version": "1.0.0",
+  "description": "ip frontend",
   "private": true,
+  "author": {
+    "name": "Aidan Timson <Timmo>",
+    "email": "contact@timmo.xyz",
+    "url": "https://ip.timmo.dev"
+  },
+  "keywords": [
+    "ip",
+    "frontend"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timmo001/ip-frontend"
+  },
+  "license": "MIT",
   "scripts": {
     "build": "next build",
-    "start:dev": "next dev",
-    "start": "next start"
+    "start": "next start",
+    "start:dev": "next dev"
   },
   "dependencies": {
-    "@material-ui/core": "4.11.3",
-    "@material-ui/data-grid": "4.0.0-alpha.21",
+    "@material-ui/core": "4.12.3",
+    "@material-ui/data-grid": "4.0.0-alpha.35",
     "@material-ui/icons": "4.11.2",
-    "@material-ui/lab": "4.0.0-alpha.57",
-    "@material-ui/styles": "4.11.3",
+    "@material-ui/lab": "4.0.0-alpha.60",
+    "@material-ui/styles": "4.11.4",
     "@mdi/js": "5.9.55",
-    "@mdi/react": "1.4.0",
+    "@mdi/react": "1.5.0",
     "axios": "0.21.1",
     "clsx": "1.1.1",
     "fontsource-roboto": "4.0.0",
     "moment": "2.29.1",
-    "next": "10.0.8",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
-    "react-markdown": "5.0.3",
+    "monaco-editor": "0.26.1",
+    "next": "11.0.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-markdown": "6.0.3",
     "react-moment": "1.1.1",
-    "react-monaco-editor": "0.40.0",
-    "react-syntax-highlighter": "15.4.3",
-    "socket.io-client": "3.1.2",
+    "react-monaco-editor": "0.44.0",
+    "react-syntax-highlighter": "15.4.4",
+    "socket.io-client": "4.1.3",
     "uuid": "8.3.2",
-    "yaml": "1.10.0"
+    "yaml": "1.10.2"
   },
-  "license": "MIT",
   "devDependencies": {
-    "@types/node": "14.14.32",
-    "@types/react": "16.14.5",
-    "@types/react-syntax-highlighter": "13.5.0",
-    "@types/socket.io-client": "1.4.35",
-    "@types/uuid": "8.3.0",
+    "@types/node": "16.4.13",
+    "@types/react": "17.0.16",
+    "@types/react-syntax-highlighter": "13.5.2",
+    "@types/socket.io-client": "3.0.0",
+    "@types/uuid": "8.3.1",
     "@zeit/next-css": "1.0.1",
-    "globby": "11.0.2",
-    "monaco-editor-webpack-plugin": "3.0.0",
+    "globby": "12.0.0",
+    "monaco-editor-webpack-plugin": "4.1.1",
     "next-fonts": "1.5.1",
-    "prettier": "2.2.1",
-    "typescript": "4.2.3"
+    "rimraf": "3.0.2",
+    "typescript": "4.3.5",
+    "webpack": "4.46.0"
   }
 }

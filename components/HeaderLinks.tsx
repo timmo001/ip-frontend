@@ -49,7 +49,7 @@ function HeaderLinks(props: HeaderLinksProps): ReactElement {
   const theme = useTheme();
 
   const profileAvatar = (
-    <Avatar className={classes.avatar} variant="circle">
+    <Avatar className={classes.avatar} variant="circular">
       {props.user
         ? props.user.firstName.charAt(0).toUpperCase() +
           props.user.lastName?.charAt(0).toUpperCase()
@@ -144,7 +144,8 @@ function HeaderLinks(props: HeaderLinksProps): ReactElement {
           <IconButton
             aria-controls="profile-menu"
             aria-haspopup="true"
-            onClick={handleClickProfileMenu}>
+            onClick={handleClickProfileMenu}
+          >
             {profileAvatar}
           </IconButton>
         </ListItem>
@@ -157,7 +158,8 @@ function HeaderLinks(props: HeaderLinksProps): ReactElement {
         keepMounted
         onClose={handleCloseProfileMenu}
         open={Boolean(anchorEl)}
-        transformOrigin={{ vertical: "top", horizontal: "center" }}>
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
+      >
         <MenuItem className={classes.menuProfile}>
           {props.user ? (
             <Fragment>

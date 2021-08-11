@@ -63,11 +63,10 @@ export default function Auth(props: AuthProps): ReactElement {
   });
   const [registering, setRegistering] = useState<boolean>(false);
 
-  const handleChange = (prop: keyof User) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setLogin({ ...login, [prop]: event.target.value });
-  };
+  const handleChange =
+    (prop: keyof User) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setLogin({ ...login, [prop]: event.target.value });
+    };
 
   function handleKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter")
@@ -169,7 +168,8 @@ export default function Auth(props: AuthProps): ReactElement {
         component="section"
         direction="row"
         alignItems="center"
-        justify="center">
+        justifyContent="center"
+      >
         <Grid
           item
           xs={12}
@@ -179,7 +179,8 @@ export default function Auth(props: AuthProps): ReactElement {
           container
           direction="column"
           alignItems="center"
-          justify="center">
+          justifyContent="center"
+        >
           <Grid className={classes.item} item>
             <Card>
               <CardMedia
@@ -195,7 +196,8 @@ export default function Auth(props: AuthProps): ReactElement {
                   container
                   direction="column"
                   alignItems="center"
-                  justify="center">
+                  justifyContent="center"
+                >
                   <Typography gutterBottom variant="h5" component="h2">
                     {registering ? "Register" : "Login"}
                   </Typography>
@@ -278,7 +280,8 @@ export default function Auth(props: AuthProps): ReactElement {
                   size="medium"
                   color="primary"
                   variant="text"
-                  onClick={toggleRegistering}>
+                  onClick={toggleRegistering}
+                >
                   {registering
                     ? "Alrady have an account?"
                     : "Don't have an account?"}
@@ -288,7 +291,8 @@ export default function Auth(props: AuthProps): ReactElement {
                   size="medium"
                   color="primary"
                   variant="contained"
-                  onClick={registering ? handleRegister : handleLogin}>
+                  onClick={registering ? handleRegister : handleLogin}
+                >
                   {registering ? "Register" : "Login"}
                 </Button>
               </CardActions>

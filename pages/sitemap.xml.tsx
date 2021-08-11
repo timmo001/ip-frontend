@@ -23,10 +23,7 @@ export async function getServerSideProps({
   const data: PageType[] = [];
   data.push({ path: "/", updated: "2020-11-08T00:00:00.000Z" });
 
-  const sitemap = generateSitemap(
-    data,
-    "https://upaas.timmo.dev"
-  );
+  const sitemap = generateSitemap(data, "https://ip.timmo.dev");
 
   res.setHeader("Content-Type", "text/xml");
   res.write(sitemap);

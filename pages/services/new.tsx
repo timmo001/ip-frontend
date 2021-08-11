@@ -79,8 +79,9 @@ function ServiceNew(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Services"
-      url="https://upaas.timmo.dev"
-      user={user}>
+      url="https://ip.timmo.dev"
+      user={user}
+    >
       <Container className={classes.main} component="article" maxWidth="xl">
         <ServiceEditView
           actions={
@@ -95,7 +96,8 @@ function ServiceNew(): ReactElement {
                   color="primary"
                   size="medium"
                   style={{ marginLeft: 0 }}
-                  variant="contained">
+                  variant="contained"
+                >
                   <DeleteIcon
                     className={classes.iconOnButton}
                     fontSize="small"

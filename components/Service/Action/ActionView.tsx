@@ -56,26 +56,30 @@ export default function ActionView(props: ActionViewProps): ReactElement {
                 container
                 direction="row"
                 alignItems="center"
-                justify="space-evenly">
+                justifyContent="space-evenly"
+              >
                 <Typography
                   className={classes.text}
                   component="span"
                   color="textSecondary"
-                  variant="subtitle2">
+                  variant="subtitle2"
+                >
                   Requires: {action.requires || "none"}
                 </Typography>
                 <Typography
                   className={classes.text}
                   component="span"
                   color="textSecondary"
-                  variant="subtitle2">
+                  variant="subtitle2"
+                >
                   Plugin: {action.service.plugin}
                 </Typography>
                 <Typography
                   className={classes.text}
                   component="span"
                   color="textSecondary"
-                  variant="subtitle2">
+                  variant="subtitle2"
+                >
                   Service: {action.service.service}
                 </Typography>
               </Grid>

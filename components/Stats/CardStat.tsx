@@ -44,7 +44,12 @@ export default function CardStat(props: CardStatProps): ReactElement {
   return (
     <Card square>
       <CardContent>
-        <Grid container direction="row" alignItems="center" justify="center">
+        <Grid
+          container
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+        >
           <Grid className={classes.item} item>
             <Icon
               color={theme.palette.text.secondary}
@@ -67,7 +72,8 @@ export default function CardStat(props: CardStatProps): ReactElement {
               <Typography
                 className={classes.text}
                 component="span"
-                variant="subtitle1">
+                variant="subtitle1"
+              >
                 {props.subtitle2}
               </Typography>
             </Grid>

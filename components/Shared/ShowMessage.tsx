@@ -21,7 +21,8 @@ export default function ShowMessage(props: ShowMessageProps): ReactElement {
     <Snackbar
       open={open}
       autoHideDuration={props.duration ? props.duration : 6000}
-      onClose={handleClose}>
+      onClose={handleClose}
+    >
       <MuiAlert elevation={6} variant="filled" severity={props.severity}>
         {props.text}
       </MuiAlert>

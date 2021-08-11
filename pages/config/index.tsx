@@ -92,8 +92,9 @@ function ServerConfig(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Configutation"
-      url="https://upaas.timmo.dev"
-      user={user}>
+      url="https://ip.timmo.dev"
+      user={user}
+    >
       {!config ? (
         <Loading text="Loading Data.." />
       ) : (
@@ -121,7 +122,8 @@ function ServerConfig(): ReactElement {
                 color="primary"
                 size="medium"
                 variant="contained"
-                onClick={handleUpdateConfig}>
+                onClick={handleUpdateConfig}
+              >
                 <SaveIcon className={classes.iconOnButton} fontSize="small" />
                 Save
               </Button>

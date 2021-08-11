@@ -1,23 +1,22 @@
 import React, { ReactElement, useEffect, useMemo, useState } from "react";
-import { GetStaticProps } from "next";
-import Link from "next/link";
-import moment from "moment";
 import { Button, Card, Container, Grid } from "@material-ui/core";
+import {
+  DataGrid,
+  GridColDef,
+  GridRowsProp,
+  GridSortDirection,
+  GridSortModel,
+  GridValueFormatterParams,
+} from "@material-ui/data-grid";
+import { GetStaticProps } from "next";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/EditTwoTone";
-import {
-  ColDef,
-  DataGrid,
-  RowsProp,
-  SortDirection,
-  SortModel,
-  ValueFormatterParams,
-} from "@material-ui/data-grid";
+import Link from "next/link";
+import moment from "moment";
 
 import { getEndpoints } from "../../lib/data/endpoints";
 import { getServices } from "../../lib/data/services";
 import ApiAuthorization from "../../types/ApiAuthorization";
-import CustomPagination from "../../components/DataGrid/CustomPagination";
 import Endpoint from "../../types/Endpoint";
 import Layout from "../../components/Layout";
 import Message from "../../types/Message";
@@ -71,19 +70,20 @@ function Endpoints(): ReactElement {
 
   const classes = useStyles();
 
-  const sortModel: SortModel = useMemo(
+  const sortModel: GridSortModel = useMemo(
     () => [
       {
         field: "name",
-        sort: "asc" as SortDirection,
+        sort: "asc" as GridSortDirection,
       },
     ],
     []
   );
 
-  const columns: ColDef[] = useMemo(
+  const columns: GridColDef[] = useMemo(
     () => [
       {
+        id: "dbId",
         field: "dbId",
         headerName: "ID",
         type: "string",
@@ -105,7 +105,7 @@ function Endpoints(): ReactElement {
         field: "service",
         headerName: "Service",
         type: "string",
-        valueFormatter: (params: ValueFormatterParams) =>
+        valueFormatter: (params: GridValueFormatterParams) =>
           services
             ? services.find((s: Service) => s.id === (params.value as string))
                 .name
@@ -140,7 +140,7 @@ function Endpoints(): ReactElement {
         field: "updatedOn",
         headerName: "Last Updated",
         type: "dateTime",
-        valueFormatter: (params: ValueFormatterParams) =>
+        valueFormatter: (params: GridValueFormatterParams) =>
           moment(params.value as string)
             .locale(window.navigator.language)
             .format("L HH:mm"),
@@ -149,14 +149,18 @@ function Endpoints(): ReactElement {
       {
         disableSorting: true,
         field: "",
-        renderCell: (params: ValueFormatterParams) => (
+        renderCell: (params: GridValueFormatterParams) => (
           <Link
-            href={`/endpoints/edit?id=${params.getValue("dbId") as string}`}>
+            href={`/endpoints/edit?id=${
+              params.getValue("dbId", "dbId") as string
+            }`}
+          >
             <Button
               className={classes.buttonWithIcon}
               color="primary"
               size="small"
-              variant="text">
+              variant="text"
+            >
               <EditIcon className={classes.iconOnButton} fontSize="small" />
               Edit
             </Button>
@@ -168,7 +172,7 @@ function Endpoints(): ReactElement {
     []
   );
 
-  const rows: RowsProp = useMemo(
+  const rows: GridRowsProp = useMemo(
     () =>
       endpoints
         ? endpoints.map(
@@ -213,21 +217,24 @@ function Endpoints(): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title="Endpoints"
-      url="https://upaas.timmo.dev"
-      user={user}>
+      url="https://ip.timmo.dev"
+      user={user}
+    >
       <Container className={classes.main} component="article" maxWidth="xl">
         <Grid
           className={classes.header}
           container
           direction="row"
           alignItems="flex-start"
-          justify="center">
+          justifyContent="center"
+        >
           <Link href="/endpoints/new">
             <Button
               className={classes.buttonWithIcon}
               color="primary"
               size="medium"
-              variant="contained">
+              variant="contained"
+            >
               <AddIcon className={classes.iconOnButton} />
               Add Endpoint
             </Button>
@@ -238,9 +245,7 @@ function Endpoints(): ReactElement {
             <div style={{ flexGrow: 1 }}>
               <DataGrid
                 columns={columns}
-                components={{
-                  pagination: CustomPagination,
-                }}
+                pagination
                 disableSelectionOnClick
                 rows={rows}
                 sortModel={sortModel}

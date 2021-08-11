@@ -122,8 +122,9 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
       setMessage={setMessage}
       setUser={setUser}
       title={service ? service.name : "Edit"}
-      url="https://upaas.timmo.dev"
-      user={user}>
+      url="https://ip.timmo.dev"
+      user={user}
+    >
       {!service ? (
         <Loading text="Loading Data.." />
       ) : (
@@ -140,7 +141,8 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
                   color="primary"
                   size="medium"
                   variant="contained"
-                  onClick={handleTriggerService}>
+                  onClick={handleTriggerService}
+                >
                   <PlayIcon className={classes.iconOnButton} fontSize="small" />
                   Trigger
                 </Button>
@@ -151,7 +153,8 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
                   size="medium"
                   style={{ backgroundColor: red[800] }}
                   variant="contained"
-                  onClick={handleDeleteConfirm}>
+                  onClick={handleDeleteConfirm}
+                >
                   <DeleteIcon
                     className={classes.iconOnButton}
                     fontSize="small"
@@ -164,7 +167,8 @@ function ServiceEdit(props: ServiceEditProps): ReactElement {
                     color="primary"
                     size="medium"
                     style={{ marginLeft: 0 }}
-                    variant="contained">
+                    variant="contained"
+                  >
                     <DeleteIcon
                       className={classes.iconOnButton}
                       fontSize="small"
