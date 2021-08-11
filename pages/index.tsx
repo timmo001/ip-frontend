@@ -130,9 +130,9 @@ function Dashboard(): ReactElement {
   const latestEventService: Service = useMemo(
     () =>
       services && events
-        ? services.find((s: Service) => s.id === events[0].service)
+        ? services.find((s: Service) => s.id === latestEvent?.service)
         : undefined,
-    [events, services]
+    [services]
   );
   const completedEvents: Event[] = useMemo(
     () =>

@@ -67,7 +67,7 @@ function Services(): ReactElement {
   const columns: GridColDef[] = useMemo(
     () => [
       {
-        id: "dbId",
+        id: 0,
         field: "dbId",
         headerName: "ID",
         type: "string",
@@ -109,7 +109,7 @@ function Services(): ReactElement {
         renderCell: (params: GridValueFormatterParams) => (
           <Link
             href={`/services/edit?id=${
-              params.getValue("dbId", "dbId") as string
+              params.getValue(0, "dbId") as string
             }`}
           >
             <Button
