@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@types/node": "16.4.13",
-    "@types/react": "17.0.16",
+    "@types/react": "17.0.17",
     "@types/react-syntax-highlighter": "13.5.2",
     "@types/socket.io-client": "3.0.0",
     "@types/uuid": "8.3.1",
