@@ -31,7 +31,7 @@ function EndpointNew(): ReactElement {
   const apiUrl: string = useMemo(
     () =>
       `${window.location.protocol}//${window.location.hostname}:${
-        process.env.NODE_ENV === "production" ? window.location.port : 5684
+        process.env.BACKEND_PORT || 5684
       }`,
     []
   );
