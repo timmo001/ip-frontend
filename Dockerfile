@@ -32,20 +32,21 @@ RUN \
     && cd /opt/app \
     && yarn build \
     \
-    && rm -fr /opt/app/.git \
-    && rm -fr /opt/app/.github \
-    && rm -fr /opt/app/rootfs \
     && rm -fr /opt/app/.editorconfig \
     && rm -fr /opt/app/.eslintrc.js \
+    && rm -fr /opt/app/.git \
+    && rm -fr /opt/app/.github \
     && rm -fr /opt/app/.gitignore \
     && rm -fr /opt/app/.mdl.rb \
     && rm -fr /opt/app/.mdlrc \
     && rm -fr /opt/app/.yamllint.yml \
+    && rm -fr /opt/app/build.json \
     && rm -fr /opt/app/Dockerfile \
     && rm -fr /opt/app/LICENSE \
     && rm -fr /opt/app/mlc_config.json \
     && rm -fr /opt/app/nfpm.yaml \
     && rm -fr /opt/app/README.md \
+    && rm -fr /opt/app/rootfs \
     && rm -fr /opt/app/tsconfig.build.json \
     && rm -fr /opt/app/tsconfig.json \
     && rm -fr /tmp/*
