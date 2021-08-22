@@ -192,7 +192,7 @@ function Events(): ReactElement {
             Refresh
           </Button>
         </Grid>
-        <Card style={{ height: 1020 }}>
+        <Card style={{ height: 940 }}>
           <div style={{ display: "flex", height: "100%" }}>
             <div style={{ flexGrow: 1 }}>
               <DataGrid

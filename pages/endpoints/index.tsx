@@ -1,16 +1,23 @@
 import React, { ReactElement, useEffect, useMemo, useState } from "react";
-import { Button, Card, Container, Grid } from "@material-ui/core";
+import {
+  Button,
+  Card,
+  Container,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
 import {
   DataGrid,
   GridColDef,
   GridRowsProp,
-  GridSortDirection,
-  GridSortModel,
   GridValueFormatterParams,
 } from "@material-ui/data-grid";
 import { GetStaticProps } from "next";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/EditTwoTone";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Link from "next/link";
 import moment from "moment";
 
@@ -70,16 +77,6 @@ function Endpoints(): ReactElement {
 
   const classes = useStyles();
 
-  const sortModel: GridSortModel = useMemo(
-    () => [
-      {
-        field: "name",
-        sort: "asc" as GridSortDirection,
-      },
-    ],
-    []
-  );
-
   const columns: GridColDef[] = useMemo(
     () => [
       {
@@ -93,13 +90,13 @@ function Endpoints(): ReactElement {
         field: "name",
         headerName: "Name",
         type: "string",
-        width: 320,
+        width: 250,
       },
       {
         field: "endpoint",
         headerName: "Endpoint",
         type: "string",
-        width: 160,
+        width: 190,
       },
       {
         field: "service",
@@ -110,31 +107,31 @@ function Endpoints(): ReactElement {
             ? services.find((s: Service) => s.id === (params.value as string))
                 .name
             : params.value,
-        width: 280,
+        width: 220,
       },
       {
         field: "resultOnly",
         headerName: "Result Only?",
         type: "string",
-        width: 115,
+        width: 160,
       },
       {
         field: "logLevel",
         headerName: "Log Level",
         type: "string",
-        width: 120,
+        width: 140,
       },
       {
         field: "supportedMethods",
         headerName: "Supported Methods",
         type: "string",
-        width: 180,
+        width: 205,
       },
       {
         field: "published",
         headerName: "Published?",
         type: "string",
-        width: 105,
+        width: 150,
       },
       {
         field: "updatedOn",
@@ -144,27 +141,68 @@ function Endpoints(): ReactElement {
           moment(params.value as string)
             .locale(window.navigator.language)
             .format("L HH:mm"),
-        width: 145,
+        width: 165,
       },
       {
         disableSorting: true,
         field: "",
-        renderCell: (params: GridValueFormatterParams) => (
-          <Link
-            href={`/endpoints/edit?id=${params.getValue(0, "dbId") as string}`}
-          >
-            <Button
-              className={classes.buttonWithIcon}
-              color="primary"
-              size="small"
-              variant="text"
-            >
-              <EditIcon className={classes.iconOnButton} fontSize="small" />
-              Edit
-            </Button>
-          </Link>
-        ),
-        width: 100,
+        renderCell: (params: GridValueFormatterParams) => {
+          const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(
+            null
+          );
+          const open = Boolean(anchorEl);
+
+          const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+            setAnchorEl(event.currentTarget);
+          };
+
+          const handleClose = () => {
+            setAnchorEl(null);
+          };
+
+          return (
+            <>
+              <IconButton
+                className={classes.buttonWithIcon}
+                size="small"
+                aria-label="more"
+                aria-controls="long-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+              >
+                <MoreVertIcon fontSize="small" />
+              </IconButton>
+              <Menu
+                id="long-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                  style: {
+                    maxHeight: 220,
+                    width: "20ch",
+                  },
+                }}
+              >
+                <Link
+                  href={`/endpoints/edit?id=${
+                    params.getValue(0, "dbId") as string
+                  }`}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <EditIcon
+                      className={classes.iconOnButton}
+                      fontSize="small"
+                    />
+                    Edit
+                  </MenuItem>
+                </Link>
+              </Menu>
+            </>
+          );
+        },
+        width: 70,
       },
     ],
     []
@@ -238,15 +276,14 @@ function Endpoints(): ReactElement {
             </Button>
           </Link>
         </Grid>
-        <Card style={{ height: 1020 }}>
+        <Card style={{ height: 940 }}>
           <div style={{ display: "flex", height: "100%" }}>
             <div style={{ flexGrow: 1 }}>
               <DataGrid
+                className={classes.dataGrid}
                 columns={columns}
                 pagination
-                disableSelectionOnClick
                 rows={rows}
-                sortModel={sortModel}
               />
             </div>
           </div>

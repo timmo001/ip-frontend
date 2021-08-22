@@ -101,6 +101,14 @@ const layoutStyle = makeStyles((theme: Theme) => ({
     marginLeft: theme.spacing(0.5),
     fontWeight: "normal",
   },
+  dataGrid: {
+    "& .MuiDataGrid-columnHeader:focus": {
+      outline: "none !important",
+    },
+    "& .MuiDataGrid-cell:focus": {
+      outline: "none !important",
+    },
+  },
 }));
 
 export default layoutStyle;
