@@ -146,8 +146,8 @@ function Logs(): ReactElement {
           <div style={{ display: "flex", height: "100%" }}>
             <div style={{ flexGrow: 1 }}>
               <DataGrid
+                className={classes.dataGrid}
                 columns={columns}
-                disableSelectionOnClick
                 pagination
                 rows={rows}
                 sortModel={GridSortModel}
