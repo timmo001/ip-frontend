@@ -47,7 +47,7 @@
     "yaml": "1.10.2"
   },
   "devDependencies": {
-    "@types/node": "16.7.1",
+    "@types/node": "16.7.2",
     "@types/react": "17.0.19",
     "@types/react-syntax-highlighter": "13.5.2",
     "@types/socket.io-client": "3.0.0",
