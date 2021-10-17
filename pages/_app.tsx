@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { AppProps } from "next/app";
 import { NoSsr } from "@material-ui/core";
 
-import "fontsource-roboto";
+import "@fontsource/roboto";
 
 import "../assets/css/style.css";
 

@@ -7,7 +7,7 @@ import {
   mdiAlertBoxOutline,
   mdiAlertOutline,
   mdiBugOutline,
-  mdiCheckBoxOutline,
+  mdiCheckboxMultipleOutline,
   mdiCloudOutline,
   mdiExclamation,
   mdiFormatListNumbered,
@@ -207,7 +207,7 @@ function Dashboard(): ReactElement {
                     <Grid className={classes.item} item>
                       <Icon
                         color={theme.palette.success.main}
-                        path={mdiCheckBoxOutline}
+                        path={mdiCheckboxMultipleOutline}
                         size={1}
                       />
                       <Typography
