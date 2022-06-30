@@ -190,10 +190,10 @@
     prop-types "^15.7.2"
     react-is "^17.0.2"
 
-"@mdi/js@6.2.95":
-  version "6.2.95"
-  resolved "https://registry.yarnpkg.com/@mdi/js/-/js-6.2.95.tgz#decf0f86035990248f25b0a4e246a7d152211273"
-  integrity sha512-fbD22sEBathqVSQWcxshEtzhhRNFmMnV64z6T7DClRbQ9N5axorykt3Suv2zPzLDyiqH7UhNRu0VPvPCPDNpnQ==
+"@mdi/js@6.8.96":
+  version "6.8.96"
+  resolved "https://registry.yarnpkg.com/@mdi/js/-/js-6.8.96.tgz#53b912f48c493fcfea14156d74103d1d1ba01d21"
+  integrity sha512-f1LOuwXc7kOY/YWXlky3TCsWYV6GnQDU5xTYpfkRLRaIkMldsI09/Y2IwYuI+hLfob9UEU6nviNRdWa3mKuB5Q==
 
 "@mdi/react@1.5.0":
   version "1.5.0"
